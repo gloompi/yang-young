@@ -27,7 +27,7 @@ class Theme implements ITheme {
     padding: 0 calc((100vw - 1170px) / 2);
   `;
 
-  public containerRange = '0 calc((100vw - 1170px) / 2)';
+  public containerRange = '0 calc((100vw - 1680px) / 2)';
 
   static get instance(): Theme {
     if (this._instance === null) {

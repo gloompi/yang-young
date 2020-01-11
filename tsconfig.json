@@ -23,7 +23,7 @@
     "emitDecoratorMetadata": true,
     "resolveJsonModule": true,
   },
-  "include": ["src/**/*", "test/**/*"],
+  "include": ["src/**/*", "test/**/*", "src/declarations.d.ts"],
   "exclude": ["node_modules"],
   "compileOnSave": false
 }

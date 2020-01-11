@@ -1,5 +1,4 @@
 import React, { FC, Suspense } from 'react';
-import { useStaticQuery, graphql } from 'gatsby';
 import { Global, css } from '@emotion/core';
 
 import 'i18n';
@@ -9,21 +8,11 @@ import { ThemeProvider } from 'hooks/use-theme';
 import Header from 'components/common/header';
 
 const Layout: FC = ({ children }) => {
-  const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
-      site {
-        siteMetadata {
-          title
-        }
-      }
-    }
-  `);
-
   return (
     <ThemeProvider>
       <Suspense fallback={<span>Loading...</span>}>
         <Global styles={globalStyles} />
-        <Header title={data.site.siteMetadata.title} />
+        <Header />
         <main css={mainStyle}>{children}</main>
         <footer css={footerStyle}>
           <div css={containerStyle}>
@@ -92,14 +81,6 @@ const globalStyles = css`
     h6 {
       color: #222;
       line-height: 1.1;
-
-      + * {
-        margin-top: 0.5rem;
-      }
-    }
-
-    li {
-      margin-top: 0.25rem;
     }
 
     a {
