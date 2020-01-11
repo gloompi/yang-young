@@ -1,33 +1,41 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby TypeScript Boilerplate`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
+    title: `Yang Yong`,
+    description: `Iphone cases`,
     author: `gloompi`,
   },
   plugins: [
     'gatsby-plugin-typescript',
     `gatsby-plugin-react-helmet`,
+    `gatsby-transformer-sharp`,
+    `gatsby-plugin-sharp`,
+    'gatsby-plugin-emotion',
+    {
+      resolve: 'gatsby-plugin-mdx',
+      options: {
+        defaultLayouts: {
+          default: require.resolve('./src/components/common/layout.tsx'),
+        },
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `images`,
-        path: `${__dirname}/src/images`,
+        path: `${__dirname}/src/assets/images`,
       },
     },
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-ts-boilerplate`,
-        short_name: `boilerplate`,
+        name: `yang-yong`,
+        short_name: `YY`,
         start_url: `/`,
         background_color: `#663399`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`,
+        icon: `src/assets/images/gatsby-icon.png`,
       },
     },
-    'gatsby-plugin-emotion',
   ],
 };

@@ -1,6 +1,6 @@
-import React, { FC } from "react";
-import Img from "gatsby-image";
-import { useStaticQuery, graphql } from "gatsby";
+import React, { FC } from 'react';
+import Img from 'gatsby-image';
+import { useStaticQuery, graphql } from 'gatsby';
 
 const Image: FC = () => {
   const data = useStaticQuery(graphql`

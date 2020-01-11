@@ -1,0 +1,49 @@
+@font-face {
+  font-family: MontSerrat;
+  font-weight: 400;
+  font-style: normal;
+  src: url("montserrat-regular.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: MontSerrat-Medium;
+  font-weight: 500;
+  font-style: normal;
+  src: url("montserrat-medium.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: MontSerrat-Bold;
+  font-weight: 600;
+  font-style: normal;
+  src: url("montserrat-bold.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: MontSerrat-Black;
+  font-weight: 700;
+  font-style: normal;
+  src: url("montserrat-black.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: Avenir;
+  font-weight: 400;
+  font-style: normal;
+  src: url("avenir-next.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: Avenir-Bold;
+  font-weight: 600;
+  font-style: normal;
+  src: url("avenir-next-bold.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: Oswald;
+  font-weight: 400;
+  font-style: normal;
+  src: url("oswald.woff2") format("woff2");
+  font-display: swap;
+}
