@@ -33,6 +33,7 @@ __pycache__/
 # Distribution / packaging
 bin/
 build/
+public/
 develop-eggs/
 dist/
 eggs/
