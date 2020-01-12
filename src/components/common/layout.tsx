@@ -1,4 +1,4 @@
-import React, { FC, Suspense } from 'react';
+import React, { FC } from 'react';
 import { Global, css } from '@emotion/core';
 
 import 'i18n';
@@ -10,16 +10,14 @@ import Header from 'components/common/header';
 const Layout: FC = ({ children }) => {
   return (
     <ThemeProvider>
-      <Suspense fallback={<span>Loading...</span>}>
-        <Global styles={globalStyles} />
-        <Header />
-        <main css={mainStyle}>{children}</main>
-        <footer css={footerStyle}>
-          <div css={containerStyle}>
-            © {new Date().getFullYear()}, Made with love by GloompiQue
-          </div>
-        </footer>
-      </Suspense>
+      <Global styles={globalStyles} />
+      <Header />
+      <main css={mainStyle}>{children}</main>
+      <footer css={footerStyle}>
+        <div css={containerStyle}>
+          © {new Date().getFullYear()}, Made with love by GloompiQue
+        </div>
+      </footer>
     </ThemeProvider>
   );
 };
