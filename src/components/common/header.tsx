@@ -169,7 +169,7 @@ const headerBottomList = css`
 const headerItems = (theme: ITheme) => css`
   display: flex;
   align-items: flex-start;
-  margin-right: 15px;
+  margin-right: 32px;
 
   &:last-child {
     margin-right: 0;
