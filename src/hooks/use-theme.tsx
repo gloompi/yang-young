@@ -4,7 +4,7 @@ import { css, SerializedStyles } from '@emotion/core';
 export interface ITheme {
   colors: Theme['colors'];
   container: SerializedStyles;
-  containerRange: string;
+  containerRange: (val?: number) => string;
 }
 
 class Theme implements ITheme {
@@ -15,6 +15,8 @@ class Theme implements ITheme {
     secondary: '#52B1B3',
     text: '#202020',
     white: '#fff',
+    red: '#FB024A',
+    grey: 'rgb(249, 249, 249)',
     black: '#141414',
     lightBlack: '#1a1a1a',
   };
@@ -27,7 +29,7 @@ class Theme implements ITheme {
     padding: 0 calc((100vw - 1170px) / 2);
   `;
 
-  public containerRange = '0 calc((100vw - 1680px) / 2)';
+  public containerRange = (val = 0) => `calc((100vw - ${1512 + val}px) / 2)`;
 
   static get instance(): Theme {
     if (this._instance === null) {

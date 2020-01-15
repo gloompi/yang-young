@@ -132,7 +132,7 @@ const headerTop = (theme: ITheme) => css`
   justify-content: space-between;
   min-height: 66px;
   width: 100%;
-  padding: ${theme.containerRange};
+  padding: 0 ${theme.containerRange(168)};
 `;
 
 const headerTopList = css`
@@ -190,7 +190,7 @@ const headerBottom = (theme: ITheme) => css`
   justify-content: space-between;
   min-height: 30px;
   width: 100%;
-  padding: ${theme.containerRange};
+  padding: 0 ${theme.containerRange(168)};
 `;
 
 const headerBottomList = css`
