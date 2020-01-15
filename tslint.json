@@ -9,6 +9,7 @@
     "jsx-wrap-multiline": true,
     "jsx-no-lambda": false,
     "import-name": false,
+    "no-console": false,
     "no-boolean-literal-compare": false,
     "no-implicit-dependencies": false,
     "no-submodule-imports": false,

@@ -5,25 +5,28 @@ import 'i18n';
 import 'assets/fonts/fonts.css';
 
 import { ThemeProvider } from 'hooks/use-theme';
+import { StoreProvider } from 'hooks/use-store';
 import Header from 'components/common/header';
 
 const Layout: FC = ({ children }) => {
   return (
-    <ThemeProvider>
-      <Global styles={globalStyles} />
-      <Header />
-      <main css={mainStyle}>{children}</main>
-      <footer css={footerStyle}>
-        <div css={containerStyle}>
-          © {new Date().getFullYear()}, Made with love by GloompiQue
-        </div>
-      </footer>
-    </ThemeProvider>
+    <StoreProvider>
+      <ThemeProvider>
+        <Global styles={globalStyles} />
+        <Header />
+        <main css={mainStyle}>{children}</main>
+        <footer css={footerStyle}>
+          <div css={containerStyle}>
+            © {new Date().getFullYear()}, Made with love by GloompiQue
+          </div>
+        </footer>
+      </ThemeProvider>
+    </StoreProvider>
   );
 };
 
 const mainStyle = css`
-  background-color: rebeccapurple;
+  background-color: #000;
   width: 100%;
   min-height: calc(100vh - 50px);
 `;
@@ -34,7 +37,7 @@ const footerStyle = css`
   height: 50px;
   width: 100%;
   color: #fff;
-  background: rebeccapurple;
+  background: #000;
 `;
 
 const containerStyle = css`
