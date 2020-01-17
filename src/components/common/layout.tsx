@@ -26,7 +26,7 @@ const Layout: FC = ({ children }) => {
 };
 
 const mainStyle = css`
-  background-color: #000;
+  background-color: #fff;
   width: 100%;
   min-height: calc(100vh - 50px);
 `;

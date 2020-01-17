@@ -14,6 +14,7 @@ interface IProps {
   title: string;
   subtitle: string;
   price: number;
+  itemsCount: number;
 }
 
 const ItemPreview: FC<IProps> = ({
@@ -23,11 +24,12 @@ const ItemPreview: FC<IProps> = ({
   subtitle,
   specialOffers,
   price,
+  itemsCount = 1,
 }) => {
   const theme = useTheme();
 
   return (
-    <li css={itemCss}>
+    <li css={itemCss(itemsCount)}>
       <article css={articleCss}>
         <Link to={link} css={linkCss(theme)}>
           <Image fluid={imgSrc.sharp.fluid} css={imageCss} />
@@ -57,8 +59,8 @@ const ItemPreview: FC<IProps> = ({
   );
 };
 
-const itemCss = css`
-  width: 24.5%;
+const itemCss = (itemsCount: number) => css`
+  width: calc(${100 / itemsCount}% - 1%);
   height: 620px;
 `;
 

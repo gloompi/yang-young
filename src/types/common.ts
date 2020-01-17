@@ -10,7 +10,5 @@ export interface IItem {
 }
 
 export interface ICategoryImage {
-  sharp: {
-    fluid: FluidObject;
-  };
+  fluid: FluidObject;
 }

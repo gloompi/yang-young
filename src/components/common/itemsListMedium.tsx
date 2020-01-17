@@ -1,25 +1,31 @@
 import React, { FC } from 'react';
-import { Link } from 'gatsby';
 import { css } from '@emotion/core';
-import { IoIosArrowRoundForward } from 'react-icons/io';
+import { Link } from 'gatsby';
 import Image from 'gatsby-image';
-import useTheme, { ITheme } from 'hooks/use-theme';
 
-import { IItem, ICategoryImage } from 'types/common';
+import { ICategoryImage, IItem } from 'types/common';
+import useTheme, { ITheme } from 'hooks/use-theme';
 import ItemPreview from 'components/common/itemPreview';
 
 interface IProps {
   path: string;
   title: string;
-  items: IItem[];
   image: ICategoryImage;
+  items: IItem[];
 }
 
-const ItemsList: FC<IProps> = ({ title, path, items, image }) => {
+const ItemsListMedium: FC<IProps> = ({ title, path, image, items }) => {
   const theme = useTheme();
 
   return (
-    <div css={wrapperCss(theme)}>
+    <div css={mediumListWrapperCss(theme)}>
+      <Link to={`/${path}`} css={linkToAllItemsCss}>
+        <Image fluid={image.fluid} css={categoryImageCss} />
+        <div css={linkTextCss}>
+          <h3>{title}</h3>
+          <button css={buttonCss}>Shop now</button>
+        </div>
+      </Link>
       <ul css={listCss}>
         {items.map(
           ({
@@ -43,25 +49,16 @@ const ItemsList: FC<IProps> = ({ title, path, items, image }) => {
           )
         )}
       </ul>
-      <Link to={`/${path}`} css={linkToAllItemsCss}>
-        <Image fluid={image.fluid} css={categoryImageCss} />
-        <div css={linkTextCss}>
-          <h3>{title}</h3>
-          <IoIosArrowRoundForward />
-        </div>
-      </Link>
     </div>
   );
 };
 
-const wrapperCss = (theme: ITheme) => css`
+const mediumListWrapperCss = (theme: ITheme) => css`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  min-height: 100vh;
-  padding: 84px ${theme.containerRange()} 42px;
-  background-color: ${theme.colors.white};
+  margin-bottom: 84px;
+  padding: 0 ${theme.containerRange()};
 `;
 
 const listCss = css`
@@ -69,13 +66,12 @@ const listCss = css`
   align-items: flex-start;
   justify-content: space-between;
   flex-wrap: wrap;
-  width: 73.5%;
+  width: 50%;
 `;
 
 const linkToAllItemsCss = css`
   position: relative;
-  width: 24.5%;
-  height: 620px;
+  width: 45%;
 `;
 
 const categoryImageCss = css`
@@ -103,10 +99,25 @@ const linkTextCss = css`
   h3 {
     color: #fff;
   }
-
-  svg {
-    font-size: 52px;
-  }
 `;
 
-export default ItemsList;
+const buttonCss = css`
+  margin-top: 32px;
+  cursor: pointer;
+  box-shadow: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  padding: 0px 32px;
+  font: 400 16px / 40px Oswald;
+  border-radius: 2px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(255, 255, 255);
+  border-image: initial;
+`;
+
+export default ItemsListMedium;
