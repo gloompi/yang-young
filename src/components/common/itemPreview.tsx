@@ -16,7 +16,7 @@ interface IProps {
   price: number;
 }
 
-const CardItem: FC<IProps> = ({
+const ItemPreview: FC<IProps> = ({
   link,
   imgSrc,
   title,
@@ -46,7 +46,7 @@ const CardItem: FC<IProps> = ({
             <button css={iconCss(theme)}>
               <IoMdHeartEmpty />
             </button>
-            <span css={priceCss}>{price}</span>
+            <span css={priceCss}>{price}$</span>
             <button css={iconCss(theme)}>
               <FiShoppingBag />
             </button>
@@ -58,7 +58,7 @@ const CardItem: FC<IProps> = ({
 };
 
 const itemCss = css`
-  width: 24%;
+  width: 24.5%;
   height: 620px;
 `;
 
@@ -183,4 +183,4 @@ const priceCss = css`
   font-size: calc(10px + (6 * (100vw - 320px)) / 1120);
 `;
 
-export default CardItem;
+export default ItemPreview;

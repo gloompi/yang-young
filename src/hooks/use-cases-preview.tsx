@@ -1,15 +1,9 @@
 import { graphql, useStaticQuery } from 'gatsby';
-import { FluidObject } from 'gatsby-image';
+
+import { IItem } from 'types/common';
 
 interface ICase {
-  frontmatter: {
-    id: string;
-    imgSrc: { sharp: { fluid: FluidObject } };
-    specialOffers: string[];
-    title: string;
-    subtitle: string;
-    price: number;
-  };
+  frontmatter: IItem;
 }
 
 interface IResult {

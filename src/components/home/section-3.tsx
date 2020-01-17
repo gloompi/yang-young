@@ -1,38 +1,24 @@
 import React, { FC } from 'react';
-import styled, { StyledComponent } from '@emotion/styled';
-import { useStaticQuery, graphql } from 'gatsby';
+import { graphql, useStaticQuery } from 'gatsby';
 
-interface IResponse {
-  bgImg: {
-    fluid: {
-      src: string;
-    };
-  };
-}
+import { ICategoryImage } from 'types/common';
+import useMixedItems from 'hooks/use-mixed-items';
+import ItemList from 'components/common/itemsList';
 
-const Section1: FC = () => {
-  const response: IResponse = useStaticQuery(graphql`
+const Section2: FC = () => {
+  const mixed = useMixedItems();
+
+  const image: ICategoryImage = useStaticQuery(graphql`
     query {
-      bgImg: imageSharp(fluid: { originalName: { eq: "bg-1.png" } }) {
-        fluid(quality: 100) {
+      sharp: imageSharp(original: { src: { regex: "/all-products/" } }) {
+        fluid(maxWidth: 300) {
           ...GatsbyImageSharpFluid_withWebp
         }
       }
     }
   `);
 
-  return <BackgroundImage bgImgSrc={response.bgImg.fluid.src} />;
+  return <ItemList title="all products" items={mixed} image={image} />;
 };
 
-const BackgroundImage: StyledComponent<
-  {},
-  { bgImgSrc: string },
-  {}
-> = styled.section`
-  height: 100vh;
-  width: 100%;
-  background: url(${props => props.bgImgSrc || ''}) no-repeat center;
-  background-size: cover;
-`;
-
-export default Section1;
+export default Section2;
