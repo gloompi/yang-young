@@ -1,38 +1,34 @@
 import React, { FC } from 'react';
-import styled, { StyledComponent } from '@emotion/styled';
-import { useStaticQuery, graphql } from 'gatsby';
+import { css } from '@emotion/core';
 
-interface IResponse {
-  bgImg: {
-    fluid: {
-      src: string;
-    };
-  };
-}
+import useSlides from 'hooks/use-slides';
+import Slider from 'components/common/slider';
+import Slide from 'components/home/slide';
 
 const Section1: FC = () => {
-  const response: IResponse = useStaticQuery(graphql`
-    query {
-      bgImg: imageSharp(fluid: { originalName: { eq: "bg-1.png" } }) {
-        fluid(quality: 100) {
-          ...GatsbyImageSharpFluid_withWebp
-        }
-      }
-    }
-  `);
+  const slides = useSlides();
 
-  return <BackgroundImage bgImgSrc={response.bgImg.fluid.src} />;
+  return (
+    <section css={sectionStyle}>
+      <ul css={slidesStyle}>
+        <Slider slides={slides} SlideElement={Slide} />
+      </ul>
+    </section>
+  );
 };
 
-const BackgroundImage: StyledComponent<
-  {},
-  { bgImgSrc: string },
-  {}
-> = styled.section`
+const sectionStyle = css`
+  width: 100%;
+  min-height: 100vh;
+`;
+
+const slidesStyle = css`
+  position: relative;
+  display: flex;
+  align-items: center;
   height: 100vh;
   width: 100%;
-  background: url(${props => props.bgImgSrc || ''}) no-repeat center;
-  background-size: cover;
+  padding: 0;
 `;
 
 export default Section1;

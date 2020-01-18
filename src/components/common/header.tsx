@@ -83,22 +83,13 @@ const Header: FC = observer(() => {
               <button>phone cases</button>
             </li>
             <li css={headerItems}>
-              <button>wallet cases</button>
-            </li>
-            <li css={headerItems}>
-              <button>charging</button>
-            </li>
-            <li css={headerItems}>
-              <button>phone holders</button>
-            </li>
-            <li css={headerItems}>
-              <button>screen protectors</button>
+              <button>phone bags</button>
             </li>
             <li css={headerItems}>
               <button>accessories</button>
             </li>
             <li css={headerItems}>
-              <button>sale</button>
+              <button>our story</button>
             </li>
           </ul>
           <ul css={headerBottomList}>

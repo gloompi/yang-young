@@ -62,7 +62,7 @@ const Section2: FC = () => {
         items={wallets}
         image={response.sharp2}
       />
-      <ItemListLarge
+      <ItemListMedium
         path="holders"
         title="Phone Holders"
         items={holders}
