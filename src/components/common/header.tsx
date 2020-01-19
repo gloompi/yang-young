@@ -4,7 +4,7 @@ import { css } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
 import useTheme, { ITheme } from 'hooks/use-theme';
 import { FiSearch, FiShoppingBag } from 'react-icons/fi';
-import { IoMdHeartEmpty } from 'react-icons/io';
+import { IoMdHelpCircleOutline } from 'react-icons/io';
 import { observer } from 'mobx-react-lite';
 import { Waypoint } from 'react-waypoint';
 
@@ -35,66 +35,44 @@ const Header: FC = observer(() => {
     <div>
       <Waypoint bottomOffset={77} onEnter={handleEnter} onLeave={handleLeave}/>
       <header
-        css={headerStyle}
+        className={active ? 'active' : ''}
+        css={headerStyle(theme)}
         ref={headerRef}
-        style={{
-          color: active ? theme.colors.text : theme.colors.white,
-          background: active
-            ? '#fff'
-            : 'linear-gradient(rgba(32, 32, 32, 0.5) 0%, rgba(32, 32, 32, 0) 100%)',
-        }}
       >
         <div css={headerTop(theme)}>
           <div css={headerTopList}>
             <button css={mnuButton(theme, active)}>
               <span />
             </button>
-            <button css={iconButton}>
-              <FiSearch
-                css={css`
-                  margin-bottom: -2px;
-                `}
-              />
-            </button>
           </div>
           <h1 css={h1Style}>
             <Link to="/">{t('header.title')}</Link>
           </h1>
           <div css={headerTopList}>
-            <button css={iconButton}>
-              <IoMdHeartEmpty />
+            <button css={iconButton(theme)}>
+              <FiSearch />
             </button>
-            <button css={iconButton}>
+            <button css={iconButton(theme)}>
+              <IoMdHelpCircleOutline />
+            </button>
+            <button css={iconButton(theme)}>
               <FiShoppingBag />
             </button>
           </div>
         </div>
         <div css={headerBottom(theme)}>
           <ul css={headerBottomList}>
-            <li css={headerItems}>
-              <button>for her</button>
-            </li>
-            <li css={headerItems}>
-              <button>for him</button>
-            </li>
-          </ul>
-          <ul css={headerBottomList}>
-            <li css={headerItems}>
+            <li css={headerItems(theme)}>
               <button>phone cases</button>
             </li>
-            <li css={headerItems}>
+            <li css={headerItems(theme)}>
               <button>phone bags</button>
             </li>
-            <li css={headerItems}>
+            <li css={headerItems(theme)}>
               <button>accessories</button>
             </li>
-            <li css={headerItems}>
+            <li css={headerItems(theme)}>
               <button>our story</button>
-            </li>
-          </ul>
-          <ul css={headerBottomList}>
-            <li css={headerItems}>
-              <button>track order</button>
             </li>
           </ul>
         </div>
@@ -103,7 +81,7 @@ const Header: FC = observer(() => {
   );
 });
 
-const headerStyle = css`
+const headerStyle = (theme: ITheme) => css`
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -113,8 +91,18 @@ const headerStyle = css`
   width: 100%;
   min-height: 96px;
   padding: 0 32px;
+  color: ${theme.colors.white};
+  background: linear-gradient(
+    rgba(32, 32, 32, 0.5) 0%,
+    rgba(32, 32, 32, 0) 100%
+  );
   transition: 0.3s;
   z-index: 1000;
+
+  &.active {
+    color: ${theme.colors.text};
+    background: #fff;
+  }
 `;
 
 const headerTop = (theme: ITheme) => css`
@@ -137,7 +125,15 @@ const mnuButton = (theme: ITheme, active: boolean) => css`
   height: 16px;
   color: inherit;
   margin-right: 25px;
-  transition: .3s;
+  transition: 0.3s;
+
+  &:hover {
+    span,
+    &:after,
+    &:before {
+      background-color: ${theme.colors.primary};
+    }
+  }
 
   span,
   &:after,
@@ -149,6 +145,7 @@ const mnuButton = (theme: ITheme, active: boolean) => css`
     left: 0;
     border-radius: 5px;
     background-color: ${active ? theme.colors.text : theme.colors.white};
+    transition: 0.3s;
   }
 
   span {
@@ -165,10 +162,15 @@ const mnuButton = (theme: ITheme, active: boolean) => css`
   }
 `;
 
-const iconButton = css`
+const iconButton = (theme: ITheme) => css`
   font-size: 22px;
   margin-right: 25px;
   color: inherit;
+  transition: 0.3s;
+
+  &:hover {
+    color: ${theme.colors.primary};
+  }
 
   &:last-child {
     margin-right: 0;
@@ -178,7 +180,7 @@ const iconButton = css`
 const headerBottom = (theme: ITheme) => css`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   min-height: 30px;
   width: 100%;
   padding: 0 ${theme.containerRange(168)};
@@ -189,10 +191,16 @@ const headerBottomList = css`
   align-items: flex-start;
 `;
 
-const headerItems = css`
+const headerItems = (theme: ITheme) => css`
   display: flex;
   align-items: flex-start;
   margin-right: 32px;
+
+  &:hover {
+    button {
+      color: ${theme.colors.primary};
+    }
+  }
 
   &:last-child {
     margin-right: 0;
@@ -203,6 +211,7 @@ const headerItems = css`
     font-size: 12px;
     color: inherit;
     text-transform: uppercase;
+    transition: 0.3s;
   }
 `;
 

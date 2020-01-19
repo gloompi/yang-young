@@ -30,11 +30,6 @@ const Slider = ({ slides, SlideElement }: IProps) => {
           : activeSlide.slug > slide.slug
           ? -100
           : 100,
-      config: {
-        mass: 7,
-        tension: 200,
-        friction: 77,
-      },
     }))
   );
 
@@ -124,6 +119,7 @@ const arrowsWrapperStyles = css`
 
 const arrowStyles = css`
   font-size: 35px;
+  color: #fff;
   cursor: pointer;
 `;
 

@@ -15,6 +15,7 @@ const Slide: FC<IProps> = ({ slide }) => {
 
   return (
     <BackgroundImage Tag="div" fluid={slide.fluid} css={bgStyles} fadeIn={true}>
+      <div css={shadowStyles} />
       <h3 css={labelStyles(theme)}>{slide.label}</h3>
       <h1 css={titleStyles(theme)}>{slide.title}</h1>
       <p css={descriptionStyles(theme)}>{slide.body}</p>
@@ -26,12 +27,26 @@ const Slide: FC<IProps> = ({ slide }) => {
 };
 
 const bgStyles = css`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 100%;
+
+  * {
+    position: relative;
+  }
+`;
+
+const shadowStyles = css`
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 const labelStyles = (theme: ITheme) => css`

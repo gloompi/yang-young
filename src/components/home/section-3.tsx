@@ -1,81 +1,28 @@
 import React, { FC } from 'react';
-import { graphql, useStaticQuery } from 'gatsby';
+import { css } from '@emotion/core';
 
-import { ICategoryImage } from 'types/common';
-import useMixedItems from 'hooks/use-mixed-items';
-import useAccessories from 'hooks/use-accessories';
-import useScreenProtector from 'hooks/use-screen-protector';
-import useGiftCards from 'hooks/use-gift-cards';
-import ItemList from 'components/common/itemsList';
-import ItemListMedium from 'components/common/itemsListMedium';
-import ItemListLarge from 'components/common/itemsListLarge';
-
-interface IResponse {
-  sharp1: ICategoryImage;
-  sharp2: ICategoryImage;
-  sharp3: ICategoryImage;
-  sharp4: ICategoryImage;
-}
+import useTheme, { ITheme } from 'hooks/use-theme';
+import useHotProducts from 'hooks/use-hot-products';
+import ItemsList from 'components/common/itemsList';
+import Section from 'components/common/section';
 
 const Section2: FC = () => {
-  const mixed = useMixedItems();
-  const accessories = useAccessories();
-  const protectors = useScreenProtector();
-  const cards = useGiftCards();
-
-  const result: IResponse = useStaticQuery(graphql`
-    query {
-      sharp1: imageSharp(original: { src: { regex: "/all-products/" } }) {
-        fluid(maxWidth: 300) {
-          ...GatsbyImageSharpFluid_withWebp
-        }
-      }
-      sharp2: imageSharp(original: { src: { regex: "/accessories/" } }) {
-        fluid(maxWidth: 600) {
-          ...GatsbyImageSharpFluid_withWebp
-        }
-      }
-      sharp3: imageSharp(original: { src: { regex: "/protector/" } }) {
-        fluid(maxWidth: 900) {
-          ...GatsbyImageSharpFluid_withWebp
-        }
-      }
-      sharp4: imageSharp(original: { src: { regex: "/card/" } }) {
-        fluid(maxWidth: 600) {
-          ...GatsbyImageSharpFluid_withWebp
-        }
-      }
-    }
-  `);
+  const theme = useTheme();
+  const hotProducts = useHotProducts();
 
   return (
-    <>
-      <ItemList
-        title="all products"
-        path="all-products"
-        items={mixed}
-        image={result.sharp1}
-      />
-      <ItemListMedium
-        title="Accessories"
-        path="accessories"
-        items={accessories}
-        image={result.sharp2}
-      />
-      <ItemListLarge
-        title="Screen Protectors"
-        path="protectors"
-        items={protectors}
-        image={result.sharp3}
-      />
-      <ItemListMedium
-        title="Gift Cards"
-        path="gift-cards"
-        items={cards}
-        image={result.sharp4}
-      />
-    </>
+    <Section
+      title="Hot sale products"
+      description="The difference between a Designer and Developer when it comes to design skills, is the difference between shooting a bullet and throwing it"
+      contentStyles={contentStyles(theme)}
+    >
+      <ItemsList path="hot" items={hotProducts} />
+    </Section>
   );
 };
+
+const contentStyles = (theme: ITheme) => css`
+  padding: ${theme.containerRange()};
+`;
 
 export default Section2;

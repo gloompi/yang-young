@@ -1,14 +1,13 @@
 import React, { FC } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
+import { css } from '@emotion/core';
 
 import { ICategoryImage } from 'types/common';
-import useCases from 'hooks/use-cases-preview';
 import useWallets from 'hooks/use-wallets';
-import useHolders from 'hooks/use-holders';
 import useChargers from 'hooks/use-chargers';
-import ItemList from 'components/common/itemsList';
+import useAccessories from 'hooks/use-accessories';
+import Section from 'components/common/section';
 import ItemListMedium from 'components/common/itemsListMedium';
-import ItemListLarge from 'components/common/itemsListLarge';
 
 interface IResponse {
   sharp1: ICategoryImage;
@@ -18,25 +17,19 @@ interface IResponse {
 }
 
 const Section2: FC = () => {
-  const cases = useCases();
   const wallets = useWallets();
-  const holders = useHolders();
   const chargers = useChargers();
+  const accessories = useAccessories();
 
   const response: IResponse = useStaticQuery(graphql`
     query {
-      sharp1: imageSharp(original: { src: { regex: "/cases/" } }) {
-        fluid(maxWidth: 300) {
-          ...GatsbyImageSharpFluid_withWebp
-        }
-      }
       sharp2: imageSharp(original: { src: { regex: "/wallet/" } }) {
         fluid(maxWidth: 600) {
           ...GatsbyImageSharpFluid_withWebp
         }
       }
-      sharp3: imageSharp(original: { src: { regex: "/holder/" } }) {
-        fluid(maxWidth: 900) {
+      sharp3: imageSharp(original: { src: { regex: "/accessories/" } }) {
+        fluid(maxWidth: 600) {
           ...GatsbyImageSharpFluid_withWebp
         }
       }
@@ -49,33 +42,35 @@ const Section2: FC = () => {
   `);
 
   return (
-    <>
-      <ItemList
-        path="cases"
-        title="see all cases"
-        items={cases}
-        image={response.sharp1}
-      />
+    <Section
+      title="Categories"
+      description="The difference between a Designer and Developer when it comes to design skills, is the difference between shooting a bullet and throwing it"
+      contentStyles={contentStyles}
+    >
       <ItemListMedium
-        path="wallets"
-        title="wallet cases"
+        path="cases"
+        title="phone cases"
         items={wallets}
         image={response.sharp2}
       />
       <ItemListMedium
-        path="holders"
-        title="Phone Holders"
-        items={holders}
-        image={response.sharp3}
-      />
-      <ItemListMedium
-        path="chargers"
-        title="chargers"
+        path="bags"
+        title="phone bags"
         items={chargers}
         image={response.sharp4}
       />
-    </>
+      <ItemListMedium
+        title="Accessories"
+        path="accessories"
+        items={accessories}
+        image={response.sharp3}
+      />
+    </Section>
   );
 };
+
+const contentStyles = css`
+  width: 100%;
+`;
 
 export default Section2;

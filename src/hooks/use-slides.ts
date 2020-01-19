@@ -45,7 +45,7 @@ export default (): IPrettySlide[] => {
             label
             image: img {
               sharp: childImageSharp {
-                fluid(maxWidth: 900) {
+                fluid(maxWidth: 900, quality: 5) {
                   ...GatsbyImageSharpFluid_withWebp
                 }
               }

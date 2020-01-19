@@ -43,6 +43,13 @@ module.exports = {
       },
     },
     {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'deliverables',
+        path: `${__dirname}/src/assets/deliverables`,
+      },
+    },
+    {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `yang-yong`,
