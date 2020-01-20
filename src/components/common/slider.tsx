@@ -3,6 +3,7 @@ import { css } from '@emotion/core';
 import { useSprings, animated } from 'react-spring';
 import { TiChevronLeftOutline, TiChevronRightOutline } from 'react-icons/ti';
 
+import { lastFunctionThrottle } from 'utils/throttle';
 import useTheme, { ITheme } from 'hooks/use-theme';
 import { IPrettySlide } from 'hooks/use-slides';
 
@@ -33,18 +34,23 @@ const Slider = ({ slides, SlideElement }: IProps) => {
     }))
   );
 
+  const slideThrottle = lastFunctionThrottle<IPrettySlide>(
+    (data: IPrettySlide) => {
+      setActiveSlide(data);
+    },
+    500
+  );
+
   const handleClick = (
     slide: IPrettySlide
-  ): MouseEventHandler<HTMLElement> => () => {
-    setActiveSlide(slide);
-  };
+  ): MouseEventHandler<HTMLElement> => () => slideThrottle(slide);
 
   const handleNextClick = () => {
-    setActiveSlide(activeSlide.next || slides[0]);
+    slideThrottle(activeSlide.next || slides[0]);
   };
 
   const handlePrevClick = () => {
-    setActiveSlide(activeSlide.prev || slides[slides.length - 1]);
+    slideThrottle(activeSlide.prev || slides[slides.length - 1]);
   };
 
   return (

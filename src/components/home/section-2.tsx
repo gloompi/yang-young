@@ -3,22 +3,21 @@ import { graphql, useStaticQuery } from 'gatsby';
 import { css } from '@emotion/core';
 
 import { ICategoryImage } from 'types/common';
-import useWallets from 'hooks/use-wallets';
-import useChargers from 'hooks/use-chargers';
+import useCases from 'hooks/use-cases';
+import useBags from 'hooks/use-bags';
 import useAccessories from 'hooks/use-accessories';
 import Section from 'components/common/section';
 import ItemListMedium from 'components/common/itemsListMedium';
 
 interface IResponse {
-  sharp1: ICategoryImage;
   sharp2: ICategoryImage;
   sharp3: ICategoryImage;
   sharp4: ICategoryImage;
 }
 
 const Section2: FC = () => {
-  const wallets = useWallets();
-  const chargers = useChargers();
+  const cases = useCases();
+  const bags = useBags();
   const accessories = useAccessories();
 
   const response: IResponse = useStaticQuery(graphql`
@@ -50,13 +49,13 @@ const Section2: FC = () => {
       <ItemListMedium
         path="cases"
         title="phone cases"
-        items={wallets}
+        items={cases}
         image={response.sharp2}
       />
       <ItemListMedium
         path="bags"
         title="phone bags"
-        items={chargers}
+        items={bags}
         image={response.sharp4}
       />
       <ItemListMedium

@@ -22,7 +22,7 @@ const Section2: FC = () => {
 };
 
 const contentStyles = (theme: ITheme) => css`
-  padding: ${theme.containerRange()};
+  padding: 0 ${theme.containerRange()};
 `;
 
 export default Section2;
