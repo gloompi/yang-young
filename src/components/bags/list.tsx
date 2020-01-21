@@ -8,7 +8,7 @@ const List: FC = () => {
 
   return (
     <>
-      <ItemList path="case" items={bags} />
+      <ItemList path="bags" items={bags} />
     </>
   );
 };
