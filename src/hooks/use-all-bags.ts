@@ -15,7 +15,7 @@ interface IResult {
 export default () => {
   const data: IResult = useStaticQuery(graphql`
     query {
-      allMdx(filter: { frontmatter: { type: { eq: "bag" } } }) {
+      allMdx(filter: { frontmatter: { type: { eq: "bags" } } }) {
         nodes {
           frontmatter {
             id
