@@ -11,6 +11,15 @@ module.exports = {
     `gatsby-plugin-sharp`,
     'gatsby-plugin-emotion',
     {
+      resolve: 'gatsby-source-graphql',
+      options: {
+        typeName: 'API',
+        fieldName: 'api',
+        url: 'http://localhost:6060/graphql/',
+        refetchInterval: 60,
+      },
+    },
+    {
       resolve: 'gatsby-plugin-mdx',
       options: {
         defaultLayouts: {
