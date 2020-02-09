@@ -1,11 +1,11 @@
 const createProductsPage = async ({ actions, graphql, reporter }) => {
   const result = await graphql(`
     query {
-      allMdx(filter: { frontmatter: { id: { regex: "/item/" } } }) {
-        nodes {
-          frontmatter {
-            id
-            type
+      api {
+        products {
+          slug
+          categories {
+            name
           }
         }
       }
@@ -16,14 +16,14 @@ const createProductsPage = async ({ actions, graphql, reporter }) => {
     reporter.panic('failed to create item pages', result.errors);
   }
 
-  const items = result.data.allMdx.nodes;
+  const products = result.data.api.products;
 
-  items.forEach(item => {
+  products.forEach(product => {
     actions.createPage({
-      path: `${item.frontmatter.type}/${item.frontmatter.id}`,
-      component: require.resolve('../src/templates/item.tsx'),
+      path: `${product.categories[0].name}/${product.slug}`,
+      component: require.resolve('../src/templates/product.tsx'),
       context: {
-        id: item.frontmatter.id,
+        slug: product.slug,
       },
     });
   });

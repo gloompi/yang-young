@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
 import { css } from '@emotion/core';
 
-import { ICategoryImage } from 'types/common';
+import { ICategory } from 'types/common';
 import useCases from 'hooks/use-cases';
 import useBags from 'hooks/use-bags';
 import useAccessories from 'hooks/use-accessories';
@@ -10,9 +10,11 @@ import Section from 'components/common/section';
 import ItemListMedium from 'components/common/itemsListMedium';
 
 interface IResponse {
-  sharp2: ICategoryImage;
-  sharp3: ICategoryImage;
-  sharp4: ICategoryImage;
+  api: {
+    category1: ICategory[];
+    category2: ICategory[];
+    category3: ICategory[];
+  };
 }
 
 const Section2: FC = () => {
@@ -20,23 +22,32 @@ const Section2: FC = () => {
   const bags = useBags();
   const accessories = useAccessories();
 
-  const response: IResponse = useStaticQuery(graphql`
+  const {
+    api: {
+      category1: [caseCategory],
+      category2: [bagCategory],
+      category3: [accessoryCategory],
+    },
+  }: IResponse = useStaticQuery(graphql`
     query {
-      sharp2: imageSharp(original: { src: { regex: "/wallet/" } }) {
-        fluid(maxWidth: 600) {
-          ...GatsbyImageSharpFluid_withWebp
+      api {
+        category1: categories(id: "1") {
+          ...Category
+        }
+        category2: categories(id: "3") {
+          ...Category
+        }
+        category3: categories(id: "2") {
+          ...Category
         }
       }
-      sharp3: imageSharp(original: { src: { regex: "/accessories/" } }) {
-        fluid(maxWidth: 600) {
-          ...GatsbyImageSharpFluid_withWebp
-        }
-      }
-      sharp4: imageSharp(original: { src: { regex: "/charger/" } }) {
-        fluid(maxWidth: 900) {
-          ...GatsbyImageSharpFluid_withWebp
-        }
-      }
+    }
+
+    fragment Category on API_CategoryType {
+      id
+      name
+      title
+      coverImg
     }
   `);
 
@@ -47,22 +58,25 @@ const Section2: FC = () => {
       contentStyles={contentStyles}
     >
       <ItemListMedium
-        path="cases"
-        title="phone cases"
-        items={cases}
-        image={response.sharp2}
+        key={caseCategory.id}
+        path={caseCategory.name}
+        title={caseCategory.title}
+        products={cases}
+        image={caseCategory.coverImg}
       />
       <ItemListMedium
-        path="bags"
-        title="phone bags"
-        items={bags}
-        image={response.sharp4}
+        key={bagCategory.id}
+        path={bagCategory.name}
+        title={bagCategory.title}
+        products={bags}
+        image={bagCategory.coverImg}
       />
       <ItemListMedium
-        title="Accessories"
-        path="accessories"
-        items={accessories}
-        image={response.sharp3}
+        key={accessoryCategory.id}
+        path={accessoryCategory.name}
+        title={accessoryCategory.title}
+        products={accessories}
+        image={accessoryCategory.coverImg}
       />
     </Section>
   );

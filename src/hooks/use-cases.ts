@@ -1,40 +1,33 @@
 import { graphql, useStaticQuery } from 'gatsby';
 
-import { IItem } from 'types/common';
-
-interface ICase {
-  frontmatter: IItem;
-}
+import { IProduct } from 'types/common';
 
 interface IResult {
-  allMdx: {
-    nodes: ICase[];
+  api: {
+    products: IProduct[];
   };
 }
 
 export default () => {
   const data: IResult = useStaticQuery(graphql`
     query {
-      allMdx(filter: { frontmatter: { type: { eq: "cases" } } }, limit: 2) {
-        nodes {
-          frontmatter {
-            id
-            title
-            subtitle
-            price
-            specialOffers
-            imgSrc {
-              sharp: childImageSharp {
-                fluid(maxWidth: 300) {
-                  ...GatsbyImageSharpFluid_withWebp
-                }
-              }
-            }
+      api {
+        products(category: 1, limit: 2) {
+          slug
+          title
+          subtitle
+          price
+          coverImg
+          categories {
+            name
+          }
+          specialOffers {
+            name
           }
         }
       }
     }
   `);
 
-  return data.allMdx.nodes.map(({ frontmatter }) => ({ ...frontmatter }));
+  return data.api.products;
 };

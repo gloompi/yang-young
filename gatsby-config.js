@@ -15,7 +15,7 @@ module.exports = {
       options: {
         typeName: 'API',
         fieldName: 'api',
-        url: 'http://localhost:6060/graphql/',
+        url: `http://localhost:3344/graphql/`,
         refetchInterval: 60,
       },
     },
@@ -61,7 +61,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `yang-yong`,
+        name: `yang-young`,
         short_name: `YY`,
         start_url: `/`,
         background_color: `#663399`,

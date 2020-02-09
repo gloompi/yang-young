@@ -1,20 +1,20 @@
 import React, { FC } from 'react';
 import { Link } from 'gatsby';
 import { css } from '@emotion/core';
-import Image, { FluidObject } from 'gatsby-image';
 import { FiShoppingBag } from 'react-icons/fi';
 import { IoMdHeartEmpty } from 'react-icons/io';
 
+import env from 'config/env';
 import useTheme, { ITheme } from 'hooks/use-theme';
 
 interface IProps {
   link: string;
-  imgSrc: { sharp: { fluid: FluidObject } };
-  specialOffers: string[];
+  imgSrc: string;
   title: string;
   subtitle: string;
   price: number;
   itemsCount: number;
+  specialOffers: Array<{ name: string }>;
 }
 
 const ItemPreview: FC<IProps> = ({
@@ -32,11 +32,11 @@ const ItemPreview: FC<IProps> = ({
     <li css={itemCss(itemsCount)}>
       <article css={articleCss}>
         <Link to={link} css={linkCss(theme)}>
-          <Image fluid={imgSrc.sharp.fluid} css={imageCss} />
+          <img src={`${env.mediaUrl}/${imgSrc}`} css={imageCss} />
           <ul css={specialsListCss}>
-            {specialOffers.map(offer => (
-              <li key={offer} css={specialItemCss(theme)}>
-                {offer}
+            {specialOffers.map(({ name }, idx) => (
+              <li key={idx} css={specialItemCss(theme)}>
+                {name}
               </li>
             ))}
           </ul>
@@ -61,7 +61,7 @@ const ItemPreview: FC<IProps> = ({
 
 const itemCss = (itemsCount: number) => css`
   width: calc(${100 / itemsCount}% - 1%);
-  height: 620px;
+  min-height: 500px;
 `;
 
 const articleCss = css`

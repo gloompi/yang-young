@@ -33,7 +33,7 @@ const Header: FC = observer(() => {
 
   return (
     <div>
-      <Waypoint bottomOffset={77} onEnter={handleEnter} onLeave={handleLeave}/>
+      <Waypoint bottomOffset={77} onEnter={handleEnter} onLeave={handleLeave} />
       <header
         className={active ? 'active' : ''}
         css={headerStyle(theme)}
@@ -45,16 +45,16 @@ const Header: FC = observer(() => {
 
         <ul css={headerBottomList}>
           <li css={headerItems(theme)}>
-            <Link to="cases">phone cases</Link>
+            <Link to="/cases">phone cases</Link>
           </li>
           <li css={headerItems(theme)}>
-            <Link to="bags">phone bags</Link>
+            <Link to="/bags">phone bags</Link>
           </li>
           <li css={headerItems(theme)}>
-            <Link to="accessories">accessories</Link>
+            <Link to="/accessories">accessories</Link>
           </li>
           <li css={headerItems(theme)}>
-            <Link to="story">our story</Link>
+            <Link to="/story">our story</Link>
           </li>
         </ul>
         <div css={headerTopList}>

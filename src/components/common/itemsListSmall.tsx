@@ -5,40 +5,41 @@ import { IoIosArrowRoundForward } from 'react-icons/io';
 import Image from 'gatsby-image';
 import useTheme, { ITheme } from 'hooks/use-theme';
 
-import { IItem, ICategoryImage } from 'types/common';
+import { IProduct, ICategoryImage } from 'types/common';
 import ItemPreview from 'components/common/itemPreview';
 
 interface IProps {
   path: string;
   title: string;
-  items: IItem[];
+  products: IProduct[];
   image: ICategoryImage;
 }
 
-const ItemsList: FC<IProps> = ({ title, path, items, image }) => {
+const ItemsList: FC<IProps> = ({ title, path, products, image }) => {
   const theme = useTheme();
 
   return (
     <div css={wrapperCss(theme)}>
       <ul css={listCss}>
-        {items.map(
+        {products.map(
           ({
-            title: itemTitle,
-            id,
-            imgSrc,
+            title: productTitle,
+            categories: [category],
+            slug,
+            coverImg,
             subtitle,
             price,
             specialOffers,
           }) => (
             <ItemPreview
-              key={id}
-              link={`/${path}/${id}`}
-              imgSrc={imgSrc}
-              title={itemTitle}
+              key={slug}
+              link={`/${category.name}/${slug}`}
+              imgSrc={coverImg}
+              title={productTitle}
               subtitle={subtitle}
               price={price}
               specialOffers={specialOffers}
-              itemsCount={items.length}
+              itemsCount={products.length}
             />
           )
         )}

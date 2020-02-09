@@ -2,34 +2,35 @@ import React, { FC } from 'react';
 import { css } from '@emotion/core';
 import useTheme, { ITheme } from 'hooks/use-theme';
 
-import { IItem } from 'types/common';
+import { IProduct } from 'types/common';
 import ItemPreview from 'components/common/itemPreview';
 
 interface IProps {
   path: string;
-  items: IItem[];
+  products: IProduct[];
 }
 
-const ItemsList: FC<IProps> = ({ path, items }) => {
+const ItemsList: FC<IProps> = ({ path, products }) => {
   const theme = useTheme();
 
   return (
     <div css={wrapperCss(theme)}>
       <ul css={listCss}>
-        {items.map(
+        {products.map(
           ({
-            title: itemTitle,
-            id,
-            imgSrc,
+            title: productTitle,
+            categories: [category],
+            slug,
+            coverImg,
             subtitle,
             price,
             specialOffers,
           }) => (
             <ItemPreview
-              key={id}
-              link={`/${path}/${id}`}
-              imgSrc={imgSrc}
-              title={itemTitle}
+              key={slug}
+              link={`/${category.name}/${slug}`}
+              imgSrc={coverImg}
+              title={productTitle}
               subtitle={subtitle}
               price={price}
               specialOffers={specialOffers}

@@ -1,5 +1,6 @@
 const path = require('path');
 const YAML = require('yamljs');
+const Dotenv = require('dotenv-webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const DIST_DIR = path.resolve(__dirname, 'public');
@@ -24,6 +25,7 @@ exports.onCreateWebpackConfig = ({ actions }) => {
           },
         ],
       ),
+      new Dotenv()
     ],
   });
 };

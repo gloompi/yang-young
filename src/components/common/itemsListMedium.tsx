@@ -1,50 +1,51 @@
 import React, { FC } from 'react';
 import { css } from '@emotion/core';
 import { Link } from 'gatsby';
-import Image from 'gatsby-image';
 
-import { ICategoryImage, IItem } from 'types/common';
+import env from 'config/env';
+import { IProduct } from 'types/common';
 import useTheme, { ITheme } from 'hooks/use-theme';
 import ItemPreview from 'components/common/itemPreview';
 
 interface IProps {
   path: string;
   title: string;
-  image: ICategoryImage;
-  items: IItem[];
+  image: string;
+  products: IProduct[];
 }
 
-const ItemsListMedium: FC<IProps> = ({ title, path, image, items }) => {
+const ItemsListMedium: FC<IProps> = ({ title, path, image, products }) => {
   const theme = useTheme();
 
   return (
     <div css={mediumListWrapperCss(theme)}>
       <Link to={`/${path}`} css={linkToAllItemsCss}>
-        <Image fluid={image.fluid} css={categoryImageCss} />
+        <img src={`${env.mediaUrl}/${image}`} css={categoryImageCss} />
         <div css={linkTextCss}>
           <h3>{title}</h3>
           <button css={buttonCss}>Shop now</button>
         </div>
       </Link>
       <ul css={listCss}>
-        {items.map(
+        {products.map(
           ({
-            title: itemTitle,
-            id,
-            imgSrc,
+            title: productTitle,
+            categories: [category],
+            slug,
+            coverImg,
             subtitle,
             price,
             specialOffers,
           }) => (
             <ItemPreview
-              key={id}
-              link={`/${path}/${id}`}
-              imgSrc={imgSrc}
-              title={itemTitle}
+              key={slug}
+              link={`/${category.name}/${slug}`}
+              imgSrc={coverImg}
+              title={productTitle}
               subtitle={subtitle}
               price={price}
               specialOffers={specialOffers}
-              itemsCount={items.length}
+              itemsCount={products.length}
             />
           )
         )}

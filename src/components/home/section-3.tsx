@@ -16,7 +16,7 @@ const Section2: FC = () => {
       description="The difference between a Designer and Developer when it comes to design skills, is the difference between shooting a bullet and throwing it"
       contentStyles={contentStyles(theme)}
     >
-      <ItemsList path="hot" items={hotProducts} />
+      <ItemsList path="hot" products={hotProducts} />
     </Section>
   );
 };
