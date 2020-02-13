@@ -32,7 +32,7 @@ const ItemsListLarge: FC<IProps> = ({ title, path, image, products }) => {
           }) => (
             <ItemPreview
               key={slug}
-              link={`/${category.name}/${slug}`}
+              link={`/${(category && category.name) || path}/${slug}`}
               imgSrc={coverImg}
               title={productTitle}
               subtitle={subtitle}

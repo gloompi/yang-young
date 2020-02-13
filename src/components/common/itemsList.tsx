@@ -28,7 +28,7 @@ const ItemsList: FC<IProps> = ({ path, products }) => {
           }) => (
             <ItemPreview
               key={slug}
-              link={`/${category.name}/${slug}`}
+              link={`/${(category && category.name) || path}/${slug}`}
               imgSrc={coverImg}
               title={productTitle}
               subtitle={subtitle}

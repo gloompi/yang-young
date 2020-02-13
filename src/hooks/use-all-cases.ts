@@ -18,6 +18,9 @@ export default () => {
           subtitle
           price
           coverImg
+          categories {
+            name
+          }
           specialOffers {
             name
           }

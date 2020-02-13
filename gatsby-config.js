@@ -15,7 +15,7 @@ module.exports = {
       options: {
         typeName: 'API',
         fieldName: 'api',
-        url: `http://localhost:3344/graphql/`,
+        url: `http://localhost:3333/graphql/`,
         refetchInterval: 60,
       },
     },

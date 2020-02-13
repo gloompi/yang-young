@@ -19,6 +19,8 @@ const createProductsPage = async ({ actions, graphql, reporter }) => {
   const products = result.data.api.products;
 
   products.forEach(product => {
+    if (!product.categories.length) return null;
+
     actions.createPage({
       path: `${product.categories[0].name}/${product.slug}`,
       component: require.resolve('../src/templates/product.tsx'),

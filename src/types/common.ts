@@ -26,6 +26,7 @@ export interface ICategory {
   name: string;
   title: string;
   coverImg: string;
+  products: IProduct[];
 }
 
 export interface ICategoryImage {
