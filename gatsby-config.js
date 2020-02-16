@@ -33,13 +33,6 @@ module.exports = {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        name: `items`,
-        path: `${__dirname}/src/assets/items`,
-      },
-    },
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
         name: 'slides',
         path: `${__dirname}/src/assets/slides`,
       },
