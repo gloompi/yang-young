@@ -17,7 +17,7 @@ interface IProps {
   specialOffers: Array<{ name: string }>;
 }
 
-const ItemPreview: FC<IProps> = ({
+const ProductPreview: FC<IProps> = ({
   link,
   imgSrc,
   title,
@@ -61,7 +61,11 @@ const ItemPreview: FC<IProps> = ({
 
 const itemCss = (itemsCount: number) => css`
   width: calc(${100 / itemsCount}% - 1%);
-  min-height: 500px;
+  margin-right: 1.5%;
+
+  &:nth-child(${itemsCount}n + ${itemsCount}) {
+    margin-right: 0;
+  }
 `;
 
 const articleCss = css`
@@ -185,4 +189,4 @@ const priceCss = css`
   font-size: calc(10px + (6 * (100vw - 320px)) / 1120);
 `;
 
-export default ItemPreview;
+export default ProductPreview;

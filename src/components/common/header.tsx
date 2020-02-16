@@ -9,11 +9,13 @@ import { observer } from 'mobx-react-lite';
 import { Waypoint } from 'react-waypoint';
 
 import useStore from 'hooks/use-store';
+import useCategories from 'hooks/use-categories-without-products';
 
 const Header: FC = observer(() => {
   const [active, setActive] = useState(false);
   const theme = useTheme();
-  const appStore = useStore('appStore');
+  const { appStore } = useStore();
+  const categores = useCategories();
   const headerRef = useRef<HTMLHeadElement>(null);
   const { t } = useTranslation('common');
 
@@ -44,17 +46,13 @@ const Header: FC = observer(() => {
         </Link>
 
         <ul css={headerBottomList}>
+          {categores.map(category => (
+            <li key={category.id} css={headerItems(theme)}>
+              <Link to={`/${category.name}`}>{category.title}</Link>
+            </li>
+          ))}
           <li css={headerItems(theme)}>
-            <Link to="/cases">phone cases</Link>
-          </li>
-          <li css={headerItems(theme)}>
-            <Link to="/bags">phone bags</Link>
-          </li>
-          <li css={headerItems(theme)}>
-            <Link to="/accessories">accessories</Link>
-          </li>
-          <li css={headerItems(theme)}>
-            <Link to="/story">our story</Link>
+            <Link to="/story">our stories</Link>
           </li>
         </ul>
         <div css={headerTopList}>

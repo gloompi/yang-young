@@ -5,7 +5,7 @@ import Image from 'gatsby-image';
 
 import { ICategoryImage, IProduct } from 'types/common';
 import useTheme, { ITheme } from 'hooks/use-theme';
-import ItemPreview from 'components/common/itemPreview';
+import ProductPreview from 'components/common/productPreview';
 
 interface IProps {
   path: string;
@@ -30,7 +30,7 @@ const ItemsListLarge: FC<IProps> = ({ title, path, image, products }) => {
             price,
             specialOffers,
           }) => (
-            <ItemPreview
+            <ProductPreview
               key={slug}
               link={`/${(category && category.name) || path}/${slug}`}
               imgSrc={coverImg}
@@ -38,7 +38,7 @@ const ItemsListLarge: FC<IProps> = ({ title, path, image, products }) => {
               subtitle={subtitle}
               price={price}
               specialOffers={specialOffers}
-              itemsCount={products.length}
+              itemsCount={1}
             />
           )
         )}

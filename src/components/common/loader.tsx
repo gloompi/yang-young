@@ -1,0 +1,21 @@
+import React from 'react';
+import { css } from '@emotion/core';
+
+export default () => (
+  <div css={loaderWrapperCss}>
+    <img css={imgCss} src={require('assets/images/loading.jpg')} />
+  </div>
+);
+
+const loaderWrapperCss = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%:
+`;
+
+const imgCss = css`
+  max-width: 256px;
+  max-height: 256px;
+`;

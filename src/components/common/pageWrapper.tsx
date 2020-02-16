@@ -1,14 +1,13 @@
 import React, { FC } from 'react';
-import { FluidObject } from 'gatsby-image';
-import BackgroundImage from 'gatsby-background-image';
 import { css, SerializedStyles } from '@emotion/core';
 
+import env from 'config/env';
 import useTheme, { ITheme } from 'hooks/use-theme';
 import Dots from 'components/common/dots';
 
 interface IProps {
   title: string;
-  image: { fluid: FluidObject };
+  image: string
   description?: string;
   contentStyles?: SerializedStyles;
 }
@@ -25,17 +24,12 @@ const Section: FC<IProps> = ({
   return (
     <section css={sectionStyles(theme)}>
       <div css={containerStyles}>
-        <BackgroundImage
-          Tag="div"
-          fluid={image.fluid}
-          css={bgStyles}
-          fadeIn={true}
-        >
-          <div css={shadowStyles}/>
+        <div css={bgStyles(image)}>
+          <div css={shadowStyles} />
           <h2 css={h2Styles(theme)}>{title}</h2>
-          {description && <Dots/>}
+          {description && <Dots />}
           {description && <p css={descriptionStyles(theme)}>{description}</p>}
-        </BackgroundImage>
+        </div>
         <div css={contentStyles} style={{ paddingTop: 120 }}>
           {children}
         </div>
@@ -61,7 +55,7 @@ const containerStyles = css`
   padding-bottom: 50px;
 `;
 
-const bgStyles = css`
+const bgStyles = (img: string) => css`
   position: relative;
   display: flex;
   align-items: center;
@@ -69,6 +63,8 @@ const bgStyles = css`
   flex-direction: column;
   width: 100%;
   height: 80vh;
+  background: url(${env.mediaUrl}/${img}) no-repeat center;
+  backround-size: contain;
 `;
 
 const shadowStyles = css`

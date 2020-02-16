@@ -6,7 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const DIST_DIR = path.resolve(__dirname, 'public');
 const SRC_DIR = path.resolve(__dirname, 'src');
 
-const { createProductsPage } = require('./settings/createPages');
+const { createProductsPage, createCategoriesPage } = require('./settings/createPages');
 
 exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
@@ -32,4 +32,5 @@ exports.onCreateWebpackConfig = ({ actions }) => {
 
 exports.createPages = async (props) => {
   await createProductsPage(props);
+  await createCategoriesPage(props);
 };

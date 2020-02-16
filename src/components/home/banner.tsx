@@ -6,7 +6,7 @@ import useStore from 'hooks/use-store';
 import Sticky from 'components/common/sticky';
 
 const Banner: FC = observer(() => {
-  const appStore = useStore('appStore');
+  const { appStore } = useStore();
 
   return (
     <Sticky topOffset={appStore.headerHeight}>

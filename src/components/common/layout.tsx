@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Global, css } from '@emotion/core';
 
 import 'i18n';
@@ -8,7 +8,24 @@ import { ThemeProvider } from 'hooks/use-theme';
 import { StoreProvider } from 'hooks/use-store';
 import Header from 'components/common/header';
 
+const getScrollToTop = () => {
+  let prevLocation = '/';
+
+  return (pathName: string) => {
+    if (pathName !== prevLocation) {
+      window.scrollTo(0, 0);
+      prevLocation = pathName;
+    }
+  };
+};
+
+const scrollToTop = getScrollToTop();
+
 const Layout: FC = ({ children }) => {
+  useEffect(() => {
+    scrollToTop(location.pathname);
+  });
+
   return (
     <StoreProvider>
       <ThemeProvider>

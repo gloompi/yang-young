@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { graphql } from 'gatsby';
 import parse from 'html-react-parser';
 import { css } from '@emotion/core';
@@ -35,9 +35,17 @@ interface IProps {
   };
 }
 
-const ItemPage: FC<IProps> = ({ data }) => {
+const ProductPage: FC<IProps> = ({ data }) => {
   const theme = useTheme();
   const product = data.api.products[0];
+
+  useEffect(() => {
+    const d = document;
+    const s = d.createElement('script');
+    s.src = 'https://yang-young.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', `${+new Date()}`);
+    (d.head || d.body).appendChild(s);
+  }, []);
 
   return (
     <Layout>
@@ -54,6 +62,9 @@ const ItemPage: FC<IProps> = ({ data }) => {
           <div css={contentStyles(theme)}>{parse(product.description)}</div>
         </div>
       </section>
+      <div css={commentSection(theme)}>
+        <div id="disqus_thread" />
+      </div>
     </Layout>
   );
 };
@@ -123,4 +134,8 @@ const descriptionStyles = (theme: ITheme) => css`
   padding: 0 calc((100vw - 750px) / 2);
 `;
 
-export default ItemPage;
+const commentSection = (theme: ITheme) => css`
+  padding: 80px ${theme.containerRange()};
+`;
+
+export default ProductPage;

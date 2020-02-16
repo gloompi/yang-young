@@ -15,7 +15,7 @@ module.exports = {
       options: {
         typeName: 'API',
         fieldName: 'api',
-        url: `http://localhost:3333/graphql/`,
+        url: `https://nameless-wave-38275.herokuapp.com/graphql/`,
         refetchInterval: 60,
       },
     },

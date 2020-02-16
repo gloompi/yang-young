@@ -7,10 +7,14 @@ interface IProps {
   topOffset: number;
 }
 
-const Sticky: FC<IProps> = ({ children, topOffset }) => {
+const Sticky: FC<IProps> = ({ children, topOffset = 0 }) => {
   const [active, setActive] = useState(false);
   const relativeStyles = useSpring({ opacity: active ? 0 : 1 });
-  const fixedStyles = useSpring({ opacity: active ? 1 : 0, top: topOffset, height: active ? 'auto' : 0 });
+  const fixedStyles = useSpring({
+    opacity: active ? 1 : 0,
+    top: topOffset,
+    height: active ? 'auto' : 0,
+  });
 
   const handleEnter = () => {
     setActive(false);

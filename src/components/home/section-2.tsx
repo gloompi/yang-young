@@ -3,7 +3,7 @@ import { css } from '@emotion/core';
 
 import useCategories from 'hooks/use-categories';
 import Section from 'components/common/section';
-import ItemListMedium from 'components/common/itemsListMedium';
+import ProductListMedium from 'components/common/productsListMedium';
 
 const Section2: FC = () => {
   const categories = useCategories();
@@ -15,7 +15,7 @@ const Section2: FC = () => {
       contentStyles={contentStyles}
     >
       {categories.map(category => (
-        <ItemListMedium
+        <ProductListMedium
           key={category.id}
           path={category.name}
           title={category.title}

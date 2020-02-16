@@ -3,14 +3,14 @@ import { css } from '@emotion/core';
 import useTheme, { ITheme } from 'hooks/use-theme';
 
 import { IProduct } from 'types/common';
-import ItemPreview from 'components/common/itemPreview';
+import ProductPreview from 'components/common/productPreview';
 
 interface IProps {
   path: string;
   products: IProduct[];
 }
 
-const ItemsList: FC<IProps> = ({ path, products }) => {
+const ProductsList: FC<IProps> = ({ path, products }) => {
   const theme = useTheme();
 
   return (
@@ -26,7 +26,7 @@ const ItemsList: FC<IProps> = ({ path, products }) => {
             price,
             specialOffers,
           }) => (
-            <ItemPreview
+            <ProductPreview
               key={slug}
               link={`/${(category && category.name) || path}/${slug}`}
               imgSrc={coverImg}
@@ -55,7 +55,7 @@ const wrapperCss = (theme: ITheme) => css`
 const listCss = css`
   display: flex;
   align-items: flex-start;
-  justify-content: space-around;
+  justify-content: flex-start;
   flex-wrap: wrap;
   width: 100%;
 
@@ -64,4 +64,4 @@ const listCss = css`
   }
 `;
 
-export default ItemsList;
+export default ProductsList;

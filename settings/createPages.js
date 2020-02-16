@@ -13,7 +13,7 @@ const createProductsPage = async ({ actions, graphql, reporter }) => {
   `);
 
   if (result.errors) {
-    reporter.panic('failed to create item pages', result.errors);
+    reporter.panic('failed to create product pages', result.errors);
   }
 
   const products = result.data.api.products;
@@ -31,6 +31,36 @@ const createProductsPage = async ({ actions, graphql, reporter }) => {
   });
 };
 
+const createCategoriesPage = async ({ actions, graphql, reporter }) => {
+  const result = await graphql(`
+    query {
+      api {
+        categories {
+          id
+          name
+        }
+      }
+    }
+  `);
+
+  if (result.errors) {
+    reporter.panic('failed to create category pages', result.errors);
+  }
+
+  const categories = result.data.api.categories;
+
+  categories.forEach(category => {
+    actions.createPage({
+      path: category.name,
+      component: require.resolve('../src/templates/category.tsx'),
+      context: {
+        id: category.id,
+      },
+    });
+  });
+};
+
 module.exports = {
   createProductsPage,
+  createCategoriesPage,
 };
