@@ -87,6 +87,7 @@ const linkCss = (theme: ITheme) => css`
 `;
 
 const imageCss = css`
+  min-height: 200px;
   width: 100%;
 `;
 

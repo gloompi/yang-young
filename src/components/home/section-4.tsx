@@ -1,14 +1,13 @@
 import React from 'react';
 import { css } from '@emotion/core';
-import { MDXRenderer } from 'gatsby-plugin-mdx';
+import { GiFactory, GiTrophyCup } from 'react-icons/gi';
+import { FaPlaneDeparture } from 'react-icons/fa';
 
 import useTheme, { ITheme } from 'hooks/use-theme';
-import useDeliverables from 'hooks/use-deliverables';
 import Section from 'components/common/section';
 import Dots from 'components/common/dots';
 
 const Section2 = () => {
-  const deliverables = useDeliverables();
   const theme = useTheme();
 
   return (
@@ -18,22 +17,30 @@ const Section2 = () => {
       contentStyles={contentStyles(theme)}
     >
       <ul css={listStyles}>
-        {deliverables.map((item, idx) => {
-          const { [item.icon]: Icon } = require('react-icons/fa');
-
-          return (
-            <li key={idx} css={itemStyles}>
-              <span css={iconWrapper(theme)}>
-                <Icon css={iconStyles(theme)} />
-              </span>
-              <h3 css={titleStyles(theme)}>{item.title}</h3>
-              <Dots />
-              <div css={descrStyles(theme)}>
-                <MDXRenderer>{item.body}</MDXRenderer>
-              </div>
-            </li>
-          );
-        })}
+        <li css={itemStyles}>
+          <span css={iconWrapper(theme)}>
+            <GiFactory css={iconStyles(theme)} />
+          </span>
+          <h3 css={titleStyles(theme)}>FAST DELIVERY</h3>
+          <Dots />
+          <div css={descrStyles(theme)}>Buy directly from the factory</div>
+        </li>
+        <li css={itemStyles}>
+          <span css={iconWrapper(theme)}>
+            <FaPlaneDeparture css={iconStyles(theme)} />
+          </span>
+          <h3 css={titleStyles(theme)}>1-YEAR WARRANTY</h3>
+          <Dots />
+          <div css={descrStyles(theme)}>Fast international delivery</div>
+        </li>
+        <li css={itemStyles}>
+          <span css={iconWrapper(theme)}>
+            <GiTrophyCup css={iconStyles(theme)} />
+          </span>
+          <h3 css={titleStyles(theme)}>PRIZE-WINNING DESIGNS</h3>
+          <Dots />
+          <div css={descrStyles(theme)}>Design and quality awards</div>
+        </li>
       </ul>
     </Section>
   );

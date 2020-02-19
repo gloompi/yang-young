@@ -5,7 +5,11 @@ import useStore from 'hooks/use-store';
 import Loader from 'components/common/loader';
 import ProductsList from 'components/common/productsList';
 
-const List: FC = observer(() => {
+interface IProps {
+  categoryId: string;
+}
+
+const List: FC<IProps> = observer(() => {
   const { productsStore } = useStore();
 
   return (

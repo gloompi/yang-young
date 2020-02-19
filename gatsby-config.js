@@ -15,7 +15,7 @@ module.exports = {
       options: {
         typeName: 'API',
         fieldName: 'api',
-        url: `https://nameless-wave-38275.herokuapp.com/graphql/`,
+        url: `https://yang-young.herokuapp.com/graphql/`,
         refetchInterval: 60,
       },
     },

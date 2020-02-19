@@ -49,7 +49,7 @@ const CategoryPage: FC<IProps> = ({ data: { api } }) => {
         contentStyles={contentStyles(theme)}
         image={category.coverImg}
       >
-        <List />
+        <List categoryId={category.id} />
       </PageWrapper>
     </Layout>
   );
