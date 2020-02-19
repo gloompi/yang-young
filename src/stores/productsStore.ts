@@ -7,6 +7,24 @@ interface IResult {
   products: IProduct[];
 }
 
+interface IArgument {
+  [key: string]: string;
+}
+
+interface IFetchProps extends IArgument{
+  category: string;
+}
+
+const getQueryProps = (args: IArgument) => {
+  let queryString = '';
+
+  Object.entries(args).forEach(([key, value]) => {
+    queryString = `${queryString}, ${key}: ${value}`;
+  });
+
+  return queryString;
+};
+
 class ProductsStore {
   @observable private _products: IProduct[] = [];
   @observable private _loading: boolean = true;
@@ -22,9 +40,14 @@ class ProductsStore {
     return this._loading;
   }
 
-  @action public fetchProducts = async (category = '1') => {
+  @action public fetchProducts = async ({
+    category = '1',
+    ...args
+  }: IFetchProps) => {
+    const queryProps = getQueryProps(args);
+
     const query = `{
-      products(category: ${category}) {
+      products(category: ${category}${queryProps}) {
         slug
         title
         subtitle

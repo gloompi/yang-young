@@ -29,6 +29,18 @@ export interface ICategory {
   products: IProduct[];
 }
 
-export interface ICategoryImage {
+export interface IColor {
+  id: string;
+  name: string;
+  product?: IProduct;
+}
+
+export interface IDevice {
+  id: string;
+  name: string;
+  product?: IProduct;
+}
+
+export interface IImage {
   fluid: FluidObject;
 }

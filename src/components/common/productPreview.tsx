@@ -63,7 +63,7 @@ const itemCss = (itemsCount: number) => css`
   width: calc(${100 / itemsCount}% - 1%);
   margin-right: 1.5%;
 
-  &:nth-child(${itemsCount}n + ${itemsCount}) {
+  &:nth-of-type(${itemsCount}n + ${itemsCount}) {
     margin-right: 0;
   }
 `;

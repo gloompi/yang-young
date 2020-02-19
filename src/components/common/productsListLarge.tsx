@@ -1,16 +1,16 @@
 import React, { FC } from 'react';
 import { css } from '@emotion/core';
 import { Link } from 'gatsby';
-import Image from 'gatsby-image';
 
-import { ICategoryImage, IProduct } from 'types/common';
+import env from 'config/env';
+import { IProduct } from 'types/common';
 import useTheme, { ITheme } from 'hooks/use-theme';
 import ProductPreview from 'components/common/productPreview';
 
 interface IProps {
   path: string;
   title: string;
-  image: ICategoryImage;
+  image: string;
   products: IProduct[];
 }
 
@@ -44,7 +44,7 @@ const ItemsListLarge: FC<IProps> = ({ title, path, image, products }) => {
         )}
       </ul>
       <Link to={`/${path}`} css={linkToAllItemsCss}>
-        <Image fluid={image.fluid} css={categoryImageCss} />
+        <img src={`${env.mediaUrl}/${image}`} css={categoryImageCss} />
         <div css={linkTextCss}>
           <h3>{title}</h3>
           <button css={buttonCss}>Shop now</button>

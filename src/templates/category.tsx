@@ -38,7 +38,7 @@ const CategoryPage: FC<IProps> = ({ data: { api } }) => {
   const [category] = api.categories;
 
   useEffect(() => {
-    productsStore.fetchProducts(category.id);
+    productsStore.fetchProducts({ category: category.id });
   }, []);
 
   return (

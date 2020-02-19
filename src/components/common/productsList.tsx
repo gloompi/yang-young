@@ -45,7 +45,7 @@ const ProductsList: FC<IProps> = ({ path, products }) => {
 
 const wrapperCss = (theme: ITheme) => css`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   width: 100%;
   min-height: 100vh;

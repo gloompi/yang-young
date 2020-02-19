@@ -1,23 +1,24 @@
 import React, { FC, useRef, useEffect, useState } from 'react';
 import { Link } from 'gatsby';
 import { css } from '@emotion/core';
-import { useTranslation } from 'react-i18next';
+import Image from 'gatsby-image';
 import useTheme, { ITheme } from 'hooks/use-theme';
 import { FiSearch, FiShoppingBag } from 'react-icons/fi';
 import { IoMdHelpCircleOutline } from 'react-icons/io';
 import { observer } from 'mobx-react-lite';
 import { Waypoint } from 'react-waypoint';
 
+import useLogo from 'hooks/use-logo';
 import useStore from 'hooks/use-store';
 import useCategories from 'hooks/use-categories-without-products';
 
 const Header: FC = observer(() => {
   const [active, setActive] = useState(false);
+  const data = useLogo();
   const theme = useTheme();
   const { appStore } = useStore();
   const categores = useCategories();
   const headerRef = useRef<HTMLHeadElement>(null);
-  const { t } = useTranslation('common');
 
   const handleEnter = () => {
     setActive(false);
@@ -42,7 +43,11 @@ const Header: FC = observer(() => {
         ref={headerRef}
       >
         <Link to="/" css={logoCss}>
-          <h1>{t('header.title')}</h1>
+          {active ? (
+            <Image fluid={data.image.fluid} style={{ width: 200 }} />
+          ) : (
+            <Image fluid={data.whiteImage.fluid} style={{ width: 200 }} />
+          )}
         </Link>
 
         <ul css={headerBottomList}>

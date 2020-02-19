@@ -11,6 +11,7 @@ class Theme implements ITheme {
   private static _instance: Theme | null = null;
 
   public colors = {
+    yellow: '#f4bd26',
     primary: '#68D5B5',
     secondary: '#52B1B3',
     text: '#202020',
