@@ -23,6 +23,7 @@ export default () => {
             subtitle
             price
             coverImg
+            animatedImg
             categories {
               name
             }
