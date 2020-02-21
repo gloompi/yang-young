@@ -107,7 +107,7 @@ const flipBackground = css`
   left: 0;
   transition: 0.5s;
 
-  .img {
+  img {
     width: 100%;
   }
 `;
