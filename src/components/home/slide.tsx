@@ -98,7 +98,7 @@ const linkStyles = (theme: ITheme) => css`
   transition: 0.3s;
 
   &:hover {
-    color: ${theme.colors.secondary};
+    color: ${theme.colors.primary};
     background-color: ${theme.colors.white};
   }
 `;

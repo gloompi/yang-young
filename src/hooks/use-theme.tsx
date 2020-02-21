@@ -13,7 +13,7 @@ class Theme implements ITheme {
   public colors = {
     yellow: '#f4bd26',
     primary: '#f4bd26',
-    secondary: '#52B1B3',
+    secondary: '#f4bd26',
     text: '#202020',
     white: '#fff',
     red: '#FB024A',

@@ -95,6 +95,7 @@ const headerStyle = (theme: ITheme) => css`
   z-index: 1000;
 
   &.active {
+    min-height: 50px;
     background: linear-gradient(90deg, rgba(50, 50, 50) 0%, rgb(0, 0, 0) 100%);
   }
 `;

@@ -2,14 +2,11 @@ import React, { FC } from 'react';
 import { observer } from 'mobx-react-lite';
 import styled from '@emotion/styled';
 
-import useStore from 'hooks/use-store';
 import Sticky from 'components/common/sticky';
 
 const Banner: FC = observer(() => {
-  const { appStore } = useStore();
-
   return (
-    <Sticky topOffset={appStore.headerHeight}>
+    <Sticky topOffset={50}>
       <StyledDiv>
         <span>
           Shop 3 products and get the cheapest one for <strong>FREE!</strong>
