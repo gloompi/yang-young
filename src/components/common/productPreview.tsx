@@ -27,10 +27,15 @@ const ProductPreview: FC<IProps> = ({
   const theme = useTheme();
 
   return (
-    <li css={itemCss(theme, itemsCount, !isEmpty(animatedImg))}>
-      <article css={articleCss(!isEmpty(animatedImg))} className="front">
-        <Link to={link} css={linkCss(theme)}>
-          <img src={`${env.mediaUrl}/${coverImg}`} css={imageCss} />
+    <li css={itemCss(theme, itemsCount)}>
+      <article css={articleCss}>
+        <Link to={link} css={linkCss(theme, !isEmpty(animatedImg))}>
+          <img src={`${env.mediaUrl}/${coverImg}`} css={imageCss(!isEmpty(animatedImg))} className="front" />
+          {!isEmpty(animatedImg) && (
+            <div css={flipBackground} className="back">
+              <img src={`${env.mediaUrl}/${animatedImg}`} />
+            </div>
+          )}
           <ul css={specialsListCss}>
             {specialOffers.map(({ name }, idx) => (
               <li key={idx} css={specialItemCss(theme)}>
@@ -53,59 +58,25 @@ const ProductPreview: FC<IProps> = ({
           </div>
         </Link>
       </article>
-      {!isEmpty(animatedImg) && (
-        <div css={flipBackground} className="back">
-          <img src={`${env.mediaUrl}/${animatedImg}`} />
-          <div css={textWrapCss}>
-            <h3 css={titleCss}>{title}</h3>
-            <span css={subtitleCss}>{subtitle}</span>
-          </div>
-          <div css={bottomWrapCss}>
-            <button css={iconCss(theme)}>
-              <IoMdHeartEmpty />
-            </button>
-            <span css={priceCss}>{price}$</span>
-            <button css={iconCss(theme)}>
-              <FiShoppingBag />
-            </button>
-          </div>
-        </div>
-      )}
     </li>
   );
 };
 
-const itemCss = (theme: ITheme, itemsCount: number, animated: boolean) => css`
+const itemCss = (theme: ITheme, itemsCount: number) => css`
   position: relative;
   width: calc(${100 / itemsCount}% - 1%);
   margin-right: 1.5%;
   background-color: ${theme.colors.grey};
   perspective: 1000px;
 
-  ${
-    animated
-      ? `&:hover {
-      .front {
-        transform: rotateY(360deg);
-      }
-      .back {
-        transform: rotateY(180deg);
-      }
-    }`
-      : ''
-  }
-
   &:nth-of-type(${itemsCount}n + ${itemsCount}) {
     margin-right: 0;
   }
 `;
 
-const articleCss = (animated: boolean) => css`
+const articleCss = css`
   width: 100%;
   height: 100%;
-  backface-visibility: hidden;
-  ${animated ? `transform: rotateY(180deg);` : ''}
-  transition: 0.5s;
 `;
 
 const flipBackground = css`
@@ -127,7 +98,7 @@ const flipBackground = css`
   }
 `;
 
-const linkCss = (theme: ITheme) => css`
+const linkCss = (theme: ITheme, animated: boolean) => css`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -137,11 +108,27 @@ const linkCss = (theme: ITheme) => css`
   height: 100%;
   color: ${theme.colors.black};
   padding: 20px 0;
+
+  ${
+    animated
+      ? `&:hover {
+      .front {
+        transform: rotateY(360deg);
+      }
+      .back {
+        transform: rotateY(180deg);
+      }
+    }`
+      : ''
+  }
 `;
 
-const imageCss = css`
+const imageCss = (animated: boolean) => css`
   min-height: 200px;
   width: 100%;
+  backface-visibility: hidden;
+  transition: 0.5s;
+  ${animated ? `transform: rotateY(180deg);` : ''}
 `;
 
 const specialsListCss = css`
