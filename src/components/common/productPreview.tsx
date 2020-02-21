@@ -56,6 +56,19 @@ const ProductPreview: FC<IProps> = ({
       {!isEmpty(animatedImg) && (
         <div css={flipBackground} className="back">
           <img src={`${env.mediaUrl}/${animatedImg}`} />
+          <div css={textWrapCss}>
+            <h3 css={titleCss}>{title}</h3>
+            <span css={subtitleCss}>{subtitle}</span>
+          </div>
+          <div css={bottomWrapCss}>
+            <button css={iconCss(theme)}>
+              <IoMdHeartEmpty />
+            </button>
+            <span css={priceCss}>{price}$</span>
+            <button css={iconCss(theme)}>
+              <FiShoppingBag />
+            </button>
+          </div>
         </div>
       )}
     </li>
@@ -98,13 +111,15 @@ const articleCss = (animated: boolean) => css`
 const flipBackground = css`
   position: absolute;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
   top: 0;
   left: 0;
+  padding: 20px 0;
   transition: 0.5s;
 
   img {
