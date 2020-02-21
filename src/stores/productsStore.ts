@@ -53,6 +53,7 @@ class ProductsStore {
         subtitle
         price
         coverImg
+        animatedImg
         categories {
           name
         }

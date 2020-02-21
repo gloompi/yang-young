@@ -1,25 +1,23 @@
 import React, { FC } from 'react';
+import isEmpty from 'lodash/isEmpty';
 import { Link } from 'gatsby';
 import { css } from '@emotion/core';
 import { FiShoppingBag } from 'react-icons/fi';
 import { IoMdHeartEmpty } from 'react-icons/io';
 
 import env from 'config/env';
+import { IProduct } from 'types/common';
 import useTheme, { ITheme } from 'hooks/use-theme';
 
-interface IProps {
+interface IProps extends IProduct {
   link: string;
-  imgSrc: string;
-  title: string;
-  subtitle: string;
-  price: number;
   itemsCount: number;
-  specialOffers: Array<{ name: string }>;
 }
 
 const ProductPreview: FC<IProps> = ({
   link,
-  imgSrc,
+  coverImg,
+  animatedImg,
   title,
   subtitle,
   specialOffers,
@@ -29,10 +27,10 @@ const ProductPreview: FC<IProps> = ({
   const theme = useTheme();
 
   return (
-    <li css={itemCss(itemsCount)}>
-      <article css={articleCss}>
+    <li css={itemCss(theme, itemsCount, !isEmpty(animatedImg))}>
+      <article css={articleCss(!isEmpty(animatedImg))} className="front">
         <Link to={link} css={linkCss(theme)}>
-          <img src={`${env.mediaUrl}/${imgSrc}`} css={imageCss} />
+          <img src={`${env.mediaUrl}/${coverImg}`} css={imageCss} />
           <ul css={specialsListCss}>
             {specialOffers.map(({ name }, idx) => (
               <li key={idx} css={specialItemCss(theme)}>
@@ -55,22 +53,63 @@ const ProductPreview: FC<IProps> = ({
           </div>
         </Link>
       </article>
+      {!isEmpty(animatedImg) && (
+        <div css={flipBackground} className="back">
+          <img src={`${env.mediaUrl}/${animatedImg}`} />
+        </div>
+      )}
     </li>
   );
 };
 
-const itemCss = (itemsCount: number) => css`
+const itemCss = (theme: ITheme, itemsCount: number, animated: boolean) => css`
+  position: relative;
   width: calc(${100 / itemsCount}% - 1%);
   margin-right: 1.5%;
+  background-color: ${theme.colors.grey};
+  perspective: 1000px;
+
+  ${
+    animated
+      ? `&:hover {
+      .front {
+        transform: rotateY(360deg);
+      }
+      .back {
+        transform: rotateY(180deg);
+      }
+    }`
+      : ''
+  }
 
   &:nth-of-type(${itemsCount}n + ${itemsCount}) {
     margin-right: 0;
   }
 `;
 
-const articleCss = css`
+const articleCss = (animated: boolean) => css`
   width: 100%;
   height: 100%;
+  backface-visibility: hidden;
+  ${animated ? `transform: rotateY(180deg);` : ''}
+  transition: 0.5s;
+`;
+
+const flipBackground = css`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  top: 0;
+  left: 0;
+  transition: 0.5s;
+
+  .img {
+    width: 100%;
+  }
 `;
 
 const linkCss = (theme: ITheme) => css`
@@ -82,7 +121,6 @@ const linkCss = (theme: ITheme) => css`
   width: 100%;
   height: 100%;
   color: ${theme.colors.black};
-  background-color: ${theme.colors.grey};
   padding: 20px 0;
 `;
 

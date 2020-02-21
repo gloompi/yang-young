@@ -18,6 +18,7 @@ export const query = graphql`
         subtitle
         price
         coverImg
+        animatedImg
         description
         specialOffers {
           name

@@ -16,28 +16,21 @@ const ProductsList: FC<IProps> = ({ path, products }) => {
   return (
     <div css={wrapperCss(theme)}>
       <ul css={listCss}>
-        {products.map(
-          ({
-            title: productTitle,
+        {products.map(product => {
+          const {
             categories: [category],
             slug,
-            coverImg,
-            subtitle,
-            price,
-            specialOffers,
-          }) => (
+          } = product;
+
+          return (
             <ProductPreview
               key={slug}
               link={`/${(category && category.name) || path}/${slug}`}
-              imgSrc={coverImg}
-              title={productTitle}
-              subtitle={subtitle}
-              price={price}
-              specialOffers={specialOffers}
               itemsCount={3}
+              {...product}
             />
-          )
-        )}
+          );
+        })}
       </ul>
     </div>
   );

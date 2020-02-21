@@ -27,28 +27,21 @@ const ItemsListMedium: FC<IProps> = ({ title, path, image, products }) => {
         </div>
       </Link>
       <ul css={listCss}>
-        {products.map(
-          ({
-            title: productTitle,
+        {products.map(product => {
+          const {
             categories: [category],
             slug,
-            coverImg,
-            subtitle,
-            price,
-            specialOffers,
-          }) => (
+          } = product;
+
+          return (
             <ProductPreview
               key={slug}
               link={`/${category.name}/${slug}`}
-              imgSrc={coverImg}
-              title={productTitle}
-              subtitle={subtitle}
-              price={price}
-              specialOffers={specialOffers}
               itemsCount={2}
+              {...product}
             />
-          )
-        )}
+          );
+        })}
       </ul>
     </div>
   );

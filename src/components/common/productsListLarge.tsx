@@ -20,28 +20,20 @@ const ItemsListLarge: FC<IProps> = ({ title, path, image, products }) => {
   return (
     <div css={mediumListWrapperCss(theme)}>
       <ul css={listCss}>
-        {products.map(
-          ({
-            title: productTitle,
+        {products.map(product => {
+          const {
             categories: [category],
             slug,
-            coverImg,
-            subtitle,
-            price,
-            specialOffers,
-          }) => (
+          } = product;
+          return (
             <ProductPreview
               key={slug}
               link={`/${(category && category.name) || path}/${slug}`}
-              imgSrc={coverImg}
-              title={productTitle}
-              subtitle={subtitle}
-              price={price}
-              specialOffers={specialOffers}
               itemsCount={1}
+              {...product}
             />
-          )
-        )}
+          );
+        })}
       </ul>
       <Link to={`/${path}`} css={linkToAllItemsCss}>
         <img src={`${env.mediaUrl}/${image}`} css={categoryImageCss} />

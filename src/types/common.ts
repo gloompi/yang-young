@@ -15,6 +15,7 @@ export interface IProduct {
   subtitle: string;
   description: string;
   coverImg: string;
+  animatedImg: string;
   price: number;
   isHot?: boolean;
   specialOffers: Array<{ name: string }>;
