@@ -2,18 +2,20 @@ import React from 'react';
 import { css } from '@emotion/core';
 import { GiFactory, GiTrophyCup } from 'react-icons/gi';
 import { FaPlaneDeparture } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 import useTheme, { ITheme } from 'hooks/use-theme';
 import Section from 'components/common/section';
 import Dots from 'components/common/dots';
 
 const Section2 = () => {
+  const { t } = useTranslation('home');
   const theme = useTheme();
 
   return (
     <Section
-      title="WHY CHOOSE US?"
-      description="The difference between a Designer and Developer when it comes to design skills, is the difference between shooting a bullet and throwing it"
+      title={t('why.title')}
+      description={t('why.description')}
       contentStyles={contentStyles(theme)}
     >
       <ul css={listStyles}>

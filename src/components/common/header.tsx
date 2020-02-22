@@ -10,7 +10,6 @@ import { Waypoint } from 'react-waypoint';
 
 import useLogo from 'hooks/use-logo';
 import useStore from 'hooks/use-store';
-import useCategories from 'hooks/use-categories-without-products';
 
 const Header: FC = observer(() => {
   const [active, setActive] = useState(false);

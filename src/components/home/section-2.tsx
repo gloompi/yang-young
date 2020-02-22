@@ -1,13 +1,15 @@
 import React, { FC } from 'react';
 import { css } from '@emotion/core';
 import { useTranslation } from 'react-i18next';
+import { observer } from 'mobx-react-lite';
 
-import useCategories from 'hooks/use-categories';
+import useStore from 'hooks/use-store';
 import Section from 'components/common/section';
+import Loader from 'components/common/loader';
 import ProductListMedium from 'components/common/productsListMedium';
 
-const Section2: FC = () => {
-  const categories = useCategories();
+const Section2: FC = observer(() => {
+  const { categoriesStore } = useStore();
   const { t } = useTranslation('home');
 
   return (
@@ -16,7 +18,8 @@ const Section2: FC = () => {
       description={t('category.description')}
       contentStyles={contentStyles}
     >
-      {categories.map(category => (
+      {categoriesStore.loading && <Loader />}
+      {categoriesStore.categories.map(category => (
         <ProductListMedium
           key={category.id}
           path={category.name}
@@ -27,7 +30,7 @@ const Section2: FC = () => {
       ))}
     </Section>
   );
-};
+});
 
 const contentStyles = css`
   width: 100%;
