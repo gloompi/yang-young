@@ -8,12 +8,12 @@ if (!('XMLHttpRequest' in global)) {
 }
 
 i18n
-  .use(detector)
   .use(backend)
+  .use(detector)
   .use(initReactI18next)
   .init({
-    whitelist: ['en', 'ru', 'cn'],
-    preload: ['en', 'ru', 'cn'],
+    whitelist: ['en', 'cn'],
+    preload: ['en', 'cn'],
     fallbackLng: 'en',
     react: {
       wait: true,

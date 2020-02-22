@@ -7,7 +7,7 @@ import Dots from 'components/common/dots';
 
 interface IProps {
   title: string;
-  image: string
+  image: string;
   description?: string;
   contentStyles?: SerializedStyles;
 }

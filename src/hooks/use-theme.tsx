@@ -17,7 +17,7 @@ class Theme implements ITheme {
     text: '#202020',
     white: '#fff',
     red: '#FB024A',
-    grey: 'rgb(249, 249, 249)',
+    grey: '#E5E5E5',
     black: '#141414',
     lightBlack: '#1a1a1a',
   };

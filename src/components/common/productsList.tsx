@@ -47,7 +47,6 @@ const wrapperCss = (theme: ITheme) => css`
 
 const listCss = css`
   display: flex;
-  align-items: flex-start;
   justify-content: flex-start;
   flex-wrap: wrap;
   width: 100%;

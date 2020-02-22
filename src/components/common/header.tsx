@@ -1,4 +1,4 @@
-import React, { FC, useRef, useEffect, useState } from 'react';
+import React, { FC, useRef, useEffect, useState, ChangeEvent } from 'react';
 import { Link } from 'gatsby';
 import { css } from '@emotion/core';
 import Image from 'gatsby-image';
@@ -16,8 +16,7 @@ const Header: FC = observer(() => {
   const [active, setActive] = useState(false);
   const data = useLogo();
   const theme = useTheme();
-  const { appStore } = useStore();
-  const categores = useCategories();
+  const { appStore, categoriesStore } = useStore();
   const headerRef = useRef<HTMLHeadElement>(null);
 
   const handleEnter = () => {
@@ -26,6 +25,10 @@ const Header: FC = observer(() => {
 
   const handleLeave = () => {
     setActive(true);
+  };
+
+  const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+    appStore.setLang(e.target.value);
   };
 
   useEffect(() => {
@@ -51,7 +54,7 @@ const Header: FC = observer(() => {
         </Link>
 
         <ul css={headerBottomList}>
-          {categores.map(category => (
+          {categoriesStore.categories.map(category => (
             <li key={category.id} css={headerItems(theme)}>
               <Link to={`/${category.name}`}>{category.title}</Link>
             </li>
@@ -61,6 +64,14 @@ const Header: FC = observer(() => {
           </li>
         </ul>
         <div css={headerTopList}>
+          <select
+            onChange={handleSelect}
+            value={appStore.lang}
+            style={{ marginRight: 15 }}
+          >
+            <option value="en">EN</option>
+            <option value="cn">中文</option>
+          </select>
           <button css={iconButton(theme)}>
             <FiSearch />
           </button>

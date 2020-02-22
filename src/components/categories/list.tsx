@@ -4,8 +4,6 @@ import { css } from '@emotion/core';
 
 import useTheme, { ITheme } from 'hooks/use-theme';
 import useStore from 'hooks/use-store';
-import useColors from 'hooks/use-colors';
-import useDevices from 'hooks/use-devices';
 import Loader from 'components/common/loader';
 import ProductsList from 'components/common/productsList';
 
@@ -16,8 +14,6 @@ interface IProps {
 const List: FC<IProps> = observer(({ categoryId }) => {
   const { productsStore } = useStore();
   const theme = useTheme();
-  const colors = useColors();
-  const devices = useDevices();
 
   const handleFilterByColor = (colorId: string) => () => {
     productsStore.fetchProducts({
@@ -39,7 +35,7 @@ const List: FC<IProps> = observer(({ categoryId }) => {
         <h3 css={filterTitleCss}>Filter by</h3>
         <h4 css={filterSubtitleCss}>Device:</h4>
         <ul css={filterList}>
-          {devices.map(device => (
+          {productsStore.devices.map(device => (
             <li
               key={device.id}
               css={filterItem(theme)}
@@ -51,7 +47,7 @@ const List: FC<IProps> = observer(({ categoryId }) => {
         </ul>
         <h4 css={filterSubtitleCss}>Color:</h4>
         <ul css={filterList}>
-          {colors.map(color => (
+          {productsStore.colors.map(color => (
             <li
               key={color.id}
               css={filterItem(theme)}

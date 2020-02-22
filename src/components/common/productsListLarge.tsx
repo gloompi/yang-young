@@ -56,7 +56,6 @@ const mediumListWrapperCss = (theme: ITheme) => css`
 
 const listCss = css`
   display: flex;
-  align-items: flex-start;
   justify-content: space-between;
   flex-wrap: wrap;
   width: 24.5%;

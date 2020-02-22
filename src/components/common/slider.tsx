@@ -1,9 +1,10 @@
 import React, { useState, MouseEventHandler, FunctionComponent } from 'react';
 import { css } from '@emotion/core';
+
+import { closureThrottle } from 'utils/throttle';
 import { useSprings, animated } from 'react-spring';
 import { TiChevronLeftOutline, TiChevronRightOutline } from 'react-icons/ti';
 
-import { lastItemThrottle } from 'utils/throttle';
 import useTheme, { ITheme } from 'hooks/use-theme';
 import { IPrettySlide } from 'hooks/use-slides';
 
@@ -15,6 +16,8 @@ interface IProps {
   slides: IPrettySlide[];
   SlideElement: FunctionComponent<IArguments>;
 }
+
+const throttle = closureThrottle(500);
 
 const Slider = ({ slides, SlideElement }: IProps) => {
   const theme = useTheme();
@@ -34,23 +37,18 @@ const Slider = ({ slides, SlideElement }: IProps) => {
     }))
   );
 
-  const slideThrottle = lastItemThrottle<IPrettySlide>(
-    (data: IPrettySlide[]) => {
-      setActiveSlide(data[0]);
-    },
-    500
-  );
-
   const handleClick = (
     slide: IPrettySlide
-  ): MouseEventHandler<HTMLElement> => () => slideThrottle('1', slide);
+  ): MouseEventHandler<HTMLElement> => () => throttle(() => setActiveSlide(slide));
 
   const handleNextClick = () => {
-    slideThrottle('2', activeSlide.next || slides[0]);
+    throttle(() => setActiveSlide(activeSlide.next || slides[0]));
   };
 
   const handlePrevClick = () => {
-    slideThrottle('3', activeSlide.prev || slides[slides.length - 1]);
+    throttle(() => {
+      setActiveSlide(activeSlide.prev || slides[slides.length - 1]);
+    });
   };
 
   return (
@@ -68,7 +66,7 @@ const Slider = ({ slides, SlideElement }: IProps) => {
               zIndex: isSlideActive ? 100 : 0,
               // @ts-ignore
               transform: transform.interpolate(
-                (x: number) => `perspective(500px) translateZ(${x}px)`
+                (x: number) => `perspective(500px) translateY(${x}px)`
               ),
               opacity,
             }}

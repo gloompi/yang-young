@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { css } from '@emotion/core';
+import { useTranslation } from 'react-i18next';
 
 import useCategories from 'hooks/use-categories';
 import Section from 'components/common/section';
@@ -7,11 +8,12 @@ import ProductListMedium from 'components/common/productsListMedium';
 
 const Section2: FC = () => {
   const categories = useCategories();
+  const { t } = useTranslation('home');
 
   return (
     <Section
-      title="Categories"
-      description="The difference between a Designer and Developer when it comes to design skills, is the difference between shooting a bullet and throwing it"
+      title={t('category.title')}
+      description={t('category.description')}
       contentStyles={contentStyles}
     >
       {categories.map(category => (

@@ -30,7 +30,11 @@ const ProductPreview: FC<IProps> = ({
     <li css={itemCss(theme, itemsCount)}>
       <article css={articleCss}>
         <Link to={link} css={linkCss(theme, !isEmpty(animatedImg))}>
-          <img src={`${env.mediaUrl}/${coverImg}`} css={imageCss(!isEmpty(animatedImg))} className="front" />
+          <img
+            src={`${env.mediaUrl}/${coverImg}`}
+            css={imageCss(!isEmpty(animatedImg))}
+            className="front"
+          />
           {!isEmpty(animatedImg) && (
             <div css={flipBackground} className="back">
               <img src={`${env.mediaUrl}/${animatedImg}`} />
@@ -109,9 +113,8 @@ const linkCss = (theme: ITheme, animated: boolean) => css`
   color: ${theme.colors.black};
   padding: 20px 0;
 
-  ${
-    animated
-      ? `&:hover {
+  ${animated
+    ? `&:hover {
       .front {
         transform: rotateY(360deg);
       }
@@ -119,8 +122,7 @@ const linkCss = (theme: ITheme, animated: boolean) => css`
         transform: rotateY(180deg);
       }
     }`
-      : ''
-  }
+    : ''}
 `;
 
 const imageCss = (animated: boolean) => css`

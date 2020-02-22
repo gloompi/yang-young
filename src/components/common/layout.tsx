@@ -7,6 +7,7 @@ import 'assets/fonts/fonts.css';
 import { ThemeProvider } from 'hooks/use-theme';
 import { StoreProvider } from 'hooks/use-store';
 import Header from 'components/common/header';
+import CommonWrapper from 'components/common/commonWrapper';
 
 const getScrollToTop = () => {
   let prevLocation = '/';
@@ -29,14 +30,16 @@ const Layout: FC = ({ children }) => {
   return (
     <StoreProvider>
       <ThemeProvider>
-        <Global styles={globalStyles} />
-        <Header />
-        <main css={mainStyle}>{children}</main>
-        <footer css={footerStyle}>
-          <div css={containerStyle}>
-            © {new Date().getFullYear()}, Made with love by GloompiQue
-          </div>
-        </footer>
+        <CommonWrapper>
+          <Global styles={globalStyles} />
+          <Header />
+          <main css={mainStyle}>{children}</main>
+          <footer css={footerStyle}>
+            <div css={containerStyle}>
+              © {new Date().getFullYear()}, Made with love by GloompiQue
+            </div>
+          </footer>
+        </CommonWrapper>
       </ThemeProvider>
     </StoreProvider>
   );
