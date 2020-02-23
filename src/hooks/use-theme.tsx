@@ -5,7 +5,17 @@ export interface ITheme {
   colors: Theme['colors'];
   container: SerializedStyles;
   containerRange: (val?: number) => string;
+  fontFamily: (font: TFont) => string;
 }
+
+type TFont =
+  | 'MontSerrat'
+  | 'MontSerrat-Medium'
+  | 'MontSerrat-Bold'
+  | 'MontSerrat-Black'
+  | 'Avenir'
+  | 'Avenir-Bold'
+  | 'Oswald';
 
 class Theme implements ITheme {
   private static _instance: Theme | null = null;
@@ -30,7 +40,11 @@ class Theme implements ITheme {
     padding: 0 calc((100vw - 1170px) / 2);
   `;
 
-  public containerRange = (val = 0) => `calc((100vw - ${1512 + val}px) / 2)`;
+  public containerRange = (val = 0) => `calc((100vw - ${1170 + val}px) / 2)`;
+
+  public fontFamily = (font: TFont): string => {
+    return `font-family: ${font}`;
+  };
 
   static get instance(): Theme {
     if (this._instance === null) {

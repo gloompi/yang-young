@@ -53,6 +53,10 @@ const mediumListWrapperCss = (theme: ITheme) => css`
   justify-content: space-between;
   margin-bottom: 84px;
   padding: 0 ${theme.containerRange()};
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 `;
 
 const listCss = css`

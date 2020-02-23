@@ -49,6 +49,7 @@
     "react-helmet": "^5.2.1",
     "react-i18next": "^11.2.7",
     "react-icons": "^3.8.0",
+    "react-rating": "^2.0.4",
     "react-responsive-carousel": "^3.1.51",
     "react-spring": "^8.0.27",
     "react-waypoint": "^9.0.2",

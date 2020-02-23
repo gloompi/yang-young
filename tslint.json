@@ -6,7 +6,7 @@
     "prettier": true,
     "variable-name": false,
     "adjacent-overload-signatures": false,
-    "jsx-wrap-multiline": true,
+    "jsx-wrap-multiline": false,
     "jsx-no-lambda": false,
     "import-name": false,
     "no-console": false,

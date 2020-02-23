@@ -9,15 +9,27 @@ export interface IItem {
   price: number;
 }
 
+export interface IPicture {
+  id: string;
+  name: string;
+  image: string;
+  products: IProduct[];
+}
+
 export interface IProduct {
   slug: string;
   title: string;
+  titleCN: string;
   subtitle: string;
+  subtitleCN: string;
   description: string;
+  descriptionCN: string;
   coverImg: string;
   animatedImg: string;
   price: number;
   isHot?: boolean;
+  rating: number;
+  pictures: IPicture[];
   specialOffers: Array<{ name: string }>;
   categories: Array<{ name: string; title: string }>;
 }
