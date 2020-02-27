@@ -116,6 +116,7 @@ const linkCss = (theme: ITheme, animated: boolean) => css`
   ${animated
     ? `&:hover {
       .front {
+        opacity: 1;
         transform: rotateY(360deg);
       }
       .back {
@@ -130,6 +131,7 @@ const imageCss = (animated: boolean) => css`
   width: 100%;
   backface-visibility: hidden;
   transition: 0.5s;
+  opacity: ${animated ? '0' : '1'};
   ${animated ? `transform: rotateY(180deg);` : ''}
 `;
 

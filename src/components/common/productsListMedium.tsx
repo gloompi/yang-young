@@ -27,7 +27,7 @@ const ItemsListMedium: FC<IProps> = ({ title, path, image, products }) => {
         </div>
       </Link>
       <ul css={listCss}>
-        {products.map(product => {
+        {products.slice(0, 2).map(product => {
           const {
             categories: [category],
             slug,

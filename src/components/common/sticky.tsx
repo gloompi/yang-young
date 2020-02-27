@@ -25,7 +25,11 @@ const Sticky: FC<IProps> = ({ children, topOffset = 0 }) => {
   };
 
   return (
-    <Waypoint topOffset={topOffset} onEnter={handleEnter} onLeave={handleLeave}>
+    <Waypoint
+      topOffset={topOffset + 50}
+      onEnter={handleEnter}
+      onLeave={handleLeave}
+    >
       <div>
         <animated.div css={relativeCss} style={relativeStyles}>
           {children}

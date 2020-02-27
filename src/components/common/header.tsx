@@ -71,12 +71,12 @@ const Header: FC = observer(() => {
             <option value="en">EN</option>
             <option value="cn">中文</option>
           </select>
-          <button css={iconButton(theme)}>
+          {/* <button css={iconButton(theme)}>
             <FiSearch />
           </button>
           <button css={iconButton(theme)}>
             <IoMdHelpCircleOutline />
-          </button>
+          </button> */}
           <button css={iconButton(theme)}>
             <FiShoppingBag />
           </button>
