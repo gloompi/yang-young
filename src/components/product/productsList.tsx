@@ -3,7 +3,7 @@ import { css } from '@emotion/core';
 import useTheme, { ITheme } from 'hooks/use-theme';
 
 import { IProduct } from 'types/common';
-import ProductPreview from 'components/common/productPreview';
+import ProductPreview from 'components/product/productPreview';
 
 interface IProps {
   path: string;
@@ -27,7 +27,7 @@ const ProductsList: FC<IProps> = ({ path, products }) => {
               key={slug}
               link={`/${(category && category.name) || path}/${slug}`}
               itemsCount={3}
-              {...product}
+              product={product}
             />
           );
         })}

@@ -5,7 +5,7 @@ import { css } from '@emotion/core';
 import useTheme, { ITheme } from 'hooks/use-theme';
 import useStore from 'hooks/use-store';
 import Loader from 'components/common/loader';
-import ProductsList from 'components/common/productsList';
+import ProductsList from 'components/product/productsList';
 
 interface IProps {
   categoryId: string;

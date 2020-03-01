@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import useStore from 'hooks/use-store';
 import Section from 'components/common/section';
 import Loader from 'components/common/loader';
-import ProductListMedium from 'components/common/productsListMedium';
+import ProductListMedium from 'components/product/productsListMedium';
 
 const Section2: FC = observer(() => {
   const { categoriesStore } = useStore();

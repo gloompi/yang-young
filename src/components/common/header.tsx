@@ -3,19 +3,23 @@ import { Link } from 'gatsby';
 import { css } from '@emotion/core';
 import Image from 'gatsby-image';
 import useTheme, { ITheme } from 'hooks/use-theme';
-import { FiSearch, FiShoppingBag } from 'react-icons/fi';
-import { IoMdHelpCircleOutline } from 'react-icons/io';
+import { FiShoppingBag } from 'react-icons/fi';
+import { IoMdHelpCircleOutline, IoMdHeartEmpty } from 'react-icons/io';
 import { observer } from 'mobx-react-lite';
 import { Waypoint } from 'react-waypoint';
 
 import useLogo from 'hooks/use-logo';
 import useStore from 'hooks/use-store';
+import SideBar from 'components/common/sideBar';
 
 const Header: FC = observer(() => {
   const [active, setActive] = useState(false);
+  const [sideBarType, setSideBarType] = useState<null | 'basket' | 'favourite'>(
+    null
+  );
   const data = useLogo();
   const theme = useTheme();
-  const { appStore, categoriesStore } = useStore();
+  const { appStore, basketStore, favouriteStore, categoriesStore } = useStore();
   const headerRef = useRef<HTMLHeadElement>(null);
 
   const handleEnter = () => {
@@ -39,6 +43,7 @@ const Header: FC = observer(() => {
   return (
     <div>
       <Waypoint bottomOffset={77} onEnter={handleEnter} onLeave={handleLeave} />
+      <SideBar type={sideBarType} handleClose={() => setSideBarType(null)} />
       <header
         className={active ? 'active' : ''}
         css={headerStyle(theme)}
@@ -71,13 +76,25 @@ const Header: FC = observer(() => {
             <option value="en">EN</option>
             <option value="cn">中文</option>
           </select>
-          {/* <button css={iconButton(theme)}>
-            <FiSearch />
-          </button>
           <button css={iconButton(theme)}>
             <IoMdHelpCircleOutline />
-          </button> */}
-          <button css={iconButton(theme)}>
+          </button>
+          <button
+            css={iconButton(theme)}
+            onClick={() => setSideBarType('favourite')}
+          >
+            {favouriteStore.length > 0 && (
+              <span css={iconPopup(theme)}>{favouriteStore.length}</span>
+            )}
+            <IoMdHeartEmpty />
+          </button>
+          <button
+            css={iconButton(theme)}
+            onClick={() => setSideBarType('basket')}
+          >
+            {basketStore.length > 0 && (
+              <span css={iconPopup(theme)}>{basketStore.length}</span>
+            )}
             <FiShoppingBag />
           </button>
         </div>
@@ -126,50 +143,8 @@ const headerTopList = css`
   align-items: center;
 `;
 
-// const mnuButton = (theme: ITheme, active: boolean) => css`
-//   position: relative;
-//   width: 20px;
-//   height: 16px;
-//   color: inherit;
-//   margin-right: 25px;
-//   transition: 0.3s;
-
-//   &:hover {
-//     span,
-//     &:after,
-//     &:before {
-//       background-color: ${theme.colors.primary};
-//     }
-//   }
-
-//   span,
-//   &:after,
-//   &:before {
-//     content: '';
-//     position: absolute;
-//     width: 100%;
-//     height: 2px;
-//     left: 0;
-//     border-radius: 5px;
-//     background-color: ${active ? theme.colors.text : theme.colors.white};
-//     transition: 0.3s;
-//   }
-
-//   span {
-//     top: 50%;
-//     transform: translateY(-50%);
-//   }
-
-//   &:before {
-//     top: 0;
-//   }
-
-//   &:after {
-//     bottom: 0;
-//   }
-// `;
-
 const iconButton = (theme: ITheme) => css`
+  position: relative;
   font-size: 22px;
   margin-right: 25px;
   color: inherit;
@@ -181,6 +156,22 @@ const iconButton = (theme: ITheme) => css`
   &:last-child {
     margin-right: 0;
   }
+`;
+
+const iconPopup = (theme: ITheme) => css`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  top: 100%;
+  left: 100%;
+  width: 20px;
+  height: 20px;
+  color: ${theme.colors.white};
+  background-color: ${theme.colors.red};
+  border-radius: 50px;
+  transform: translate(-50%, -80%);
 `;
 
 const headerBottomList = css`

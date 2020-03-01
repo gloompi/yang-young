@@ -5,7 +5,7 @@ import { Link } from 'gatsby';
 import env from 'config/env';
 import { IProduct } from 'types/common';
 import useTheme, { ITheme } from 'hooks/use-theme';
-import ProductPreview from 'components/common/productPreview';
+import ProductPreview from 'components/product/productPreview';
 
 interface IProps {
   path: string;
@@ -38,7 +38,7 @@ const ItemsListMedium: FC<IProps> = ({ title, path, image, products }) => {
               key={slug}
               link={`/${category.name}/${slug}`}
               itemsCount={2}
-              {...product}
+              product={product}
             />
           );
         })}

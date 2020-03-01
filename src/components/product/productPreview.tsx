@@ -1,5 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, MouseEvent } from 'react';
 import isEmpty from 'lodash/isEmpty';
+import { observer } from 'mobx-react-lite';
 import { Link } from 'gatsby';
 import { css } from '@emotion/core';
 import { FiShoppingBag } from 'react-icons/fi';
@@ -7,64 +8,97 @@ import { IoMdHeartEmpty } from 'react-icons/io';
 
 import env from 'config/env';
 import { IProduct } from 'types/common';
+import useStore from 'hooks/use-store';
 import useTheme, { ITheme } from 'hooks/use-theme';
 
-interface IProps extends IProduct {
+interface IProps {
+  product: IProduct;
   link: string;
   itemsCount: number;
 }
 
-const ProductPreview: FC<IProps> = ({
-  link,
-  coverImg,
-  animatedImg,
-  title,
-  subtitle,
-  specialOffers,
-  price,
-  itemsCount = 1,
-}) => {
-  const theme = useTheme();
+const ProductPreview: FC<IProps> = observer(
+  ({ product, link, itemsCount = 1 }) => {
+    const theme = useTheme();
+    const { basketStore, favouriteStore } = useStore();
+    const {
+      coverImg,
+      animatedImg,
+      title,
+      subtitle,
+      specialOffers,
+      price,
+    } = product;
 
-  return (
-    <li css={itemCss(theme, itemsCount)}>
-      <article css={articleCss}>
-        <Link to={link} css={linkCss(theme, !isEmpty(animatedImg))}>
-          <img
-            src={`${env.mediaUrl}/${coverImg}`}
-            css={imageCss(!isEmpty(animatedImg))}
-            className="front"
-          />
-          {!isEmpty(animatedImg) && (
-            <div css={flipBackground} className="back">
-              <img src={`${env.mediaUrl}/${animatedImg}`} />
+    const activeBasket = basketStore.items.has(product.slug);
+    const activeFavourite = favouriteStore.items.has(product.slug);
+
+    const handleToggleFavourite = (e: MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+
+      if (favouriteStore.items.has(product.slug)) {
+        favouriteStore.removeFromFavourite(product.slug);
+      } else {
+        favouriteStore.addToFavourite(product.slug, product);
+      }
+    };
+
+    const handleToggleBasket = (e: MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+
+      if (basketStore.items.has(product.slug)) {
+        basketStore.removeFromBasket(product.slug);
+      } else {
+        basketStore.addToBusket(product.slug, product);
+      }
+    };
+
+    return (
+      <li css={itemCss(theme, itemsCount)}>
+        <article css={articleCss}>
+          <Link to={link} css={linkCss(theme, !isEmpty(animatedImg))}>
+            <img
+              src={`${env.mediaUrl}/${coverImg}`}
+              css={imageCss(!isEmpty(animatedImg))}
+              className="front"
+            />
+            {!isEmpty(animatedImg) && (
+              <div css={flipBackground} className="back">
+                <img src={`${env.mediaUrl}/${animatedImg}`} />
+              </div>
+            )}
+            <ul css={specialsListCss}>
+              {specialOffers.map(({ name }, idx) => (
+                <li key={idx} css={specialItemCss(theme)}>
+                  {name}
+                </li>
+              ))}
+            </ul>
+            <div css={textWrapCss}>
+              <h3 css={titleCss}>{title}</h3>
+              <span css={subtitleCss}>{subtitle}</span>
             </div>
-          )}
-          <ul css={specialsListCss}>
-            {specialOffers.map(({ name }, idx) => (
-              <li key={idx} css={specialItemCss(theme)}>
-                {name}
-              </li>
-            ))}
-          </ul>
-          <div css={textWrapCss}>
-            <h3 css={titleCss}>{title}</h3>
-            <span css={subtitleCss}>{subtitle}</span>
-          </div>
-          <div css={bottomWrapCss}>
-            <button css={iconCss(theme)}>
-              <IoMdHeartEmpty />
-            </button>
-            <span css={priceCss}>{price}$</span>
-            <button css={iconCss(theme)}>
-              <FiShoppingBag />
-            </button>
-          </div>
-        </Link>
-      </article>
-    </li>
-  );
-};
+            <div css={bottomWrapCss}>
+              <button
+                css={iconCss(theme, activeFavourite)}
+                onClick={handleToggleFavourite}
+              >
+                <IoMdHeartEmpty />
+              </button>
+              <span css={priceCss}>{price}$</span>
+              <button
+                css={iconCss(theme, activeBasket)}
+                onClick={handleToggleBasket}
+              >
+                <FiShoppingBag />
+              </button>
+            </div>
+          </Link>
+        </article>
+      </li>
+    );
+  }
+);
 
 const itemCss = (theme: ITheme, itemsCount: number) => css`
   position: relative;
@@ -210,15 +244,15 @@ const bottomWrapCss = css`
   padding: 0 20px;
 `;
 
-const iconCss = (theme: ITheme) => css`
+const iconCss = (theme: ITheme, active: boolean) => css`
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 25px;
   width: 43px;
   height: 43px;
-  color: ${theme.colors.black};
-  background-color: ${theme.colors.white};
+  color: ${active ? theme.colors.white : theme.colors.black};
+  background-color: ${active ? theme.colors.primary : theme.colors.white};
   border-radius: 50%;
   transition: 0.3s;
 

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import useTheme, { ITheme } from 'hooks/use-theme';
 import useHotProducts from 'hooks/use-hot-products';
-import ProductsList from 'components/common/productsList';
+import ProductsList from 'components/product/productsList';
 import Section from 'components/common/section';
 
 const Section2: FC = () => {
