@@ -1,21 +1,31 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { css } from '@emotion/core';
+import { observer } from 'mobx-react-lite';
 
-import useSlides from 'hooks/use-slides';
+import useStore from 'hooks/use-store';
+import Loader from 'components/common/loader';
 import Slider from 'components/common/slider';
 import Slide from 'components/home/slide';
 
-const Section1: FC = () => {
-  const slides = useSlides();
+const Section1: FC = observer(() => {
+  const { slidesStore } = useStore();
+
+  useEffect(() => {
+    slidesStore.fetchSlides();
+  }, []);
 
   return (
     <section css={sectionStyle}>
-      <ul css={slidesStyle}>
-        <Slider slides={slides} SlideElement={Slide} />
-      </ul>
+      {slidesStore.loading ? (
+        <Loader />
+      ) : (
+        <ul css={slidesStyle}>
+          <Slider slides={slidesStore.slides} SlideElement={Slide} />
+        </ul>
+      )}
     </section>
   );
-};
+});
 
 const sectionStyle = css`
   width: 100%;

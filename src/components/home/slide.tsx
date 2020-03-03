@@ -1,32 +1,32 @@
 import React, { FC } from 'react';
 import { css } from '@emotion/core';
 import { Link } from 'gatsby';
-import BackgroundImage from 'gatsby-background-image';
 
+import env from 'config/env';
 import useTheme, { ITheme } from 'hooks/use-theme';
-import { IPrettySlide } from 'hooks/use-slides';
+import { IExtendedSlide } from 'stores/slidesStore';
 
 interface IProps {
-  slide: IPrettySlide;
+  slide: IExtendedSlide;
 }
 
 const Slide: FC<IProps> = ({ slide }) => {
   const theme = useTheme();
 
   return (
-    <BackgroundImage Tag="div" fluid={slide.fluid} css={bgStyles} fadeIn={true}>
-      <div css={shadowStyles} />
-      <h3 css={labelStyles(theme)}>{slide.label}</h3>
+    <div css={bgStyles(slide.coverImg)}>
+      <div css={shadowStyles} style={{ position: 'absolute' }} />
+      <h3 css={labelStyles(theme)}>{slide.subtitle}</h3>
       <h1 css={titleStyles(theme)}>{slide.title}</h1>
-      <p css={descriptionStyles(theme)}>{slide.body}</p>
-      <Link to={`/${slide.slug}/`} css={linkStyles(theme)}>
+      <p css={descriptionStyles(theme)}>{slide.description}</p>
+      <Link to={`/${slide.id}/`} css={linkStyles(theme)}>
         Read the article
       </Link>
-    </BackgroundImage>
+    </div>
   );
 };
 
-const bgStyles = css`
+const bgStyles = (coverImg: string) => css`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -34,6 +34,8 @@ const bgStyles = css`
   justify-content: center;
   width: 100%;
   height: 100%;
+  background: url(${env.mediaUrl}/${coverImg}) no-repeat center;
+  background-size: cover;
 
   * {
     position: relative;

@@ -12,6 +12,7 @@ import BasketStore from './basketStore';
 import ProductsStore from './productsStore';
 import FavouriteStore from './favouritesStore';
 import CategoriesStore from './categoriesStore';
+import SlidesStore from './slidesStore';
 
 export class RootStore {
   public api: GraphQLClient;
@@ -20,6 +21,7 @@ export class RootStore {
   public favouriteStore = new FavouriteStore();
   public productsStore = new ProductsStore(this);
   public categoriesStore = new CategoriesStore(this);
+  public slidesStore = new SlidesStore(this);
 
   constructor() {
     const headers = new Headers();

@@ -57,3 +57,12 @@ export interface IDevice {
 export interface IImage {
   fluid: FluidObject;
 }
+
+export interface ISlide {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  link?: string;
+  coverImg: string;
+}

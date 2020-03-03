@@ -6,14 +6,14 @@ import { useSprings, animated } from 'react-spring';
 import { TiChevronLeftOutline, TiChevronRightOutline } from 'react-icons/ti';
 
 import useTheme, { ITheme } from 'hooks/use-theme';
-import { IPrettySlide } from 'hooks/use-slides';
+import { IExtendedSlide } from 'stores/slidesStore';
 
 interface IArguments {
-  slide: IPrettySlide;
+  slide: IExtendedSlide;
 }
 
 interface IProps {
-  slides: IPrettySlide[];
+  slides: IExtendedSlide[];
   SlideElement: FunctionComponent<IArguments>;
 }
 
@@ -26,20 +26,21 @@ const Slider = ({ slides, SlideElement }: IProps) => {
   const springs = useSprings(
     slides.length,
     slides.map(slide => ({
-      opacity: activeSlide.slug === slide.slug ? 1 : 0,
-      transform: activeSlide.slug === slide.slug ? 0 : 50,
+      opacity: activeSlide.id === slide.id ? 1 : 0,
+      transform: activeSlide.id === slide.id ? 0 : 50,
       left:
-        activeSlide.slug === slide.slug
+        activeSlide.id === slide.id
           ? 0
-          : activeSlide.slug > slide.slug
+          : activeSlide.id > slide.id
           ? -100
           : 100,
     }))
   );
 
   const handleClick = (
-    slide: IPrettySlide
-  ): MouseEventHandler<HTMLElement> => () => throttle(() => setActiveSlide(slide));
+    slide: IExtendedSlide
+  ): MouseEventHandler<HTMLElement> => () =>
+    throttle(() => setActiveSlide(slide));
 
   const handleNextClick = () => {
     throttle(() => setActiveSlide(activeSlide.next || slides[0]));
@@ -55,11 +56,11 @@ const Slider = ({ slides, SlideElement }: IProps) => {
     <>
       {springs.map(({ opacity, left, transform }, idx) => {
         const slide = slides[idx];
-        const isSlideActive = slide.slug === activeSlide.slug;
+        const isSlideActive = slide.id === activeSlide.id;
 
         return (
           <animated.li
-            key={slide.slug}
+            key={slide.id}
             style={{
               // @ts-ignore
               left: left.interpolate(x => `${x}%`),
@@ -89,8 +90,8 @@ const Slider = ({ slides, SlideElement }: IProps) => {
       <div css={dotsWrapperStyles}>
         {slides.map(slide => (
           <span
-            key={slide.slug}
-            className={activeSlide.slug === slide.slug ? 'active' : ''}
+            key={slide.id}
+            className={activeSlide.id === slide.id ? 'active' : ''}
             css={dotStyles(theme)}
             onClick={handleClick(slide)}
           />
