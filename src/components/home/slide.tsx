@@ -15,7 +15,7 @@ const Slide: FC<IProps> = ({ slide }) => {
 
   return (
     <div css={bgStyles(slide.coverImg)}>
-      <div css={shadowStyles} style={{ position: 'absolute' }} />
+      {/* <div css={shadowStyles} style={{ position: 'absolute' }} /> */}
       <h3 css={labelStyles(theme)}>{slide.subtitle}</h3>
       <h1 css={titleStyles(theme)}>{slide.title}</h1>
       <p css={descriptionStyles(theme)}>{slide.description}</p>
