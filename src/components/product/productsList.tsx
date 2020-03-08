@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { css } from '@emotion/core';
 import useTheme, { ITheme } from 'hooks/use-theme';
+import { useMediaQuery } from 'react-responsive';
 
 import { IProduct } from 'types/common';
 import ProductPreview from 'components/product/productPreview';
@@ -12,6 +13,7 @@ interface IProps {
 
 const ProductsList: FC<IProps> = ({ path, products }) => {
   const theme = useTheme();
+  const isTablet = useMediaQuery({ maxWidth: 768 });
 
   return (
     <div css={wrapperCss(theme)}>
@@ -26,7 +28,7 @@ const ProductsList: FC<IProps> = ({ path, products }) => {
             <ProductPreview
               key={slug}
               link={`/${(category && category.name) || path}/${slug}`}
-              itemsCount={3}
+              itemsCount={isTablet ? 2 : 3}
               product={product}
             />
           );

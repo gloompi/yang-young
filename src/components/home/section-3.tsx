@@ -9,7 +9,7 @@ import Section from 'components/common/section';
 
 const Section2: FC = () => {
   const theme = useTheme();
-  const { t } = useTranslation('home')
+  const { t } = useTranslation('home');
   const hotProducts = useHotProducts();
 
   return (
@@ -24,7 +24,13 @@ const Section2: FC = () => {
 };
 
 const contentStyles = (theme: ITheme) => css`
-  padding: 0 ${theme.containerRange()};
+  padding: 120px ${theme.containerRange()} 0;
+
+  ${theme.applyMediaStyles({
+    isDesktop: `
+      padding 75px 25px 0;
+    `,
+  })}
 `;
 
 export default Section2;

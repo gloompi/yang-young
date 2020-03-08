@@ -24,9 +24,7 @@ const Section: FC<IProps> = ({
         <h2 css={h2Styles(theme)}>{title}</h2>
         <Dots />
         {description && <p css={descriptionStyles(theme)}>{description}</p>}
-        <div css={contentStyles} style={{ paddingTop: 120 }}>
-          {children}
-        </div>
+        <div css={contentStyles}>{children}</div>
       </div>
     </section>
   );
@@ -37,6 +35,15 @@ const sectionStyles = (theme: ITheme) => css`
   color: ${theme.colors.black};
   background-color: ${theme.colors.white};
   width: 100%;
+
+  ${theme.applyMediaStyles({
+    isTablet: `
+      padding: 100px 25px 0;
+    `,
+    isPhone: `
+      padding: 75px 25px 0;
+    `,
+  })}
 `;
 
 const containerStyles = css`
@@ -56,6 +63,15 @@ const h2Styles = (theme: ITheme) => css`
   text-transform: uppercase;
   text-align: center;
   margin: 0 0 15px;
+
+  ${theme.applyMediaStyles({
+    isDesktop: `
+      font-size: 25px;
+    `,
+    isTablet: `
+      font-size: 20px;
+    `,
+  })}
 `;
 
 const descriptionStyles = (theme: ITheme) => css`
@@ -66,6 +82,15 @@ const descriptionStyles = (theme: ITheme) => css`
   margin-top: 20px;
   color: ${theme.colors.black};
   padding: 0 calc((100vw - 750px) / 2);
+
+  ${theme.applyMediaStyles({
+    isLaptop: `
+      font-size: 14px;
+    `,
+    isPhone: `
+      font-size: 12px;
+    `,
+  })}
 `;
 
 export default Section;

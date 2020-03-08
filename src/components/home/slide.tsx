@@ -15,13 +15,8 @@ const Slide: FC<IProps> = ({ slide }) => {
 
   return (
     <div css={bgStyles(slide.coverImg)}>
-      {/* <div css={shadowStyles} style={{ position: 'absolute' }} /> */}
-      <h3 css={labelStyles(theme)}>{slide.subtitle}</h3>
       <h1 css={titleStyles(theme)}>{slide.title}</h1>
       <p css={descriptionStyles(theme)}>{slide.description}</p>
-      <Link to={`/${slide.id}/`} css={linkStyles(theme)}>
-        Read the article
-      </Link>
     </div>
   );
 };
@@ -42,49 +37,53 @@ const bgStyles = (coverImg: string) => css`
   }
 `;
 
-const shadowStyles = css`
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-`;
-
-const labelStyles = (theme: ITheme) => css`
-  white-space: nowrap;
-  font-size: 22px;
-  line-height: 34px;
-  font-weight: 300;
-  color: ${theme.colors.white};
-  text-transform: uppercase;
-  letter-spacing: 19px;
-`;
-
 const titleStyles = (theme: ITheme) => css`
-  white-space: nowrap;
   font-family: Hind-Bold, sans-serif;
   font-size: 65px;
   color: ${theme.colors.white};
+  width: 100%;
   text-transform: uppercase;
+  text-align: center;
   z-index: 6;
   letter-spacing: 9px;
-  line-height: 129px;
   border-width: 0px;
   margin: 0;
-  padding: 0;
+  padding: 0 25px;
+  margin-bottom: 50px;
   opacity: 1;
+
+  ${theme.applyMediaStyles({
+    isDesktop: `
+      font-size: 50px;
+      letter-spacing: 7px;
+      margin-bottom: 35px;
+    `,
+    isTablet: `
+      font-size: 40px;
+      letter-spacing: 3px;
+      margin-bottom: 25px;
+    `,
+  })}
 `;
 
 const descriptionStyles = (theme: ITheme) => css`
   white-space: nowrap;
   line-height: 29px;
   font-family: Hind, sans-serif;
-  font-size: 18px;
+  font-size: 45px;
   color: ${theme.colors.white};
   text-align: center;
   margin: 0;
   padding: 0;
+
+  ${theme.applyMediaStyles({
+    isDesktop: `
+      font-size: 35px;
+    `,
+    isTablet: `
+      font-size: 25px;
+    `,
+  })}
 `;
 
 const linkStyles = (theme: ITheme) => css`
@@ -95,6 +94,7 @@ const linkStyles = (theme: ITheme) => css`
   margin-top: 50px;
   padding: 13px 30px 12px;
   letter-spacing: 1px;
+  text-align: center;
   color: ${theme.colors.white};
   background-color: ${theme.colors.primary};
   transition: 0.3s;

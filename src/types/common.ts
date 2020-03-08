@@ -38,6 +38,7 @@ export interface ICategory {
   id: string;
   name: string;
   title: string;
+  titleCN: string;
   coverImg: string;
   products: IProduct[];
 }

@@ -3,14 +3,16 @@ import { Link } from 'gatsby';
 import { css } from '@emotion/core';
 import Image from 'gatsby-image';
 import useTheme, { ITheme } from 'hooks/use-theme';
-import { FiShoppingBag } from 'react-icons/fi';
-import { IoMdHelpCircleOutline, IoMdHeartEmpty } from 'react-icons/io';
 import { observer } from 'mobx-react-lite';
 import { Waypoint } from 'react-waypoint';
+import { FiShoppingBag } from 'react-icons/fi';
+import { IoMdHelpCircleOutline, IoMdHeartEmpty } from 'react-icons/io';
 
 import useLogo from 'hooks/use-logo';
 import useStore from 'hooks/use-store';
+import useOutsideClick from 'hooks/use-click-outside';
 import SideBar from 'components/common/sideBar';
+import HeaderMnu from './headerMnu';
 
 const Header: FC = observer(() => {
   const [active, setActive] = useState(false);
@@ -19,8 +21,9 @@ const Header: FC = observer(() => {
   );
   const data = useLogo();
   const theme = useTheme();
-  const { appStore, basketStore, favouriteStore, categoriesStore } = useStore();
+  const { appStore, basketStore, favouriteStore } = useStore();
   const headerRef = useRef<HTMLHeadElement>(null);
+  const sideBarRef = useRef<HTMLDivElement>(null);
 
   const handleEnter = () => {
     setActive(false);
@@ -34,6 +37,11 @@ const Header: FC = observer(() => {
     appStore.setLang(e.target.value);
   };
 
+  useOutsideClick({
+    node: sideBarRef,
+    handleClickOutside: () => setSideBarType(null),
+  });
+
   useEffect(() => {
     if (headerRef.current !== null) {
       appStore.setHeaderHeight(headerRef.current.offsetHeight);
@@ -43,7 +51,11 @@ const Header: FC = observer(() => {
   return (
     <div>
       <Waypoint bottomOffset={77} onEnter={handleEnter} onLeave={handleLeave} />
-      <SideBar type={sideBarType} handleClose={() => setSideBarType(null)} />
+      <SideBar
+        sideBarRef={sideBarRef}
+        type={sideBarType}
+        handleClose={() => setSideBarType(null)}
+      />
       <header
         className={active ? 'active' : ''}
         css={headerStyle(theme)}
@@ -56,17 +68,7 @@ const Header: FC = observer(() => {
             <Image fluid={data.whiteImage.fluid} style={{ width: 200 }} />
           )}
         </Link>
-
-        <ul css={headerBottomList}>
-          {categoriesStore.categories.map(category => (
-            <li key={category.id} css={headerItems(theme)}>
-              <Link to={`/${category.name}`}>{category.title}</Link>
-            </li>
-          ))}
-          <li css={headerItems(theme)}>
-            <Link to="/story">our stories</Link>
-          </li>
-        </ul>
+        <HeaderMnu />
         <div css={headerTopList}>
           <select
             onChange={handleSelect}
@@ -172,34 +174,6 @@ const iconPopup = (theme: ITheme) => css`
   background-color: ${theme.colors.red};
   border-radius: 50px;
   transform: translate(-50%, -80%);
-`;
-
-const headerBottomList = css`
-  display: flex;
-  align-items: flex-start;
-`;
-
-const headerItems = (theme: ITheme) => css`
-  display: flex;
-  align-items: flex-start;
-  margin-right: 32px;
-
-  &:hover {
-    button {
-      color: ${theme.colors.primary};
-    }
-  }
-
-  &:last-child {
-    margin-right: 0;
-  }
-
-  a {
-    font-family: Avenir-Bold;
-    font-size: 12px;
-    color: inherit;
-    text-transform: uppercase;
-  }
 `;
 
 export default Header;

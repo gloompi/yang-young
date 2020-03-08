@@ -105,11 +105,22 @@ const itemCss = (theme: ITheme, itemsCount: number) => css`
   width: calc(${100 / itemsCount}% - 1%);
   margin-right: 1.5%;
   background-color: ${theme.colors.grey};
-  perspective: 1000px;
 
   &:nth-of-type(${itemsCount}n + ${itemsCount}) {
     margin-right: 0;
   }
+
+  ${theme.applyMediaStyles({
+    isPhone: `
+      width: 100%;
+      margin-right: 0;
+      margin-bottom: 25px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    `,
+  })}
 `;
 
 const articleCss = css`
@@ -125,11 +136,10 @@ const flipBackground = css`
   justify-content: space-between;
   width: 100%;
   height: 100%;
-  backface-visibility: hidden;
   top: 0;
   left: 0;
   padding: 20px 0;
-  transition: 0.5s;
+  transition: 0.7s;
 
   img {
     width: 100%;
@@ -151,10 +161,10 @@ const linkCss = (theme: ITheme, animated: boolean) => css`
     ? `&:hover {
       .front {
         opacity: 1;
-        transform: rotateY(360deg);
+        transform: scale(1);
       }
       .back {
-        transform: rotateY(180deg);
+        opacity: 0;
       }
     }`
     : ''}
@@ -164,9 +174,9 @@ const imageCss = (animated: boolean) => css`
   min-height: 200px;
   width: 100%;
   backface-visibility: hidden;
-  transition: 0.5s;
+  transition: 0.7s;
   opacity: ${animated ? '0' : '1'};
-  ${animated ? `transform: rotateY(180deg);` : ''}
+  transform: scale(0.75);
 `;
 
 const specialsListCss = css`
@@ -245,6 +255,7 @@ const bottomWrapCss = css`
 `;
 
 const iconCss = (theme: ITheme, active: boolean) => css`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;

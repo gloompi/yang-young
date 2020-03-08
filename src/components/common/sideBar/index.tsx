@@ -1,6 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, RefObject } from 'react';
 import { css } from '@emotion/core';
 import { IoMdClose } from 'react-icons/io';
+import { observer } from 'mobx-react-lite';
 
 import useStore from 'hooks/use-store';
 import useTheme, { ITheme } from 'hooks/use-theme';
@@ -8,10 +9,11 @@ import SideBarItem from './sidebarItem';
 
 interface IProps {
   type: null | 'basket' | 'favourite';
+  sideBarRef: RefObject<HTMLDivElement>;
   handleClose: () => void;
 }
 
-const SideBar: FC<IProps> = ({ type, handleClose }) => {
+const SideBar: FC<IProps> = observer(({ type, sideBarRef, handleClose }) => {
   const theme = useTheme();
   const { basketStore, favouriteStore } = useStore();
 
@@ -19,7 +21,7 @@ const SideBar: FC<IProps> = ({ type, handleClose }) => {
 
   return (
     <div css={wrapperCss(type !== null)}>
-      <aside css={asideCss(theme, type !== null)}>
+      <aside ref={sideBarRef} css={asideCss(theme, type !== null)}>
         <button css={closeBtnCss} onClick={handleClose}>
           <IoMdClose />
         </button>
@@ -36,7 +38,7 @@ const SideBar: FC<IProps> = ({ type, handleClose }) => {
       </aside>
     </div>
   );
-};
+});
 
 const wrapperCss = (open: boolean) => css`
   position: fixed;

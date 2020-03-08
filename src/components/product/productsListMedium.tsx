@@ -19,14 +19,14 @@ const ItemsListMedium: FC<IProps> = ({ title, path, image, products }) => {
 
   return (
     <div css={mediumListWrapperCss(theme)}>
-      <Link to={`/${path}`} css={linkToAllItemsCss}>
+      <Link to={`/${path}`} css={linkToAllItemsCss(theme)}>
         <img src={`${env.mediaUrl}/${image}`} css={categoryImageCss} />
         <div css={linkTextCss}>
           <h3>{title}</h3>
           <button css={buttonCss}>Shop now</button>
         </div>
       </Link>
-      <ul css={listCss}>
+      <ul css={listCss(theme)}>
         {products.slice(0, 2).map(product => {
           const {
             categories: [category],
@@ -57,18 +57,38 @@ const mediumListWrapperCss = (theme: ITheme) => css`
   &:last-child {
     margin-bottom: 0;
   }
+
+  ${theme.applyMediaStyles({
+    isTablet: `
+      justifu-content: flex-start;
+      flex-direction: column;
+    `,
+  })}
 `;
 
-const listCss = css`
+const listCss = (theme: ITheme) => css`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   width: 50%;
+
+  ${theme.applyMediaStyles({
+    isTablet: `
+      width: 100%;
+    `,
+  })}
 `;
 
-const linkToAllItemsCss = css`
+const linkToAllItemsCss = (theme: ITheme) => css`
   position: relative;
   width: 45%;
+
+  ${theme.applyMediaStyles({
+    isTablet: `
+      width: 100%;
+      margin-bottom: 25px;
+    `,
+  })}
 `;
 
 const categoryImageCss = css`

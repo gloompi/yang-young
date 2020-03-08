@@ -1,11 +1,14 @@
 import React, { FC, useContext, createContext } from 'react';
 import { css, SerializedStyles } from '@emotion/core';
+import { useMediaQuery } from 'react-responsive';
+import get from 'lodash/get';
 
 export interface ITheme {
   colors: Theme['colors'];
   container: SerializedStyles;
   containerRange: (val?: number) => string;
   fontFamily: (font: TFont) => string;
+  applyMediaStyles: (styles: { [key: string]: string }) => string;
 }
 
 type TFont =
@@ -44,6 +47,47 @@ class Theme implements ITheme {
 
   public fontFamily = (font: TFont): string => {
     return `font-family: ${font}`;
+  };
+
+  public applyMediaStyles = (styles: { [key: string]: string }): string => {
+    const isDesktop = useMediaQuery({ maxWidth: 1200 });
+    const isLaptop = useMediaQuery({ maxWidth: 992 });
+    const isTablet = useMediaQuery({ maxWidth: 768 });
+    const isPhone = useMediaQuery({ maxWidth: 480 });
+    const isSmallPhone = useMediaQuery({ maxWidth: 360 });
+
+    if (isSmallPhone) {
+      const style = get(styles, 'isSmallPhone', null);
+      if (style !== null) {
+        return style;
+      }
+    }
+    if (isPhone) {
+      const style = get(styles, 'isPhone', null);
+      if (style !== null) {
+        return style;
+      }
+    }
+    if (isTablet) {
+      const style = get(styles, 'isTablet', null);
+      if (style !== null) {
+        return style;
+      }
+    }
+    if (isLaptop) {
+      const style = get(styles, 'isLaptop', null);
+      if (style !== null) {
+        return style;
+      }
+    }
+    if (isDesktop) {
+      const style = get(styles, 'isDesktop', null);
+      if (style !== null) {
+        return style;
+      }
+    }
+
+    return '';
   };
 
   static get instance(): Theme {

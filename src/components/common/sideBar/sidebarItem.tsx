@@ -2,6 +2,7 @@ import React, { FC, MouseEvent } from 'react';
 import { css } from '@emotion/core';
 import { FiShoppingBag } from 'react-icons/fi';
 import { IoMdHeartEmpty } from 'react-icons/io';
+import { observer } from 'mobx-react-lite';
 
 import env from 'config/env';
 import useStore from 'hooks/use-store';
@@ -12,7 +13,7 @@ interface IProps {
   product: IProduct;
 }
 
-const SideBarItem: FC<IProps> = ({ product }) => {
+const SideBarItem: FC<IProps> = observer(({ product }) => {
   const theme = useTheme();
   const { basketStore, favouriteStore } = useStore();
   const activeBasket = basketStore.items.has(product.slug);
@@ -65,7 +66,7 @@ const SideBarItem: FC<IProps> = ({ product }) => {
       </div>
     </li>
   );
-};
+});
 
 const itemCss = (theme: ITheme) => css`
   display: flec;

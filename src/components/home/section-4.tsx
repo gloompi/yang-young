@@ -19,7 +19,7 @@ const Section2 = () => {
       contentStyles={contentStyles(theme)}
     >
       <ul css={listStyles}>
-        <li css={itemStyles}>
+        <li css={itemStyles(theme)}>
           <span css={iconWrapper(theme)}>
             <GiFactory css={iconStyles(theme)} />
           </span>
@@ -27,7 +27,7 @@ const Section2 = () => {
           <Dots />
           <div css={descrStyles(theme)}>Buy directly from the factory</div>
         </li>
-        <li css={itemStyles}>
+        <li css={itemStyles(theme)}>
           <span css={iconWrapper(theme)}>
             <FaPlaneDeparture css={iconStyles(theme)} />
           </span>
@@ -35,7 +35,7 @@ const Section2 = () => {
           <Dots />
           <div css={descrStyles(theme)}>Fast international delivery</div>
         </li>
-        <li css={itemStyles}>
+        <li css={itemStyles(theme)}>
           <span css={iconWrapper(theme)}>
             <GiTrophyCup css={iconStyles(theme)} />
           </span>
@@ -49,7 +49,13 @@ const Section2 = () => {
 };
 
 const contentStyles = (theme: ITheme) => css`
-  padding: 0 ${theme.containerRange()} 120px;
+  padding: 120px ${theme.containerRange()} 120px;
+
+  ${theme.applyMediaStyles({
+    isDesktop: `
+      padding 75px 25px 75px;
+    `,
+  })}
 `;
 
 const listStyles = css`
@@ -60,7 +66,7 @@ const listStyles = css`
   min-height: 200px;
 `;
 
-const itemStyles = css`
+const itemStyles = (theme: ITheme) => css`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -68,6 +74,25 @@ const itemStyles = css`
   text-align: center;
   width: 33.3%;
   padding: 0 15px;
+
+  ${theme.applyMediaStyles({
+    isTablet: `
+      width: 50%;
+      margin-bottom: 50px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    `,
+    isPhone: `
+      width: 100%;
+      margin-bottom: 50px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    `,
+  })}
 `;
 
 const iconWrapper = (theme: ITheme) => css`
