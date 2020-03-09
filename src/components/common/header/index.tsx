@@ -13,12 +13,8 @@ import useTheme, { ITheme } from 'hooks/use-theme';
 import { useMediaQuery } from 'react-responsive';
 import { observer } from 'mobx-react-lite';
 import { Waypoint } from 'react-waypoint';
-import { FiShoppingBag } from 'react-icons/fi';
-import {
-  IoMdHelpCircleOutline,
-  IoMdHeartEmpty,
-  IoIosMenu,
-} from 'react-icons/io';
+import { FaShoppingBag } from 'react-icons/fa';
+import { IoMdHeart, IoIosMenu } from 'react-icons/io';
 
 import useLogo from 'hooks/use-logo';
 import useStore from 'hooks/use-store';
@@ -56,10 +52,9 @@ const Header: FC = observer(() => {
     () => (
       <>
         <select
-          css={iconButton(theme)}
+          css={langSelect(theme)}
           onChange={handleSelect}
           value={appStore.lang}
-          style={{ fontSize: 14 }}
         >
           <option value="en">EN</option>
           <option value="cn">中文</option>
@@ -71,7 +66,7 @@ const Header: FC = observer(() => {
           {favouriteStore.length > 0 && (
             <span css={iconPopup(theme)}>{favouriteStore.length}</span>
           )}
-          <IoMdHeartEmpty />
+          <IoMdHeart />
         </button>
         <button
           css={iconButton(theme)}
@@ -80,11 +75,11 @@ const Header: FC = observer(() => {
           {basketStore.length > 0 && (
             <span css={iconPopup(theme)}>{basketStore.length}</span>
           )}
-          <FiShoppingBag />
+          <FaShoppingBag />
         </button>
       </>
     ),
-    [favouriteStore.length, basketStore.length]
+    [favouriteStore.length, basketStore.length, appStore.lang]
   );
 
   useOutsideClick({
@@ -180,6 +175,17 @@ const logoCss = css`
 const headerTopList = css`
   display: flex;
   align-items: center;
+`;
+
+const langSelect = (theme: ITheme) => css`
+  position: relative;
+  font-size: 14px;
+  margin-right: 25px;
+  color: #000;
+
+  &:hover {
+    color: ${theme.colors.primary};
+  }
 `;
 
 const iconButton = (theme: ITheme) => css`

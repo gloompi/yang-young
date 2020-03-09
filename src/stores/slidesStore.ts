@@ -2,12 +2,20 @@ import { observable, action } from 'mobx';
 import { GraphQLClient } from 'graphql-request';
 
 import { RootStore } from 'stores/rootStore';
-import { ISlide } from 'types/common';
+import { ISlide, IStaticText } from 'types/common';
 
 export interface IExtendedSlide extends ISlide {
   next: IExtendedSlide | null;
   prev: IExtendedSlide | null;
 }
+
+const defaultStatic = {
+  id: '',
+  title: '',
+  titleCN: '',
+  description: '',
+  descriptionCN: '',
+};
 
 const extendSlides = (slides: ISlide[]): IExtendedSlide[] => {
   const initialAcc: {
@@ -40,6 +48,7 @@ const extendSlides = (slides: ISlide[]): IExtendedSlide[] => {
 
 class ProductsStore {
   private _slides: IExtendedSlide[] = [];
+  private _staticText: IStaticText = defaultStatic;
   @observable private _loading: boolean = true;
   @observable private _error: Error | null = null;
 
@@ -53,6 +62,10 @@ class ProductsStore {
     return this._slides;
   }
 
+  get staticText(): IStaticText {
+    return this._staticText;
+  }
+
   get loading(): boolean {
     return this._loading;
   }
@@ -61,13 +74,33 @@ class ProductsStore {
     return this._error;
   }
 
+  @action public fetchStaticText = async () => {
+    const query = `{
+      staticText(id:"1") {
+        id
+        title
+        titleCN
+        description
+        descriptionCN
+      }
+    }`;
+
+    this._staticText = defaultStatic;
+
+    try {
+      const {
+        staticText,
+      }: { staticText: IStaticText } = await this.api.request(query);
+      this._staticText = staticText;
+    } catch {
+      this._staticText = defaultStatic;
+    }
+  };
+
   @action public fetchSlides = async () => {
     const query = `{
       slides {
         id
-        title
-        subtitle
-        description
         coverImg
       }
     }`;

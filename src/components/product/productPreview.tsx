@@ -139,7 +139,6 @@ const flipBackground = css`
   top: 0;
   left: 0;
   padding: 20px 0;
-  transition: 0.7s;
 
   img {
     width: 100%;
@@ -161,6 +160,7 @@ const linkCss = (theme: ITheme, animated: boolean) => css`
     ? `&:hover {
       .front {
         opacity: 1;
+        transition: 0.7s;
         transform: scale(1);
       }
       .back {
@@ -174,7 +174,6 @@ const imageCss = (animated: boolean) => css`
   min-height: 200px;
   width: 100%;
   backface-visibility: hidden;
-  transition: 0.7s;
   opacity: ${animated ? '0' : '1'};
   transform: scale(0.75);
 `;

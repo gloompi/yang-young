@@ -87,7 +87,8 @@ const globalStyles = css`
   body {
     margin: 0;
     color: #555;
-    font-family: Avenir, -apple-system, BlinkMacSystemFont, 'segoe UI', Roboto, Helvetica, sans-serif;
+    font-family: Avenir, -apple-system, BlinkMacSystemFont, 'segoe UI', Roboto,
+      Helvetica, sans-serif;
     font-size: 18px;
     line-hegiht: 1.4;
 

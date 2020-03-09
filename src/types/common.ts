@@ -61,9 +61,13 @@ export interface IImage {
 
 export interface ISlide {
   id: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  link?: string;
   coverImg: string;
+}
+
+export interface IStaticText {
+  id: string;
+  title: string;
+  titleCN: string;
+  description: string;
+  descriptionCN: string;
 }
