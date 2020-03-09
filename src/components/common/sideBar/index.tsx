@@ -3,42 +3,31 @@ import { css } from '@emotion/core';
 import { IoMdClose } from 'react-icons/io';
 import { observer } from 'mobx-react-lite';
 
-import useStore from 'hooks/use-store';
 import useTheme, { ITheme } from 'hooks/use-theme';
-import SideBarItem from './sidebarItem';
+import { TSideBar } from 'components/common/header';
 
 interface IProps {
-  type: null | 'basket' | 'favourite';
+  type: TSideBar;
   sideBarRef: RefObject<HTMLDivElement>;
   handleClose: () => void;
 }
 
-const SideBar: FC<IProps> = observer(({ type, sideBarRef, handleClose }) => {
-  const theme = useTheme();
-  const { basketStore, favouriteStore } = useStore();
+const SideBar: FC<IProps> = observer(
+  ({ type, sideBarRef, handleClose, children }) => {
+    const theme = useTheme();
 
-  const currentStore = type === 'basket' ? basketStore : favouriteStore;
-
-  return (
-    <div css={wrapperCss(type !== null)}>
-      <aside ref={sideBarRef} css={asideCss(theme, type !== null)}>
-        <button css={closeBtnCss} onClick={handleClose}>
-          <IoMdClose />
-        </button>
-        <div css={titleWrapperCss(theme)}>
-          <h2 css={titleCss}>
-            {type !== null && type.toUpperCase()}({currentStore.length})
-          </h2>
-        </div>
-        <ul css={itemsCss}>
-          {Array.from(currentStore.items).map(([key, product]) => (
-            <SideBarItem key={key} product={product} />
-          ))}
-        </ul>
-      </aside>
-    </div>
-  );
-});
+    return (
+      <div css={wrapperCss(type !== null)}>
+        <aside ref={sideBarRef} css={asideCss(theme, type !== null)}>
+          <button css={closeBtnCss} onClick={handleClose}>
+            <IoMdClose />
+          </button>
+          {children}
+        </aside>
+      </div>
+    );
+  }
+);
 
 const wrapperCss = (open: boolean) => css`
   position: fixed;
@@ -64,27 +53,11 @@ const asideCss = (theme: ITheme, open: boolean) => css`
   transition: 0.3s;
 `;
 
-const titleWrapperCss = (theme: ITheme) => css`
-  margin-bottom: 25px;
-  padding-bottom: 25px;
-  border-bottom: 1px solid ${theme.colors.red};
-`;
-
-const titleCss = css`
-  font-size: 20px;
-  text-align: center;
-`;
-
 const closeBtnCss = css`
   position: absolute;
   font-size: 25px;
   left: 10px;
   top: 15px;
-`;
-
-const itemsCss = css`
-  height: 100%;
-  overflow: scroll;
 `;
 
 export default SideBar;

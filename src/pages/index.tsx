@@ -12,7 +12,7 @@ const IndexPage: FC = () => (
   <Layout>
     <SEO title="Home" />
     <Section1 />
-    <Banner />
+    {/* <Banner /> */}
     <Section2 />
     <Section3 />
     <Section4 />

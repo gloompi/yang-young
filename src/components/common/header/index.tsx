@@ -1,26 +1,41 @@
-import React, { FC, useRef, useEffect, useState, ChangeEvent } from 'react';
+import React, {
+  FC,
+  useRef,
+  useEffect,
+  useState,
+  useMemo,
+  ChangeEvent,
+} from 'react';
 import { Link } from 'gatsby';
 import { css } from '@emotion/core';
 import Image from 'gatsby-image';
 import useTheme, { ITheme } from 'hooks/use-theme';
+import { useMediaQuery } from 'react-responsive';
 import { observer } from 'mobx-react-lite';
 import { Waypoint } from 'react-waypoint';
 import { FiShoppingBag } from 'react-icons/fi';
-import { IoMdHelpCircleOutline, IoMdHeartEmpty } from 'react-icons/io';
+import {
+  IoMdHelpCircleOutline,
+  IoMdHeartEmpty,
+  IoIosMenu,
+} from 'react-icons/io';
 
 import useLogo from 'hooks/use-logo';
 import useStore from 'hooks/use-store';
 import useOutsideClick from 'hooks/use-click-outside';
 import SideBar from 'components/common/sideBar';
+import SideBarList from 'components/common/sideBar/sidebarList';
 import HeaderMnu from './headerMnu';
+
+export type TSideBar = null | 'basket' | 'favourite' | 'menu';
 
 const Header: FC = observer(() => {
   const [active, setActive] = useState(false);
-  const [sideBarType, setSideBarType] = useState<null | 'basket' | 'favourite'>(
-    null
-  );
+  const [sideBarType, setSideBarType] = useState<TSideBar>(null);
   const data = useLogo();
   const theme = useTheme();
+  const isPhone = useMediaQuery({ maxWidth: 480 });
+  const isTablet = useMediaQuery({ maxWidth: 768 });
   const { appStore, basketStore, favouriteStore } = useStore();
   const headerRef = useRef<HTMLHeadElement>(null);
   const sideBarRef = useRef<HTMLDivElement>(null);
@@ -36,6 +51,41 @@ const Header: FC = observer(() => {
   const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     appStore.setLang(e.target.value);
   };
+
+  const getButtons = useMemo(
+    () => (
+      <>
+        <select
+          css={iconButton(theme)}
+          onChange={handleSelect}
+          value={appStore.lang}
+          style={{ fontSize: 14 }}
+        >
+          <option value="en">EN</option>
+          <option value="cn">中文</option>
+        </select>
+        <button
+          css={iconButton(theme)}
+          onClick={() => setSideBarType('favourite')}
+        >
+          {favouriteStore.length > 0 && (
+            <span css={iconPopup(theme)}>{favouriteStore.length}</span>
+          )}
+          <IoMdHeartEmpty />
+        </button>
+        <button
+          css={iconButton(theme)}
+          onClick={() => setSideBarType('basket')}
+        >
+          {basketStore.length > 0 && (
+            <span css={iconPopup(theme)}>{basketStore.length}</span>
+          )}
+          <FiShoppingBag />
+        </button>
+      </>
+    ),
+    [favouriteStore.length, basketStore.length]
+  );
 
   useOutsideClick({
     node: sideBarRef,
@@ -55,7 +105,11 @@ const Header: FC = observer(() => {
         sideBarRef={sideBarRef}
         type={sideBarType}
         handleClose={() => setSideBarType(null)}
-      />
+      >
+        <SideBarList type={sideBarType} />
+        {isPhone && getButtons}
+        {isTablet && <HeaderMnu />}
+      </SideBar>
       <header
         className={active ? 'active' : ''}
         css={headerStyle(theme)}
@@ -68,37 +122,20 @@ const Header: FC = observer(() => {
             <Image fluid={data.whiteImage.fluid} style={{ width: 200 }} />
           )}
         </Link>
-        <HeaderMnu />
+        {!isTablet && <HeaderMnu />}
         <div css={headerTopList}>
-          <select
-            onChange={handleSelect}
-            value={appStore.lang}
-            style={{ marginRight: 15 }}
-          >
-            <option value="en">EN</option>
-            <option value="cn">中文</option>
-          </select>
-          <button css={iconButton(theme)}>
+          {/* <button css={iconButton(theme)}>
             <IoMdHelpCircleOutline />
-          </button>
-          <button
-            css={iconButton(theme)}
-            onClick={() => setSideBarType('favourite')}
-          >
-            {favouriteStore.length > 0 && (
-              <span css={iconPopup(theme)}>{favouriteStore.length}</span>
-            )}
-            <IoMdHeartEmpty />
-          </button>
-          <button
-            css={iconButton(theme)}
-            onClick={() => setSideBarType('basket')}
-          >
-            {basketStore.length > 0 && (
-              <span css={iconPopup(theme)}>{basketStore.length}</span>
-            )}
-            <FiShoppingBag />
-          </button>
+          </button> */}
+          {!isPhone && getButtons}
+          {isTablet && (
+            <button
+              css={iconButton(theme)}
+              onClick={() => setSideBarType('menu')}
+            >
+              <IoIosMenu />
+            </button>
+          )}
         </div>
       </header>
     </div>

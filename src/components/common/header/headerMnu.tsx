@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { Link } from 'gatsby';
 import { css } from '@emotion/core';
 import { observer } from 'mobx-react-lite';
-import { useMediaQuery } from 'react-responsive';
 
 import useStore from 'hooks/use-store';
 import useHeaderMnu from 'hooks/use-header-mnu';
@@ -12,15 +11,10 @@ const HeaderMnu: FC = observer(() => {
   const { appStore } = useStore();
   const headerMnu = useHeaderMnu();
   const theme = useTheme();
-  const isTablet = useMediaQuery({ maxWidth: 768 });
-
-  if (isTablet) {
-    return null;
-  }
 
   return (
     <>
-      <ul css={headerBottomList}>
+      <ul css={headerBottomList(theme)}>
         {headerMnu.map(category => (
           <li key={category.id} css={headerItems(theme)}>
             <Link to={`/${category.name}`}>
@@ -36,9 +30,16 @@ const HeaderMnu: FC = observer(() => {
   );
 });
 
-const headerBottomList = css`
+const headerBottomList = (theme: ITheme) => css`
   display: flex;
   align-items: flex-start;
+
+  ${theme.applyMediaStyles({
+    isTablet: `
+      flex-direction: column;
+      padding-top: 50px;
+    `,
+  })}
 `;
 
 const headerItems = (theme: ITheme) => css`
@@ -51,6 +52,12 @@ const headerItems = (theme: ITheme) => css`
       color: ${theme.colors.primary};
     }
   }
+
+  ${theme.applyMediaStyles({
+    isTablet: `
+      margin-bottom: 25px;
+    `,
+  })}
 
   &:last-child {
     margin-right: 0;
