@@ -43,7 +43,7 @@ const ProductPreview: FC<IProps> = observer(
       }
     };
 
-    const handleToggleBasket = (e: MouseEvent<HTMLButtonElement>) => {
+    const handleToggleBasket = async (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
 
       if (basketStore.items.has(product.slug)) {

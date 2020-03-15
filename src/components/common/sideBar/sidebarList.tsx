@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import get from 'lodash/get';
 import { css } from '@emotion/core';
+import { observer } from 'mobx-react-lite';
 
 import { IProduct } from 'types/common';
 import useStore from 'hooks/use-store';
@@ -12,9 +13,10 @@ interface IProps {
   type: TSideBar;
 }
 
-const SideBarList: FC<IProps> = ({ type }) => {
+const SideBarList: FC<IProps> = observer(({ type }) => {
   const theme = useTheme();
   const rootStore = useStore();
+  const { checkoutStore } = rootStore;
 
   if ([null, 'menu'].includes(type)) {
     return null;
@@ -36,9 +38,16 @@ const SideBarList: FC<IProps> = ({ type }) => {
           )
         )}
       </ul>
+      {type === 'basket' && (
+        <div css={checkoutWrapperCss}>
+          <button css={checkoutCss} onClick={checkoutStore.handleCheckout}>
+            Checkout
+          </button>
+        </div>
+      )}
     </>
   );
-};
+});
 
 const titleWrapperCss = (theme: ITheme) => css`
   margin-bottom: 25px;
@@ -54,6 +63,25 @@ const titleCss = css`
 const itemsCss = css`
   height: 100%;
   overflow: scroll;
+`;
+
+const checkoutWrapperCss = css`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  bottom: 0;
+  left: 50%;
+  padding: 25px;
+  background-color: #fff;
+  transform: translateX(-50%);
+`;
+
+const checkoutCss = css`
+  font-size: 25px;
+  color: #000;
 `;
 
 export default SideBarList;

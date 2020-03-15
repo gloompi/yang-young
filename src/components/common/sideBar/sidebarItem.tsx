@@ -1,16 +1,20 @@
-import React, { FC, MouseEvent } from 'react';
+import React, { FC, MouseEvent, useEffect } from 'react';
 import { css } from '@emotion/core';
 import { FiShoppingBag } from 'react-icons/fi';
-import { IoMdHeartEmpty } from 'react-icons/io';
+import {
+  IoMdHeartEmpty,
+  IoIosArrowBack,
+  IoIosArrowForward,
+} from 'react-icons/io';
 import { observer } from 'mobx-react-lite';
 
 import env from 'config/env';
 import useStore from 'hooks/use-store';
 import useTheme, { ITheme } from 'hooks/use-theme';
-import { IProduct } from 'types/common';
+import { IProduct, IBasketProduct } from 'types/common';
 
 interface IProps {
-  product: IProduct;
+  product: IProduct | IBasketProduct;
 }
 
 const SideBarItem: FC<IProps> = observer(({ product }) => {
@@ -50,6 +54,17 @@ const SideBarItem: FC<IProps> = observer(({ product }) => {
       <div css={middleCss}>
         <h3 css={titleCss(theme)}>{product.title}</h3>
         <span>{product.price}$</span>
+        {'quantity' in product && (
+          <div>
+            <button onClick={() => basketStore.decreaseQuantity(product.slug)}>
+              <IoIosArrowBack />
+            </button>
+            <span style={{ padding: '0 10px' }}>{product.quantity}</span>
+            <button onClick={() => basketStore.increaseQuantity(product.slug)}>
+              <IoIosArrowForward />
+            </button>
+          </div>
+        )}
       </div>
 
       <div css={bottomWrapCss}>
@@ -89,7 +104,9 @@ const middleCss = css`
   display: flex;
   align-items: flex-start;
   flex-direction: column;
+  width: 200px;
   padding: 0 25px;
+  overflow: hidden;
 `;
 
 const titleCss = (theme: ITheme) => css`

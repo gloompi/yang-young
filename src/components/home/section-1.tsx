@@ -26,8 +26,6 @@ const Section1: FC = observer(() => {
     slidesStore.fetchSlides();
   }, []);
 
-  console.log('CHECK', title, titleCN, description, descriptionCN);
-
   return (
     <section css={sectionStyle}>
       {slidesStore.loading ? (

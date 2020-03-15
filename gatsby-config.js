@@ -5,6 +5,7 @@ module.exports = {
     author: `gloompi`,
   },
   plugins: [
+    `gatsby-plugin-stripe`,
     'gatsby-plugin-typescript',
     `gatsby-plugin-react-helmet`,
     `gatsby-transformer-sharp`,

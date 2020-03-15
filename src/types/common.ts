@@ -71,3 +71,7 @@ export interface IStaticText {
   description: string;
   descriptionCN: string;
 }
+
+export interface IBasketProduct extends IProduct {
+  quantity: number;
+}

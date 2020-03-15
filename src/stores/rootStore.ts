@@ -12,6 +12,7 @@ import BasketStore from './basketStore';
 import ProductsStore from './productsStore';
 import FavouriteStore from './favouritesStore';
 import CategoriesStore from './categoriesStore';
+import CheckoutStore from './checkoutStore';
 import SlidesStore from './slidesStore';
 
 export class RootStore {
@@ -19,6 +20,7 @@ export class RootStore {
   public appStore = new AppStore(this);
   public basketStore = new BasketStore();
   public favouriteStore = new FavouriteStore();
+  public checkoutStore = new CheckoutStore(this);
   public productsStore = new ProductsStore(this);
   public categoriesStore = new CategoriesStore(this);
   public slidesStore = new SlidesStore(this);
