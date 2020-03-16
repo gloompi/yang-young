@@ -26,10 +26,16 @@ const SideBarItem: FC<IProps> = observer(({ product }) => {
   const handleToggleFavourite = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    if (favouriteStore.items.has(product.slug)) {
-      favouriteStore.removeFromFavourite(product.slug);
+    const favProduct = { ...product };
+
+    if ('quantity' in favProduct) {
+      delete favProduct.quantity;
+    }
+
+    if (favouriteStore.items.has(favProduct.slug)) {
+      favouriteStore.removeFromFavourite(favProduct.slug);
     } else {
-      favouriteStore.addToFavourite(product.slug, product);
+      favouriteStore.addToFavourite(favProduct.slug, favProduct);
     }
   };
 

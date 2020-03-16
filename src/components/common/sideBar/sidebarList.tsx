@@ -4,9 +4,10 @@ import { css } from '@emotion/core';
 import { observer } from 'mobx-react-lite';
 
 import { IProduct } from 'types/common';
-import useStore from 'hooks/use-store';
-import useTheme, { ITheme } from 'hooks/use-theme';
 import { TSideBar } from 'components/common/header';
+import useTheme, { ITheme } from 'hooks/use-theme';
+import useStore from 'hooks/use-store';
+import Loader from 'components/common/loader';
 import SideBarItem from './sidebarItem';
 
 interface IProps {
@@ -31,19 +32,25 @@ const SideBarList: FC<IProps> = observer(({ type }) => {
           {type !== null && type.toUpperCase()}({currentStore.length})
         </h2>
       </div>
-      <ul css={itemsCss}>
-        {(Array.from(currentStore.items) as Array<[string, IProduct]>).map(
-          ([key, product]) => (
-            <SideBarItem key={key} product={product} />
-          )
-        )}
-      </ul>
-      {type === 'basket' && (
-        <div css={checkoutWrapperCss}>
-          <button css={checkoutCss} onClick={checkoutStore.handleCheckout}>
-            Checkout
-          </button>
-        </div>
+      {type === 'basket' && checkoutStore.loading ? (
+        <Loader />
+      ) : (
+        <>
+          <ul css={itemsCss}>
+            {(Array.from(currentStore.items) as Array<[string, IProduct]>).map(
+              ([key, product]) => (
+                <SideBarItem key={key} product={product} />
+              )
+            )}
+          </ul>
+          {type === 'basket' && (
+            <div css={checkoutWrapperCss}>
+              <button css={checkoutCss} onClick={checkoutStore.handleCheckout}>
+                Checkout
+              </button>
+            </div>
+          )}
+        </>
       )}
     </>
   );

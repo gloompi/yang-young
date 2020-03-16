@@ -27,13 +27,8 @@ const Slider = ({ slides, SlideElement }: IProps) => {
     slides.length,
     slides.map(slide => ({
       opacity: activeSlide.id === slide.id ? 1 : 0,
-      transform: activeSlide.id === slide.id ? 0 : 50,
-      left:
-        activeSlide.id === slide.id
-          ? 0
-          : activeSlide.id > slide.id
-          ? -100
-          : 100,
+      transform: activeSlide.id === slide.id ? 0 : 40,
+      left: activeSlide.id === slide.id ? 0 : -10,
     }))
   );
 
