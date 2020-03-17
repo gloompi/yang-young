@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action, observable, reaction } from 'mobx';
 
 import { IBasketProduct, IProduct } from 'types/common';
 
@@ -15,6 +15,16 @@ class BasketStore {
     if (items !== null && items.size) {
       this._items = items;
     }
+
+    reaction(
+      () => this._items.size,
+      () => {
+        localStorage.setItem(
+          BASKET_PRODUCTS,
+          JSON.stringify(Array.from(this._items))
+        );
+      }
+    );
   }
 
   public get length(): number {
@@ -27,10 +37,6 @@ class BasketStore {
 
   @action public removeFromBasket = (id: string): void => {
     this._items.delete(id);
-    localStorage.setItem(
-      BASKET_PRODUCTS,
-      JSON.stringify(Array.from(this._items))
-    );
   };
 
   @action public addToBusket = (id: string, product: IProduct): void => {
@@ -41,10 +47,6 @@ class BasketStore {
     const basketProduct = { ...product, quantity: 1 };
 
     this._items.set(id, basketProduct);
-    localStorage.setItem(
-      BASKET_PRODUCTS,
-      JSON.stringify(Array.from(this._items))
-    );
   };
 
   @action public increaseQuantity = (id: string) => {
@@ -58,7 +60,11 @@ class BasketStore {
   @action public decreaseQuantity = (id: string) => {
     const current = this._items.get(id);
 
-    if (current && current.quantity > 0) {
+    if (current?.quantity === 1) {
+      this._items.delete(id);
+    }
+
+    if (current && current.quantity > 1) {
       this._items.set(id, { ...current, quantity: current.quantity - 1 });
     }
   };

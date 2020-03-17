@@ -52,10 +52,11 @@ interface IProps {
 const ProductPage: FC<IProps> = observer(({ data }) => {
   const [image, setImage] = useState<string | null>(null);
   const { t } = useTranslation('common');
-  const { appStore } = useStore();
+  const { appStore, basketStore } = useStore();
   const theme = useTheme();
 
   const product = data.api.products[0];
+  const inBasket = basketStore.items.has(product.slug);
 
   const init = () => {
     const d = document;
@@ -70,8 +71,12 @@ const ProductPage: FC<IProps> = observer(({ data }) => {
     init();
   }, []);
 
-  const handleClick = (tumbnail: string) => () => {
+  const handleTumbClick = (tumbnail: string) => () => {
     setImage(tumbnail);
+  };
+
+  const handleAddToBasket = (item: IProduct) => () => {
+    basketStore.addToBusket(item.slug, item);
   };
 
   return (
@@ -103,8 +108,11 @@ const ProductPage: FC<IProps> = observer(({ data }) => {
             <span css={priceStyles(theme)}>
               Price: <b>{product.price}$</b>
             </span>
-            <button css={basketButtonStyles(theme)}>
-              {t('button.add_to_basket')}
+            <button
+              css={basketButtonStyles(theme, inBasket)}
+              onClick={handleAddToBasket(product)}
+            >
+              {inBasket ? t('button.in_basket') : t('button.add_to_basket')}
             </button>
           </div>
           <div css={rightSideStyles}>
@@ -118,7 +126,7 @@ const ProductPage: FC<IProps> = observer(({ data }) => {
                 <img
                   src={`${env.mediaUrl}/${product.coverImg}`}
                   css={tumbnailStyles(image === product.coverImg)}
-                  onClick={handleClick(product.coverImg)}
+                  onClick={handleTumbClick(product.coverImg)}
                   alt="tumbnail"
                 />
               </li>
@@ -127,7 +135,7 @@ const ProductPage: FC<IProps> = observer(({ data }) => {
                   <img
                     src={`${env.mediaUrl}/${picture.image}`}
                     css={tumbnailStyles(image === picture.image)}
-                    onClick={handleClick(picture.image)}
+                    onClick={handleTumbClick(picture.image)}
                     alt="tumbnail"
                   />
                 </li>
@@ -201,20 +209,23 @@ const priceStyles = (theme: ITheme) => css`
   border-top: 1px solid ${theme.colors.yellow};
 `;
 
-const basketButtonStyles = (theme: ITheme) => css`
+const basketButtonStyles = (theme: ITheme, inBasket: boolean) => css`
   ${theme.fontFamily('MontSerrat-Bold')};
   font-size: 18px;
   padding: 15px 50px;
   color: ${theme.colors.white};
-  background-color: ${theme.colors.primary};
-  border: 1px solid ${theme.colors.primary};
+  background-color: ${inBasket ? theme.colors.grey : theme.colors.primary};
+  border: 1px solid ${inBasket ? theme.colors.grey : theme.colors.primary};
   border-radius: 15px;
   transition: 0.3s;
+  cursor: ${inBasket ? 'not-allowed' : 'pointer'};
 
-  &:hover {
-    color: ${theme.colors.primary};
-    background-color: ${theme.colors.white};
-  }
+  ${!inBasket
+    ? `&:hover {
+      color: ${theme.colors.primary};
+      background-color: ${theme.colors.white};
+    }`
+    : ''}
 `;
 
 const imageStyles = css`

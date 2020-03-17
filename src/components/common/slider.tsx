@@ -1,4 +1,9 @@
-import React, { useState, MouseEventHandler, FunctionComponent } from 'react';
+import React, {
+  useState,
+  useEffect,
+  MouseEventHandler,
+  FunctionComponent,
+} from 'react';
 import { css } from '@emotion/core';
 
 import { closureThrottle } from 'utils/throttle';
@@ -31,6 +36,16 @@ const Slider = ({ slides, SlideElement }: IProps) => {
       left: activeSlide.id === slide.id ? 0 : -10,
     }))
   );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveSlide(activeSlide.next || slides[0]);
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [activeSlide]);
 
   const handleClick = (
     slide: IExtendedSlide
