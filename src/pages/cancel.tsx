@@ -17,8 +17,8 @@ const NotFoundPage: FC = () => (
         width: '100%',
       }}
     >
-      <h1>NOT FOUND</h1>
-      <p>You just hit a route that doesn&#39;t exist... the sadness.</p>
+      <h1>Transaction canceled</h1>
+      <p>You just canceled product ordering process... the sadness.</p>
       <Link to="/">Go to home page &larr;</Link>
     </div>
   </Layout>

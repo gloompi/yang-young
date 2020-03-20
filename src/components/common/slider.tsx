@@ -32,8 +32,7 @@ const Slider = ({ slides, SlideElement }: IProps) => {
     slides.length,
     slides.map(slide => ({
       opacity: activeSlide.id === slide.id ? 1 : 0,
-      transform: activeSlide.id === slide.id ? 0 : 40,
-      left: activeSlide.id === slide.id ? 0 : -10,
+      left: activeSlide.id === slide.id ? 0 : 100,
     }))
   );
 
@@ -64,7 +63,7 @@ const Slider = ({ slides, SlideElement }: IProps) => {
 
   return (
     <>
-      {springs.map(({ opacity, left, transform }, idx) => {
+      {springs.map(({ opacity, left }, idx) => {
         const slide = slides[idx];
         const isSlideActive = slide.id === activeSlide.id;
 
@@ -75,10 +74,6 @@ const Slider = ({ slides, SlideElement }: IProps) => {
               // @ts-ignore
               left: left.interpolate(x => `${x}%`),
               zIndex: isSlideActive ? 100 : 0,
-              // @ts-ignore
-              transform: transform.interpolate(
-                (x: number) => `perspective(500px) translateY(${x}px)`
-              ),
               opacity,
             }}
             css={itemStyles}

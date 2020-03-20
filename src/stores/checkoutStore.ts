@@ -30,8 +30,7 @@ class CheckoutStore {
       this.rootStore.basketStore.items.forEach(product => {
         products.push({
           name: lang === 'en' ? product.title : product.titleCN,
-          description:
-            lang === 'en' ? product.description : product.descriptionCN,
+          description: lang === 'en' ? product.subtitle : product.subtitleCN,
           images: [product.coverImg],
           amount: product.price * 100,
           currency: 'usd',

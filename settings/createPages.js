@@ -31,6 +31,39 @@ const createProductsPage = async ({ actions, graphql, reporter }) => {
   });
 };
 
+const createTemplatePage = async ({ actions, graphql, reporter }) => {
+  const result = await graphql(`
+    query {
+      api {
+        templatePages {
+          id
+          title
+          titleCN
+          content
+          contentCN
+          coverImg
+        }
+      }
+    }
+  `);
+
+  if (result.errors) {
+    reporter.panic('failed to create template pages', result.errors);
+  }
+
+  const templatePages = result.data.api.templatePages;
+
+  templatePages.forEach(templatePage => {
+    actions.createPage({
+      path: templatePage.title,
+      component: require.resolve('../src/templates/page.tsx'),
+      context: {
+        id: templatePage.id,
+      },
+    });
+  });
+};
+
 const createCategoriesPage = async ({ actions, graphql, reporter }) => {
   const result = await graphql(`
     query {
@@ -63,4 +96,5 @@ const createCategoriesPage = async ({ actions, graphql, reporter }) => {
 module.exports = {
   createProductsPage,
   createCategoriesPage,
+  createTemplatePage,
 };

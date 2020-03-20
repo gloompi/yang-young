@@ -7,6 +7,7 @@ import 'assets/fonts/fonts.css';
 import { ThemeProvider } from 'hooks/use-theme';
 import { StoreProvider } from 'hooks/use-store';
 import Header from 'components/common/header';
+import Footer from 'components/common/footer';
 import CommonWrapper from 'components/common/commonWrapper';
 
 const getScrollToTop = () => {
@@ -34,11 +35,7 @@ const Layout: FC = ({ children }) => {
           <Global styles={globalStyles} />
           <Header />
           <main css={mainStyle}>{children}</main>
-          <footer css={footerStyle}>
-            <div css={containerStyle}>
-              © {new Date().getFullYear()}, Made with love by GloompiQue
-            </div>
-          </footer>
+          <Footer />
         </CommonWrapper>
       </ThemeProvider>
     </StoreProvider>
@@ -50,25 +47,6 @@ const mainStyle = css`
   width: 100%;
   overflow: hidden;
   min-height: calc(100vh - 50px);
-`;
-
-const footerStyle = css`
-  display: flex;
-  align-items: center;
-  height: 50px;
-  width: 100%;
-  color: #fff;
-  background: #000;
-`;
-
-const containerStyle = css`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 50px;
-  width: 100%;
-  padding: 0 calc((100vw - 1200px) / 2);
-  margin: 0 25px;
 `;
 
 const globalStyles = css`

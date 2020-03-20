@@ -9,6 +9,7 @@ const SRC_DIR = path.resolve(__dirname, 'src');
 const {
   createProductsPage,
   createCategoriesPage,
+  createTemplatePage,
 } = require('./settings/createPages');
 
 exports.onCreateWebpackConfig = ({ actions }) => {
@@ -34,4 +35,5 @@ exports.onCreateWebpackConfig = ({ actions }) => {
 exports.createPages = async props => {
   await createProductsPage(props);
   await createCategoriesPage(props);
+  await createTemplatePage(props);
 };

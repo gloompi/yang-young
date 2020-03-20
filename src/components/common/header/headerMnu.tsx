@@ -22,9 +22,6 @@ const HeaderMnu: FC = observer(() => {
             </Link>
           </li>
         ))}
-        <li css={headerItems(theme)}>
-          <Link to="/story">our stories</Link>
-        </li>
       </ul>
     </>
   );

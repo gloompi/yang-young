@@ -75,3 +75,12 @@ export interface IStaticText {
 export interface IBasketProduct extends IProduct {
   quantity: number;
 }
+
+export interface ITemplatePage {
+  id: string;
+  title: string;
+  titleCN: string;
+  coverImg: string;
+  content: string;
+  contentCN: string;
+}
