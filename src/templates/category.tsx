@@ -38,8 +38,12 @@ const CategoryPage: FC<IProps> = ({ data: { api } }) => {
   const [category] = api.categories;
 
   useEffect(() => {
-    productsStore.initialFetch(category.id);
+    productsStore.fetchProducts({ category: category.id, limit: '9' });
   }, []);
+
+  const handleMore = () => {
+    productsStore.extendProducts({ category: category.id });
+  };
 
   return (
     <Layout>
@@ -51,6 +55,7 @@ const CategoryPage: FC<IProps> = ({ data: { api } }) => {
       >
         <List categoryId={category.id} />
       </PageWrapper>
+      <button onClick={handleMore}>More</button>
     </Layout>
   );
 };

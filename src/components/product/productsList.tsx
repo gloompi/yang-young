@@ -7,7 +7,7 @@ import { IProduct } from 'types/common';
 import ProductPreview from 'components/product/productPreview';
 
 interface IProps {
-  path: string;
+  path?: string;
   products: IProduct[];
 }
 

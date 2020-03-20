@@ -3,7 +3,7 @@ import { GraphQLClient } from 'graphql-request';
 
 import { RootStore } from 'stores/rootStore';
 import { AppStore } from 'stores/appStore';
-import { IProduct, IDevice, IColor } from 'types/common';
+import { IProduct } from 'types/common';
 
 interface IArgument {
   [key: string]: string;
@@ -12,6 +12,8 @@ interface IArgument {
 interface IFetchProps extends IArgument{
   category: string;
 }
+
+const LIMIT = 9;
 
 const getQueryProps = (args: IArgument) => {
   let queryString = '';
@@ -25,10 +27,9 @@ const getQueryProps = (args: IArgument) => {
 
 class ProductsStore {
   @observable private _products: IProduct[] = [];
-  @observable private _devices: IDevice[] = [];
-  @observable private _colors: IColor[] = [];
   @observable private _loading: boolean = true;
   @observable public error: Error | null = null;
+  private _step: number = 9;
 
   constructor(private rootStore: RootStore) {}
 
@@ -40,14 +41,6 @@ class ProductsStore {
     return this.rootStore.appStore;
   }
 
-  get colors(): IColor[] {
-    return this._colors;
-  }
-
-  get devices(): IDevice[] {
-    return this._devices;
-  }
-
   get products(): IProduct[] {
     return this._products;
   }
@@ -55,48 +48,6 @@ class ProductsStore {
   get loading(): boolean {
     return this._loading;
   }
-
-  @action public initialFetch = (categoryId: string) => {
-    this.fetchColors();
-    this.fetchDevices(categoryId);
-    this.fetchProducts({ category: categoryId });
-  };
-
-  @action public fetchColors = async () => {
-    const query = `{
-      colors {
-        id
-        name: ${this.appStore.lang === 'en' ? 'name' : 'nameCN'}
-      }
-    }`;
-
-    this._colors = [];
-
-    try {
-      const result: { colors: IColor[] } = await this.api.request(query);
-      this._colors = result.colors;
-    } catch (error) {
-      this.error = error;
-    }
-  };
-
-  @action public fetchDevices = async (category: string) => {
-    const query = `{
-      devices(category: "${category}") {
-        id
-        name
-      }
-    }`;
-
-    this._devices = [];
-
-    try {
-      const result: { devices: IDevice[] } = await this.api.request(query);
-      this._devices = result.devices;
-    } catch (error) {
-      this.error = error;
-    }
-  };
 
   @action public fetchProducts = async ({
     category = '1',
@@ -131,6 +82,37 @@ class ProductsStore {
       this.error = error;
     } finally {
       this._loading = false;
+    }
+  };
+
+  @action public extendProducts = async ({ category = '1' }: IFetchProps) => {
+    const query = `{
+      products(category: ${category}, limit: ${LIMIT}, step: ${this._step}) {
+        slug
+        title: ${this.appStore.lang === 'en' ? 'title' : 'titleCN'}
+        subtitle: ${this.appStore.lang === 'en' ? 'subtitle' : 'subtitleCN'}
+        price
+        coverImg
+        animatedImg
+        categories {
+          name
+        }
+        specialOffers {
+          name: ${this.appStore.lang === 'en' ? 'name' : 'nameCN'}
+        }
+      }
+    }`;
+
+    this._loading = true;
+
+    try {
+      const result: { products: IProduct[] } = await this.api.request(query);
+      this._products = [...this.products, ...result.products];
+    } catch (error) {
+      this.error = error;
+    } finally {
+      this._loading = false;
+      this._step = this._step + LIMIT;
     }
   };
 }

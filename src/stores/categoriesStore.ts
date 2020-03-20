@@ -35,7 +35,7 @@ class CategoriesStore {
         name
         title: ${this.appStore.lang === 'en' ? 'title' : 'titleCN'}
         coverImg
-        products {
+        products(limit: 8) {
           slug
           title: ${this.appStore.lang === 'en' ? 'title' : 'titleCN'}
           subtitle: ${this.appStore.lang === 'en' ? 'subtitle' : 'subtitleCN'}
