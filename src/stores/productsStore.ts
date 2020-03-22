@@ -3,17 +3,15 @@ import { GraphQLClient } from 'graphql-request';
 
 import { RootStore } from 'stores/rootStore';
 import { AppStore } from 'stores/appStore';
-import { IProduct } from 'types/common';
+import { IProductPaginated, IProduct } from 'types/common';
 
 interface IArgument {
-  [key: string]: string;
+  [key: string]: string | number;
 }
 
-interface IFetchProps extends IArgument{
+interface IFetchProps extends IArgument {
   category: string;
 }
-
-const LIMIT = 9;
 
 const getQueryProps = (args: IArgument) => {
   let queryString = '';
@@ -29,7 +27,10 @@ class ProductsStore {
   @observable private _products: IProduct[] = [];
   @observable private _loading: boolean = true;
   @observable public error: Error | null = null;
-  private _step: number = 9;
+  @observable public page: number = 1;
+  @observable public pages: number = 1;
+  @observable public hasNext: boolean = false;
+  @observable public hasPrev: boolean = false;
 
   constructor(private rootStore: RootStore) {}
 
@@ -57,18 +58,24 @@ class ProductsStore {
 
     const query = `{
       products(category: ${category}${queryProps}) {
-        slug
-        title: ${this.appStore.lang === 'en' ? 'title' : 'titleCN'}
-        subtitle: ${this.appStore.lang === 'en' ? 'subtitle' : 'subtitleCN'}
-        price
-        coverImg
-        animatedImg
-        categories {
-          name
+        nodes {
+          slug
+          title: ${this.appStore.lang === 'en' ? 'title' : 'titleCN'}
+          subtitle: ${this.appStore.lang === 'en' ? 'subtitle' : 'subtitleCN'}
+          price
+          coverImg
+          animatedImg
+          categories {
+            name
+          }
+          specialOffers {
+            name: ${this.appStore.lang === 'en' ? 'name' : 'nameCN'}
+          }
         }
-        specialOffers {
-          name: ${this.appStore.lang === 'en' ? 'name' : 'nameCN'}
-        }
+        page
+        pages
+        hasNext
+        hasPrev
       }
     }`;
 
@@ -76,43 +83,16 @@ class ProductsStore {
     this._loading = true;
 
     try {
-      const result: { products: IProduct[] } = await this.api.request(query);
-      this._products = result.products;
+      const result: { products: IProductPaginated } = await this.api.request(query);
+      this._products = result.products.nodes;
+      this.page = result.products.page;
+      this.pages = result.products.pages;
+      this.hasNext = result.products.hasNext;
+      this.hasPrev = result.products.hasPrev;
     } catch (error) {
       this.error = error;
     } finally {
       this._loading = false;
-    }
-  };
-
-  @action public extendProducts = async ({ category = '1' }: IFetchProps) => {
-    const query = `{
-      products(category: ${category}, limit: ${LIMIT}, step: ${this._step}) {
-        slug
-        title: ${this.appStore.lang === 'en' ? 'title' : 'titleCN'}
-        subtitle: ${this.appStore.lang === 'en' ? 'subtitle' : 'subtitleCN'}
-        price
-        coverImg
-        animatedImg
-        categories {
-          name
-        }
-        specialOffers {
-          name: ${this.appStore.lang === 'en' ? 'name' : 'nameCN'}
-        }
-      }
-    }`;
-
-    this._loading = true;
-
-    try {
-      const result: { products: IProduct[] } = await this.api.request(query);
-      this._products = [...this.products, ...result.products];
-    } catch (error) {
-      this.error = error;
-    } finally {
-      this._loading = false;
-      this._step = this._step + LIMIT;
     }
   };
 }

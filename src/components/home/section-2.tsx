@@ -26,7 +26,7 @@ const Section2: FC = observer(() => {
           key={category.id}
           path={category.name}
           title={category.title}
-          products={category.products}
+          products={category.products.nodes}
           image={category.coverImg}
         />
       ))}

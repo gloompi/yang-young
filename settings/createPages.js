@@ -2,7 +2,7 @@ const createProductsPage = async ({ actions, graphql, reporter }) => {
   const result = await graphql(`
     query {
       api {
-        products {
+        allProducts {
           slug
           categories {
             name
@@ -16,7 +16,7 @@ const createProductsPage = async ({ actions, graphql, reporter }) => {
     reporter.panic('failed to create product pages', result.errors);
   }
 
-  const products = result.data.api.products;
+  const products = result.data.api.allProducts;
 
   products.forEach(product => {
     if (!product.categories.length) return null;

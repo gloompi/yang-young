@@ -35,18 +35,20 @@ class CategoriesStore {
         name
         title: ${this.appStore.lang === 'en' ? 'title' : 'titleCN'}
         coverImg
-        products(limit: 8) {
-          slug
-          title: ${this.appStore.lang === 'en' ? 'title' : 'titleCN'}
-          subtitle: ${this.appStore.lang === 'en' ? 'subtitle' : 'subtitleCN'}
-          price
-          coverImg
-          animatedImg
-          categories {
-            name
-          }
-          specialOffers {
-            name: ${this.appStore.lang === 'en' ? 'name' : 'nameCN'}
+        products {
+          nodes {
+            slug
+            title: ${this.appStore.lang === 'en' ? 'title' : 'titleCN'}
+            subtitle: ${this.appStore.lang === 'en' ? 'subtitle' : 'subtitleCN'}
+            price
+            coverImg
+            animatedImg
+            categories {
+              name
+            }
+            specialOffers {
+              name: ${this.appStore.lang === 'en' ? 'name' : 'nameCN'}
+            }
           }
         }
       }

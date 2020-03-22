@@ -34,13 +34,21 @@ export interface IProduct {
   categories: Array<{ name: string; title: string }>;
 }
 
+export interface IProductPaginated {
+  nodes: IProduct[];
+  page: number;
+  pages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+}
+
 export interface ICategory {
   id: string;
   name: string;
   title: string;
   titleCN: string;
   coverImg: string;
-  products: IProduct[];
+  products: IProductPaginated;
 }
 
 export interface IColor {

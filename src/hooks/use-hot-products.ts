@@ -4,7 +4,7 @@ import { IProduct } from 'types/common';
 
 interface IResult {
   api: {
-    products: IProduct[];
+    allProducts: IProduct[];
   };
 }
 
@@ -12,7 +12,7 @@ export default () => {
   const data: IResult = useStaticQuery(graphql`
     query {
       api {
-        products(hot: true, limit: 6) {
+        allProducts(hot: true, limit: 6) {
           slug
           title
           subtitle
@@ -30,5 +30,5 @@ export default () => {
     }
   `);
 
-  return data.api.products;
+  return data.api.allProducts;
 };

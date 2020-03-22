@@ -18,17 +18,19 @@ export default () => {
           title
           coverImg
           products {
-            slug
-            title
-            subtitle
-            price
-            coverImg
-            animatedImg
-            categories {
-              name
-            }
-            specialOffers {
-              name
+            nodes {
+              slug
+              title
+              subtitle
+              price
+              coverImg
+              animatedImg
+              categories {
+                name
+              }
+              specialOffers {
+                name
+              }
             }
           }
         }
@@ -38,6 +40,6 @@ export default () => {
 
   return result.api.categories.map(category => ({
     ...category,
-    products: category.products.slice(0, 2),
+    products: category.products.nodes.slice(0, 2),
   }));
 };

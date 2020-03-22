@@ -16,7 +16,7 @@ import Layout from 'components/common/layout';
 export const query = graphql`
   query($slug: String) {
     api {
-      products(slug: $slug) {
+      product(slug: $slug) {
         slug
         title
         titleCN
@@ -44,7 +44,7 @@ export const query = graphql`
 interface IProps {
   data: {
     api: {
-      products: IProduct[];
+      product: IProduct;
     };
   };
 }
@@ -55,7 +55,7 @@ const ProductPage: FC<IProps> = observer(({ data }) => {
   const { appStore, basketStore } = useStore();
   const theme = useTheme();
 
-  const product = data.api.products[0];
+  const product = data.api.product;
   const inBasket = basketStore.items.has(product.slug);
 
   const init = () => {
