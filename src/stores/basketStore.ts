@@ -1,4 +1,4 @@
-import { action, observable, reaction } from 'mobx';
+import { action, observable, computed, reaction } from 'mobx';
 
 import { IBasketProduct, IProduct } from 'types/common';
 
@@ -6,6 +6,7 @@ const BASKET_PRODUCTS = 'BASKET_PRODUCTS';
 
 class BasketStore {
   private _items = observable.map<string, IBasketProduct>();
+  public shipping: number = 2.99;
 
   constructor() {
     const items = observable.map<string, IBasketProduct>(
@@ -35,6 +36,20 @@ class BasketStore {
     return this._items;
   }
 
+  @computed public get aggregatedPrice(): number {
+    let price = 0;
+
+    this._items.forEach(product => {
+      price += product.price * product.quantity;
+    });
+
+    return price;
+  }
+
+  @computed public get totalPrice(): string {
+    return (this.aggregatedPrice + this.shipping).toFixed(2);
+  }
+
   @action public removeFromBasket = (id: string): void => {
     this._items.delete(id);
   };
@@ -59,10 +74,6 @@ class BasketStore {
 
   @action public decreaseQuantity = (id: string) => {
     const current = this._items.get(id);
-
-    if (current?.quantity === 1) {
-      this._items.delete(id);
-    }
 
     if (current && current.quantity > 1) {
       this._items.set(id, { ...current, quantity: current.quantity - 1 });

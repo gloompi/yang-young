@@ -3,3 +3,7 @@ header:
 button:
   add_to_basket: Add to Basket
   in_basket: In Basket
+checkout:
+  title: Checkout
+  shipping_title: shipping details
+  payment: Go to payment page

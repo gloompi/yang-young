@@ -3,8 +3,8 @@ import isEmpty from 'lodash/isEmpty';
 import { observer } from 'mobx-react-lite';
 import { Link } from 'gatsby';
 import { css } from '@emotion/core';
-import { FiShoppingBag } from 'react-icons/fi';
-import { IoMdHeartEmpty } from 'react-icons/io';
+import { FaShoppingBag } from 'react-icons/fa';
+import { IoMdHeart } from 'react-icons/io';
 
 import env from 'config/env';
 import { IProduct } from 'types/common';
@@ -83,14 +83,14 @@ const ProductPreview: FC<IProps> = observer(
                 css={iconCss(theme, activeFavourite)}
                 onClick={handleToggleFavourite}
               >
-                <IoMdHeartEmpty />
+                <IoMdHeart />
               </button>
               <span css={priceCss}>{price}$</span>
               <button
                 css={iconCss(theme, activeBasket)}
                 onClick={handleToggleBasket}
               >
-                <FiShoppingBag />
+                <FaShoppingBag />
               </button>
             </div>
           </Link>
@@ -261,8 +261,8 @@ const iconCss = (theme: ITheme, active: boolean) => css`
   font-size: 25px;
   width: 43px;
   height: 43px;
-  color: ${active ? theme.colors.white : theme.colors.black};
-  background-color: ${active ? theme.colors.primary : theme.colors.white};
+  color: ${active ? theme.colors.primary : theme.colors.black};
+  background-color: ${theme.colors.white};
   border-radius: 50%;
   transition: 0.3s;
 

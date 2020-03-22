@@ -1,11 +1,7 @@
-import React, { FC, MouseEvent, useEffect } from 'react';
+import React, { FC, MouseEvent } from 'react';
 import { css } from '@emotion/core';
-import { FiShoppingBag } from 'react-icons/fi';
-import {
-  IoMdHeartEmpty,
-  IoIosArrowBack,
-  IoIosArrowForward,
-} from 'react-icons/io';
+import { FaShoppingBag } from 'react-icons/fa';
+import { IoMdHeart, IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { observer } from 'mobx-react-lite';
 
 import env from 'config/env';
@@ -15,9 +11,10 @@ import { IProduct, IBasketProduct } from 'types/common';
 
 interface IProps {
   product: IProduct | IBasketProduct;
+  big?: boolean;
 }
 
-const SideBarItem: FC<IProps> = observer(({ product }) => {
+const SideBarItem: FC<IProps> = observer(({ product, big = false }) => {
   const theme = useTheme();
   const { basketStore, favouriteStore } = useStore();
   const activeBasket = basketStore.items.has(product.slug);
@@ -49,6 +46,18 @@ const SideBarItem: FC<IProps> = observer(({ product }) => {
     }
   };
 
+  const handleDecrease = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    basketStore.decreaseQuantity(product.slug);
+  };
+
+  const handleIncrease = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    basketStore.increaseQuantity(product.slug);
+  };
+
   return (
     <li css={itemCss(theme)}>
       <img
@@ -58,15 +67,15 @@ const SideBarItem: FC<IProps> = observer(({ product }) => {
       />
 
       <div css={middleCss}>
-        <h3 css={titleCss(theme)}>{product.title}</h3>
+        <h3 css={titleCss(theme, big)}>{product.title}</h3>
         <span>{product.price}$</span>
         {'quantity' in product && (
-          <div>
-            <button onClick={() => basketStore.decreaseQuantity(product.slug)}>
+          <div css={quantityCss(big)}>
+            <button onClick={handleDecrease}>
               <IoIosArrowBack />
             </button>
             <span style={{ padding: '0 10px' }}>{product.quantity}</span>
-            <button onClick={() => basketStore.increaseQuantity(product.slug)}>
+            <button onClick={handleIncrease}>
               <IoIosArrowForward />
             </button>
           </div>
@@ -75,14 +84,17 @@ const SideBarItem: FC<IProps> = observer(({ product }) => {
 
       <div css={bottomWrapCss}>
         <button
-          css={iconCss(theme, activeFavourite)}
+          css={iconCss(theme, activeFavourite, big)}
           style={{ marginBottom: 15 }}
           onClick={handleToggleFavourite}
         >
-          <IoMdHeartEmpty />
+          <IoMdHeart />
         </button>
-        <button css={iconCss(theme, activeBasket)} onClick={handleToggleBasket}>
-          <FiShoppingBag />
+        <button
+          css={iconCss(theme, activeBasket, big)}
+          onClick={handleToggleBasket}
+        >
+          <FaShoppingBag />
         </button>
       </div>
     </li>
@@ -90,9 +102,10 @@ const SideBarItem: FC<IProps> = observer(({ product }) => {
 });
 
 const itemCss = (theme: ITheme) => css`
-  display: flec;
+  display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
   margin-bottom: 15px;
   padding-bottom: 15px;
   border-bottom: 1px solid ${theme.colors.lightBlack};
@@ -103,21 +116,30 @@ const itemCss = (theme: ITheme) => css`
 `;
 
 const imageCss = css`
-  width: 50px;
+  width: 20%;
 `;
 
 const middleCss = css`
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  width: 200px;
+  width: 50%;
   padding: 0 25px;
   overflow: hidden;
 `;
 
-const titleCss = (theme: ITheme) => css`
+const quantityCss = (big: boolean) => css`
+  font-size: ${big ? 25 : 16}px;
+  ${big
+    ? `
+      margin-top: 15px;
+    `
+    : ''}
+`;
+
+const titleCss = (theme: ITheme, big: boolean) => css`
   ${theme.fontFamily('MontSerrat')};
-  font-size: 18px;
+  font-size: ${big ? 25 : 18}px;
 `;
 
 const bottomWrapCss = css`
@@ -129,15 +151,15 @@ const bottomWrapCss = css`
   margin-left: 25px;
 `;
 
-const iconCss = (theme: ITheme, active: boolean) => css`
+const iconCss = (theme: ITheme, active: boolean, big: boolean) => css`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-size: ${big ? 25 : 15}px;
   width: 25px;
   height: 25px;
-  color: ${active ? theme.colors.white : theme.colors.black};
-  background-color: ${active ? theme.colors.primary : theme.colors.white};
+  color: ${active ? theme.colors.primary : theme.colors.black};
+  background-color: ${theme.colors.white};
   border-radius: 50%;
   transition: 0.3s;
 
