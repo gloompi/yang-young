@@ -261,8 +261,12 @@ const tumbnailItem = css`
   cursor: pointer;
 `;
 
-const descriptionStyles = (theme: ITheme) => css`
+const descriptionStyles = css`
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
   padding: 25px 0;
   margin: 25px 0;
 `;
