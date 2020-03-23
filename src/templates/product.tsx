@@ -144,7 +144,7 @@ const ProductPage: FC<IProps> = observer(({ data }) => {
           </div>
         </div>
       </section>
-      <div css={descriptionStyles(theme)}>
+      <div css={descriptionStyles}>
         {parse(
           appStore.lang === 'en' ? product.description : product.descriptionCN
         )}
