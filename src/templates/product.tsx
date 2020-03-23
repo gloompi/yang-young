@@ -143,12 +143,12 @@ const ProductPage: FC<IProps> = observer(({ data }) => {
             </ul>
           </div>
         </div>
-        <div css={descriptionStyles(theme)}>
-          {parse(
-            appStore.lang === 'en' ? product.description : product.descriptionCN
-          )}
-        </div>
       </section>
+      <div css={descriptionStyles(theme)}>
+        {parse(
+          appStore.lang === 'en' ? product.description : product.descriptionCN
+        )}
+      </div>
       <div css={commentSection(theme)}>
         <div id="disqus_thread" />
       </div>
@@ -263,8 +263,6 @@ const tumbnailItem = css`
 
 const descriptionStyles = (theme: ITheme) => css`
   position: relative;
-  border-top: 1px solid ${theme.colors.primary};
-  border-bottom: 1px solid ${theme.colors.primary};
   padding: 25px 0;
   margin: 25px 0;
 `;
