@@ -13,9 +13,8 @@ const loaderWrapperCss = css`
   justify-content: center;
   width: 100%;
   height: 100%;
-  background-color: #000;
 `;
 
 const imgCss = css`
-  width: 100%;
+  width: 50%;
 `;
