@@ -3,7 +3,7 @@ import { css } from '@emotion/core';
 
 export default () => (
   <div css={loaderWrapperCss}>
-    <img css={imgCss} src={require('assets/images/loading.jpg')} />
+    <img css={imgCss} src={require('assets/images/loading.gif')} />
   </div>
 );
 
@@ -13,9 +13,9 @@ const loaderWrapperCss = css`
   justify-content: center;
   width: 100%;
   height: 100%;
+  background-color: #000;
 `;
 
 const imgCss = css`
-  max-width: 256px;
-  max-height: 256px;
+  width: 100%;
 `;
