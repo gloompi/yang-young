@@ -29,6 +29,8 @@ export interface IProduct {
   price: number;
   isHot?: boolean;
   rating: number;
+  family: IFamily;
+  color: IColor[];
   pictures: IPicture[];
   specialOffers: Array<{ name: string }>;
   categories: Array<{ name: string; title: string }>;
@@ -47,20 +49,37 @@ export interface ICategory {
   name: string;
   title: string;
   titleCN: string;
+  pageImg: string;
   coverImg: string;
+  subcategory: ISubCategory[];
   products: IProductPaginated;
+}
+
+export interface ISubCategory {
+  id: string;
+  name: string;
+  title: string;
+  titleCN: string;
+  pageImg: string;
+  category: ICategory;
+  products: IProduct[];
+}
+
+export interface IFamily {
+  id: string;
+  name: string;
+  products: IProduct[];
 }
 
 export interface IColor {
   id: string;
   name: string;
-  product?: IProduct;
+  colorImage: string;
 }
 
 export interface IDevice {
   id: string;
   name: string;
-  product?: IProduct;
 }
 
 export interface IImage {

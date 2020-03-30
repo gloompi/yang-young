@@ -103,7 +103,7 @@ const Header: FC = observer(() => {
       >
         <SideBarList type={sideBarType} />
         {isPhone && getButtons}
-        {isTablet && <HeaderMnu />}
+        {isTablet && <HeaderMnu active={active}/>}
       </SideBar>
       <header
         className={active ? 'active' : ''}
@@ -117,7 +117,7 @@ const Header: FC = observer(() => {
             <Image fluid={data.whiteImage.fluid} style={{ width: 200 }} />
           )}
         </Link>
-        {!isTablet && <HeaderMnu />}
+        {!isTablet && <HeaderMnu active={active} />}
         <div css={headerTopList}>
           {/* <button css={iconButton(theme)}>
             <IoMdHelpCircleOutline />

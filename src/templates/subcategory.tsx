@@ -3,7 +3,7 @@ import { css } from '@emotion/core';
 import { graphql } from 'gatsby';
 import { observer } from 'mobx-react-lite';
 
-import { ICategory } from 'types/common';
+import { ISubCategory } from 'types/common';
 import useTheme, { ITheme } from 'hooks/use-theme';
 import useStore from 'hooks/use-store';
 import Layout from 'components/common/layout';
@@ -15,11 +15,14 @@ import Pagination from 'components/common/pagination';
 export const query = graphql`
   query($id: String) {
     api {
-      categories(id: $id) {
+      subcategories(id: $id) {
         id
         name
         title
         pageImg
+        category {
+          id
+        }
       }
     }
   }
@@ -29,33 +32,38 @@ interface IProps {
   data: {
     id: string;
     api: {
-      categories: ICategory[];
+      subcategories: ISubCategory[];
     };
   };
 }
 
-const CategoryPage: FC<IProps> = observer(({ data: { api } }) => {
+const SubCategoryPage: FC<IProps> = observer(({ data: { api } }) => {
   const theme = useTheme();
   const { productsStore } = useStore();
-  const [category] = api.categories;
+  const [subcategory] = api.subcategories;
 
   useEffect(() => {
-    productsStore.fetchProducts({ category: category.id });
+    productsStore.fetchProducts({
+      subcategory: subcategory.id,
+    });
   }, []);
 
   const handlePageChange = (page: number) => {
-    productsStore.fetchProducts({ category: category.id, page });
+    productsStore.fetchProducts({
+      subcategory: subcategory.id,
+      page,
+    });
   };
 
   return (
     <Layout>
-      <SEO title={category.title} />
+      <SEO title={subcategory.title} />
       <PageWrapper
-        title={category.title}
+        title={subcategory.title}
         contentStyles={contentStyles(theme)}
-        image={category.pageImg}
+        image={subcategory.pageImg}
       >
-        <List categoryId={category.id} />
+        <List categoryId={subcategory.id} />
       </PageWrapper>
       {!productsStore.loading && productsStore.pages > 1 && (
         <Pagination
@@ -75,4 +83,4 @@ const contentStyles = (theme: ITheme) => css`
   padding: 0 ${theme.containerRange()};
 `;
 
-export default CategoryPage;
+export default SubCategoryPage;

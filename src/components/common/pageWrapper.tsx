@@ -64,7 +64,7 @@ const bgStyles = (img: string) => css`
   width: 100%;
   height: 80vh;
   background: url(${env.mediaUrl}/${img}) no-repeat center;
-  backround-size: contain;
+  background-size: cover;
 `;
 
 const shadowStyles = css`

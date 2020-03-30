@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { graphql } from 'gatsby';
+import { graphql, Link } from 'gatsby';
 import { css } from '@emotion/core';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
@@ -28,6 +28,19 @@ export const query = graphql`
         description
         descriptionCN
         rating
+        family {
+          id
+          products {
+            slug
+            categories {
+              name
+            }
+            color {
+              id
+              colorImage
+            }
+          }
+        }
         pictures {
           id
           name
@@ -56,6 +69,7 @@ const ProductPage: FC<IProps> = observer(({ data }) => {
   const theme = useTheme();
 
   const product = data.api.product;
+  const familyProducts = product.family.products;
   const inBasket = basketStore.items.has(product.slug);
 
   const init = () => {
@@ -114,6 +128,21 @@ const ProductPage: FC<IProps> = observer(({ data }) => {
             >
               {inBasket ? t('button.in_basket') : t('button.add_to_basket')}
             </button>
+            {familyProducts.length > 0 && (
+              <div css={colorsWrapperStyles}>
+                {familyProducts.map(
+                  ({ slug, categories, color: [currentColor] }) => (
+                    <Link
+                      key={currentColor.id}
+                      css={colorLinkStyles}
+                      to={`/${categories[0].name}/${slug}`}
+                    >
+                      <img src={`${env.mediaUrl}/${currentColor.colorImage}`} />
+                    </Link>
+                  )
+                )}
+              </div>
+            )}
           </div>
           <div css={rightSideStyles}>
             <img
@@ -226,6 +255,34 @@ const basketButtonStyles = (theme: ITheme, inBasket: boolean) => css`
       background-color: ${theme.colors.white};
     }`
     : ''}
+`;
+
+const colorsWrapperStyles = css`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 25px 0;
+`;
+
+const colorLinkStyles = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  margin-right: 15px;
+  overflow: hidden;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 `;
 
 const imageStyles = css`

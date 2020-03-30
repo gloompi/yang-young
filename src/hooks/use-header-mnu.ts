@@ -17,6 +17,12 @@ export default () => {
           name
           title
           titleCN
+          subcategory {
+            id
+            name
+            title
+            titleCN
+          }
         }
       }
     }

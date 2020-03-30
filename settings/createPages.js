@@ -84,7 +84,7 @@ const createCategoriesPage = async ({ actions, graphql, reporter }) => {
 
   categories.forEach(category => {
     actions.createPage({
-      path: category.name,
+      path: `category/${category.name}`,
       component: require.resolve('../src/templates/category.tsx'),
       context: {
         id: category.id,
@@ -93,8 +93,38 @@ const createCategoriesPage = async ({ actions, graphql, reporter }) => {
   });
 };
 
+const createSubCategoriesPage = async ({ actions, graphql, reporter }) => {
+  const result = await graphql(`
+    query {
+      api {
+        subcategories {
+          id
+          name
+        }
+      }
+    }
+  `);
+
+  if (result.errors) {
+    reporter.panic('failed to create subcategory pages', result.errors);
+  }
+
+  const subcategories = result.data.api.subcategories;
+
+  subcategories.forEach(subcategory => {
+    actions.createPage({
+      path: `subcategory/${subcategory.name}`,
+      component: require.resolve('../src/templates/subcategory.tsx'),
+      context: {
+        id: subcategory.id,
+      },
+    });
+  });
+};
+
 module.exports = {
   createProductsPage,
   createCategoriesPage,
+  createSubCategoriesPage,
   createTemplatePage,
 };

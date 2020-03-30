@@ -24,7 +24,7 @@ const Section2: FC = observer(() => {
       {categoriesStore.categories.map(category => (
         <ProductListMedium
           key={category.id}
-          path={category.name}
+          path={`category/${category.name}`}
           title={category.title}
           products={category.products.nodes}
           image={category.coverImg}
