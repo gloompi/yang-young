@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { IoMdStar, IoMdStarOutline } from 'react-icons/io';
 import Rating from 'react-rating';
 import parse from 'html-react-parser';
+import get from 'lodash/get';
 
 import env from 'config/env';
 import { IProduct } from 'types/common';
@@ -69,7 +70,7 @@ const ProductPage: FC<IProps> = observer(({ data }) => {
   const theme = useTheme();
 
   const product = data.api.product;
-  const familyProducts = product.family.products;
+  const familyProducts = get(product, 'family.products', []);
   const inBasket = basketStore.items.has(product.slug);
 
   const init = () => {
