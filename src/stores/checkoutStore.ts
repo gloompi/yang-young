@@ -1,9 +1,10 @@
 import { observable, action } from 'mobx';
 import axios from 'axios';
 
+import env from 'config/env';
 import { RootStore } from 'stores/rootStore';
 
-const PUBLIC_KEY = 'pk_test_4ITsUSLIRdQB1nHfIe9N3NwY004slvbyYM';
+const PUBLIC_KEY = env.publicKey;
 
 interface ICheckoutItem {
   name: string;
