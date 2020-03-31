@@ -5,16 +5,18 @@ import React, {
   useState,
   useMemo,
   ChangeEvent,
+  KeyboardEventHandler,
 } from 'react';
-import { Link } from 'gatsby';
+import { Link, navigate } from 'gatsby';
 import { css } from '@emotion/core';
 import Image from 'gatsby-image';
+import throttle from 'lodash/throttle';
 import useTheme, { ITheme } from 'hooks/use-theme';
 import { useMediaQuery } from 'react-responsive';
 import { observer } from 'mobx-react-lite';
 import { Waypoint } from 'react-waypoint';
 import { FaShoppingBag } from 'react-icons/fa';
-import { IoMdHeart, IoIosMenu } from 'react-icons/io';
+import { IoMdHeart, IoIosMenu, IoIosSearch } from 'react-icons/io';
 
 import useLogo from 'hooks/use-logo';
 import useStore from 'hooks/use-store';
@@ -28,13 +30,16 @@ export type TSideBar = null | 'basket' | 'favourite' | 'menu';
 const Header: FC = observer(() => {
   const [active, setActive] = useState(false);
   const [sideBarType, setSideBarType] = useState<TSideBar>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
   const data = useLogo();
   const theme = useTheme();
   const isPhone = useMediaQuery({ maxWidth: 480 });
   const isTablet = useMediaQuery({ maxWidth: 768 });
-  const { appStore, basketStore, favouriteStore } = useStore();
+  const { appStore, basketStore, favouriteStore, searchStore } = useStore();
   const headerRef = useRef<HTMLHeadElement>(null);
   const sideBarRef = useRef<HTMLDivElement>(null);
+
+  const search = throttle(searchStore.handleSearch, 1000);
 
   const handleEnter = () => {
     setActive(false);
@@ -48,9 +53,31 @@ const Header: FC = observer(() => {
     appStore.setLang(e.target.value);
   };
 
+  const handeSearchClick = () => {
+    setSearchOpen(open => !open);
+  };
+
+  const handleKeyPress: KeyboardEventHandler<HTMLInputElement> = async e => {
+    if (e.key === 'Enter') {
+      await search();
+      setSearchOpen(false);
+      navigate('/search');
+    }
+  };
+
   const getButtons = useMemo(
     () => (
-      <>
+      <div style={{ position: 'relative' }}>
+        {searchOpen && (
+          <input
+            css={searchInputCss}
+            type="text"
+            placeholder="what you want to find?"
+            value={searchStore.searchString}
+            onChange={e => searchStore.changeSearchString(e.target.value)}
+            onKeyPress={handleKeyPress}
+          />
+        )}
         <select
           css={langSelect(theme)}
           onChange={handleSelect}
@@ -59,6 +86,9 @@ const Header: FC = observer(() => {
           <option value="en">EN</option>
           <option value="cn">中文</option>
         </select>
+        <button css={iconButton(theme)} onClick={handeSearchClick}>
+          <IoIosSearch />
+        </button>
         <button
           css={iconButton(theme)}
           onClick={() => setSideBarType('favourite')}
@@ -77,9 +107,15 @@ const Header: FC = observer(() => {
           )}
           <FaShoppingBag />
         </button>
-      </>
+      </div>
     ),
-    [favouriteStore.length, basketStore.length, appStore.lang]
+    [
+      searchStore.searchString,
+      favouriteStore.length,
+      basketStore.length,
+      appStore.lang,
+      searchOpen,
+    ]
   );
 
   useOutsideClick({
@@ -175,6 +211,20 @@ const logoCss = css`
 const headerTopList = css`
   display: flex;
   align-items: center;
+`;
+
+const searchInputCss = css`
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100%;
+  max-width: 250px;
+  height: 35px;
+  border: none;
+  border-radius: 5px;
+  padding: 15px;
+  margin-top: 25px;
+  box-shadow: -3px 3px 5px 0px rgba(0, 0, 0, 0.75);
 `;
 
 const langSelect = (theme: ITheme) => css`

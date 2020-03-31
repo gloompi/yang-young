@@ -35,16 +35,21 @@ class CategoriesStore {
         name
         title: ${this.appStore.lang === 'en' ? 'title' : 'titleCN'}
         coverImg
-        products {
+        products(showOnHomePage: true) {
           nodes {
             slug
             title: ${this.appStore.lang === 'en' ? 'title' : 'titleCN'}
             subtitle: ${this.appStore.lang === 'en' ? 'subtitle' : 'subtitleCN'}
             price
+            weight
             coverImg
             animatedImg
             categories {
               name
+            }
+            deliveryOption {
+              name
+              pricePerKg
             }
             specialOffers {
               name: ${this.appStore.lang === 'en' ? 'name' : 'nameCN'}

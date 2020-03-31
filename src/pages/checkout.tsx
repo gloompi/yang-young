@@ -85,6 +85,7 @@ const Checkout: FC = observer(() => {
               type="text"
               required={true}
               onChange={e => handleStateChange('firstName', e.target.value)}
+              disabled={checkoutStore.loading}
             />
           </label>
           <label css={labelCss(theme)}>
@@ -94,6 +95,7 @@ const Checkout: FC = observer(() => {
               type="text"
               required={true}
               onChange={e => handleStateChange('lastName', e.target.value)}
+              disabled={checkoutStore.loading}
             />
           </label>
           <label css={labelCss(theme)}>
@@ -103,6 +105,7 @@ const Checkout: FC = observer(() => {
               type="text"
               required={true}
               onChange={e => handleStateChange('address', e.target.value)}
+              disabled={checkoutStore.loading}
             />
           </label>
           <label css={labelCss(theme)}>
@@ -111,6 +114,7 @@ const Checkout: FC = observer(() => {
               value={state.country}
               required={true}
               onChange={e => handleStateChange('country', e.target.value)}
+              disabled={checkoutStore.loading}
             >
               <option>{countriesEnum.USA}</option>
               <option>{countriesEnum.CHINA}</option>
@@ -123,6 +127,7 @@ const Checkout: FC = observer(() => {
               type="number"
               required={true}
               onChange={e => handleStateChange('zip', e.target.value)}
+              disabled={checkoutStore.loading}
             />
           </label>
           <label css={labelCss(theme)}>
@@ -132,6 +137,7 @@ const Checkout: FC = observer(() => {
               type="phone"
               required={true}
               onChange={e => handleStateChange('phone', e.target.value)}
+              disabled={checkoutStore.loading}
             />
           </label>
           <label css={labelCss(theme)}>
@@ -141,9 +147,14 @@ const Checkout: FC = observer(() => {
               type="email"
               required={true}
               onChange={e => handleStateChange('email', e.target.value)}
+              disabled={checkoutStore.loading}
             />
           </label>
-          <button css={paymentBtnCss(theme)} onClick={handleCheckoutClick}>
+          <button
+            css={paymentBtnCss(theme, checkoutStore.loading)}
+            onClick={handleCheckoutClick}
+            disabled={checkoutStore.loading}
+          >
             {t('checkout.payment')}
           </button>
         </form>
@@ -247,19 +258,20 @@ const labelCss = (theme: ITheme) => css`
   }
 `;
 
-const paymentBtnCss = (theme: ITheme) => css`
+const paymentBtnCss = (theme: ITheme, disabled: boolean) => css`
   ${theme.fontFamily('Oswald')};
   font-size: 25px;
   width: 100%;
   padding: 15px;
   margin-top: 50px;
   color: ${theme.colors.white};
-  background-color: ${theme.colors.black};
+  background-color: ${disabled ? theme.colors.grey : theme.colors.black};
   text-transform: uppercase;
+  cursor: ${disabled ? 'progress' : 'pointer'}
   transition: 0.3s;
 
   &:hover {
-    background-color: ${theme.colors.primary};
+    background-color: ${disabled ? theme.colors.grey : theme.colors.primary};
   }
 `;
 

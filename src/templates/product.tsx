@@ -70,7 +70,7 @@ const ProductPage: FC<IProps> = observer(({ data }) => {
   const theme = useTheme();
 
   const product = data.api.product;
-  const familyProducts = get(product, 'family.products', []);
+  const familyProducts: IProduct[] = get(product, 'family.products', []);
   const inBasket = basketStore.items.has(product.slug);
 
   const init = () => {

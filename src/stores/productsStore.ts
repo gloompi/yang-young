@@ -56,8 +56,13 @@ class ProductsStore {
           title: ${this.appStore.lang === 'en' ? 'title' : 'titleCN'}
           subtitle: ${this.appStore.lang === 'en' ? 'subtitle' : 'subtitleCN'}
           price
+          weight
           coverImg
           animatedImg
+          deliveryOption {
+            name
+            pricePerKg
+          }
           categories {
             name
           }

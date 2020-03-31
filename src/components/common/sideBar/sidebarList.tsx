@@ -49,11 +49,15 @@ const SideBarList: FC<IProps> = observer(({ type }) => {
             <div css={checkoutWrapperCss}>
               <div css={productsCss(theme)}>
                 <span>Products</span>
-                <span>{(currentStore as BasketStore).aggregatedPrice} USD</span>
+                <span>
+                  {(currentStore as BasketStore).aggregatedPrice.toFixed(2)} USD
+                </span>
               </div>
               <div css={productsCss(theme)} style={{ borderBottom: 'none' }}>
                 <span>Shipping</span>
-                <span>${(currentStore as BasketStore).shipping} USD</span>
+                <span>
+                  ${(currentStore as BasketStore).shipping.toFixed(2)} USD
+                </span>
               </div>
               <div css={totalCss(theme)}>
                 <span>Total</span>

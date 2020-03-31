@@ -27,11 +27,13 @@ export interface IProduct {
   coverImg: string;
   animatedImg: string;
   price: number;
+  weight: number;
   isHot?: boolean;
   rating: number;
   family: IFamily;
   color: IColor[];
   pictures: IPicture[];
+  deliveryOption: IDeliveryOption[];
   specialOffers: Array<{ name: string }>;
   categories: Array<{ name: string; title: string }>;
 }
@@ -69,6 +71,12 @@ export interface IFamily {
   id: string;
   name: string;
   products: IProduct[];
+}
+
+export interface IDeliveryOption {
+  id: string;
+  name: string;
+  pricePerKg: number;
 }
 
 export interface IColor {

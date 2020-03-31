@@ -27,16 +27,29 @@ class CheckoutStore {
     const products: ICheckoutItem[] = [];
 
     try {
-      this.rootStore.basketStore.items.forEach(product => {
-        products.push({
-          name: lang === 'en' ? product.title : product.titleCN,
-          description: lang === 'en' ? product.subtitle : product.subtitleCN,
-          images: [product.coverImg],
-          amount: product.price * 100,
-          currency: 'usd',
-          quantity: product.quantity,
-        });
-      });
+      this.rootStore.basketStore.items.forEach(
+        ({
+          title,
+          titleCN,
+          subtitle,
+          subtitleCN,
+          description,
+          descriptionCN,
+          ...product
+        }) => {
+          const delivery =
+            product.deliveryOption[0].pricePerKg * product.weight;
+
+          products.push({
+            name: lang === 'en' ? title : titleCN,
+            description: lang === 'en' ? subtitle : subtitleCN,
+            images: [product.coverImg],
+            amount: (product.price + delivery) * 100,
+            currency: 'usd',
+            quantity: product.quantity,
+          });
+        }
+      );
 
       const res = await axios.post(
         `https://yang-young-checkout.herokuapp.com`,

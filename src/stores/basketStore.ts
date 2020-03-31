@@ -6,7 +6,16 @@ const BASKET_PRODUCTS = 'BASKET_PRODUCTS';
 
 class BasketStore {
   private _items = observable.map<string, IBasketProduct>();
-  public shipping: number = 2.99;
+
+  get shipping(): number {
+    let shippingPrice = 0;
+
+    this._items.forEach(({ deliveryOption, weight, quantity }) => {
+      shippingPrice += deliveryOption[0].pricePerKg * weight * quantity;
+    });
+
+    return shippingPrice;
+  }
 
   constructor() {
     const items = observable.map<string, IBasketProduct>(
