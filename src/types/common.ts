@@ -118,4 +118,23 @@ export interface ITemplatePage {
   coverImg: string;
   content: string;
   contentCN: string;
+  category: Array<{
+    id: string;
+    name: string;
+    nameCN: string;
+  }>;
+}
+
+export interface ITemplateCategory {
+  id: string;
+  name: string;
+  nameCN: string;
+  templates: ITemplatePage[];
+}
+
+export interface ISocial {
+  id: string;
+  name: string;
+  faIcon: string;
+  link: string;
 }

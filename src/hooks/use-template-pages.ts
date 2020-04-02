@@ -1,10 +1,10 @@
 import { graphql, useStaticQuery } from 'gatsby';
 
-import { ITemplatePage } from 'types/common';
+import { ITemplateCategory } from 'types/common';
 
 interface IResult {
   api: {
-    templatePages: ITemplatePage[];
+    templateCategories: ITemplateCategory[];
   };
 }
 
@@ -12,17 +12,22 @@ export default () => {
   const data: IResult = useStaticQuery(graphql`
     query {
       api {
-        templatePages {
+        templateCategories {
           id
-          title
-          titleCN
-          content
-          contentCN
-          coverImg
+          name
+          nameCN
+          templates {
+            id
+            title
+            titleCN
+            coverImg
+            content
+            contentCN
+          }
         }
       }
     }
   `);
 
-  return data.api.templatePages;
+  return data.api.templateCategories;
 };
