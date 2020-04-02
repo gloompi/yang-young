@@ -31,6 +31,7 @@ export interface IProduct {
   isHot?: boolean;
   rating: number;
   family: IFamily;
+  device: IDevice[];
   color: IColor[];
   pictures: IPicture[];
   deliveryOption: IDeliveryOption[];

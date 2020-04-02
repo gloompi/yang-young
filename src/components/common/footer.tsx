@@ -48,6 +48,7 @@ const Footer: FC = () => {
               </div>
             ))}
         </div>
+        <span>&copy; {new Date().getFullYear()} Yang Young</span>
         <ul css={socialsListCss}>
           {socials.map(({ faIcon, link }) => {
             const Icon = require('react-icons/fa')[faIcon];

@@ -29,6 +29,10 @@ export const query = graphql`
         description
         descriptionCN
         rating
+        device {
+          id
+          name
+        }
         family {
           id
           products {
@@ -129,6 +133,11 @@ const ProductPage: FC<IProps> = observer(({ data }) => {
             >
               {inBasket ? t('button.in_basket') : t('button.add_to_basket')}
             </button>
+            <select css={selectDeviceCss}>
+              {product.device.map(({ id, name }) => (
+                <option key={id}>{name}</option>
+              ))}
+            </select>
             {familyProducts.length > 0 && (
               <div css={colorsWrapperStyles}>
                 {familyProducts.map(
@@ -258,11 +267,20 @@ const basketButtonStyles = (theme: ITheme, inBasket: boolean) => css`
     : ''}
 `;
 
+const selectDeviceCss = css`
+  font-size: 18px;
+  margin: 25px 0;
+  padding: 0 25px;
+  height: 50px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+`;
+
 const colorsWrapperStyles = css`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 25px 0;
 `;
 
 const colorLinkStyles = css`
