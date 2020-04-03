@@ -150,7 +150,12 @@ const socialsListCss = css`
 const socialLinkCss = (theme: ITheme) => css`
   font-size: 20px;
   color: ${theme.colors.white};
+  margin-right: 10px;
   transition: 0.3s;
+
+  &:last-child {
+    margin-right: 0;
+  }
 
   &:hover {
     color: ${theme.colors.primary};

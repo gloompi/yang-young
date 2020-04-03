@@ -6,21 +6,18 @@ import { observer } from 'mobx-react-lite';
 import { IProduct } from 'types/common';
 import useStore from 'hooks/use-store';
 import useTheme, { ITheme } from 'hooks/use-theme';
+import useCountries from 'hooks/use-countries';
 import SideBarItem from 'components/common/sideBar/sidebarItem';
 import Loader from 'components/common/loader';
 import Layout from 'components/common/layout';
 
-const countriesEnum = Object.freeze({
-  USA: 'USA',
-  CHINA: 'CHINA',
-});
-
 const Checkout: FC = observer(() => {
+  const countries = useCountries();
   const [state, setState] = useState({
     firstName: '',
     lastName: '',
     address: '',
-    country: countriesEnum.USA,
+    country: countries[0],
     zip: '',
     phone: '',
     email: '',
@@ -111,13 +108,14 @@ const Checkout: FC = observer(() => {
           <label css={labelCss(theme)}>
             <span>Country</span>
             <select
-              value={state.country}
+              value={state.country.name}
               required={true}
               onChange={e => handleStateChange('country', e.target.value)}
               disabled={checkoutStore.loading}
             >
-              <option>{countriesEnum.USA}</option>
-              <option>{countriesEnum.CHINA}</option>
+              {countries.map(country => (
+                <option key={country.id}>{country.name}</option>
+              ))}
             </select>
           </label>
           <label css={labelCss(theme)}>

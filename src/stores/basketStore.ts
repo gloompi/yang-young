@@ -1,4 +1,5 @@
 import { action, observable, computed, reaction } from 'mobx';
+import get from 'lodash/get';
 
 import { IBasketProduct, IProduct } from 'types/common';
 
@@ -10,8 +11,14 @@ class BasketStore {
   get shipping(): number {
     let shippingPrice = 0;
 
-    this._items.forEach(({ deliveryOption, weight, quantity }) => {
-      shippingPrice += deliveryOption[0].pricePerKg * weight * quantity;
+    this._items.forEach(product => {
+      const pricePerKg = get(product, 'deliveryOption[0].pricePerKg', null);
+      const weight = get(product, 'weight', null);
+      const quantity = get(product, 'quantity', null);
+
+      if (![pricePerKg, weight, quantity].includes(null)) {
+        shippingPrice += pricePerKg * weight! * quantity!;
+      }
     });
 
     return shippingPrice;

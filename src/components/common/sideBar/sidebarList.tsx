@@ -86,9 +86,10 @@ const titleCss = css`
 `;
 
 const itemsCss = css`
-  height: 100%;
+  height: calc(100% - 310px);
   width: 100vw;
   max-width: 350px;
+  padding-bottom: 30px;
   overflow: scroll;
 `;
 

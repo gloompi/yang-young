@@ -139,3 +139,9 @@ export interface ISocial {
   faIcon: string;
   link: string;
 }
+
+export interface ICountry {
+  id: string;
+  name: string;
+  nameCN: string;
+}
