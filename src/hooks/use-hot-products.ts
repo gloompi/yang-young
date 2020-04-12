@@ -15,7 +15,9 @@ export default () => {
         allProducts(hot: true, limit: 6) {
           slug
           title
+          titleCN
           subtitle
+          subtitleCN
           price
           coverImg
           animatedImg

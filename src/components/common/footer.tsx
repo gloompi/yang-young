@@ -89,7 +89,7 @@ const containerStyle = css`
 
 const templatePagesCss = css`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   height: 100%;
   margin-right: 50px;
 `;

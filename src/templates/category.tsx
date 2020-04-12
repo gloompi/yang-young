@@ -19,6 +19,7 @@ export const query = graphql`
         id
         name
         title
+        titleCN
         pageImg
       }
     }
@@ -36,7 +37,7 @@ interface IProps {
 
 const CategoryPage: FC<IProps> = observer(({ data: { api } }) => {
   const theme = useTheme();
-  const { productsStore } = useStore();
+  const { appStore, productsStore } = useStore();
   const [category] = api.categories;
 
   useEffect(() => {
@@ -51,7 +52,7 @@ const CategoryPage: FC<IProps> = observer(({ data: { api } }) => {
     <Layout>
       <SEO title={category.title} />
       <PageWrapper
-        title={category.title}
+        title={appStore.lang === 'en' ? category.title : category.titleCN}
         contentStyles={contentStyles(theme)}
         image={category.pageImg}
       >
