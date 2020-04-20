@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `Yang Yong`,
+    title: `Yang Young`,
     description: `Iphone cases`,
     author: `gloompi`,
   },
